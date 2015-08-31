@@ -30,7 +30,7 @@ function find() {
 
             var commentslink = $('<a href="#">valoraciones</a>');
 
-            commentslink.onClick(function () {
+            commentslink.click(function () {
                 console.log('clicked');
             });
 
