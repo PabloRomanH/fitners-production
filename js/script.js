@@ -1,5 +1,5 @@
 (function() {
-    var app = angular.module('fitners', []);
+    var app = angular.module('fitners', ['angular-bootstrap-select', 'angular-bootstrap-select.extra']);
 
     app.config(function ($locationProvider) {
         $locationProvider.html5Mode(true);
@@ -11,8 +11,11 @@
         controller.searching = false;
         controller.noresult = false;
         controller.gym = "";
+        controller.gyms = window.gyms;
 
         var db = new Firebase('https://fitners.firebaseio.com/coaches/');
+
+        var dbGyms = new Firebase('https://fitners.firebaseio.com/gyms/');
 
         controller.search = function() {
             controller.results = [];
