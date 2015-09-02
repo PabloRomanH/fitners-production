@@ -26,6 +26,7 @@
                 if(snapshot.val() === null) {
                     controller.searching = false;
                     controller.noresult = true;
+                    $scope.$apply();
                     return;
                 }
 
