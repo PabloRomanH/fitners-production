@@ -179,32 +179,38 @@
                 <div class="row">
                     <div class="col-xs-6 col-sm-3 resultphoto">
                         <img src="img/pablo.jpeg" class="img-circle" alt="Foto de {{coach.name}} {{coach.surname}}"><br/>
-                        {{coach.name}} {{coach.surname}}<br/>
+                        <p>{{coach.name}} {{coach.surname}}</p>
                         <!-- {{coach.stars}} estrellas<br/> -->
                         <p>
                             <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
                         </p>
-                        <a href="#" ng-click="searchCtrl.showComments(coach)">{{coach.ratings.length}} valoraciones</a>
+                        <a href="#" ng-click="searchCtrl.showComments(coach)">{{coach.ratings.length || 0}} valoraciones</a>
                     </div>
                     <div class="col-xs-6 col-sm-3 col-sm-push-6 resultcontact">
-                        <a href="mailto:{{coach.email}}">Email</a><br/>
+                        <p>Contacta</p>
+                        <a href="mailto:{{coach.email}}">Email</a>
                         <a href="tel:{{coach.telephone}}">Teléfono</a>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-sm-pull-3 resultdetails">
                         <div class="row">
-                            <div class="col-xs-6 col-sm-12">
+                            <!-- <div class="col-xs-6 col-sm-12">
                                 <h1>Coste</h1>
+                            </div> -->
+                            <div class="col-xs-6">
+                                1 sesión
+                                <div class="price">{{coach.wage}}€/1h</div>
                             </div>
-                            <div class="col-xs-6 col-sm-12">
-                                {{coach.wage}}/1hora {{coach.packprice}}/10horas
+                            <div class="col-xs-6">
+                                Pack 10 sesiones
+                                <div class="price">{{coach.packprice}}€/10horas</div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-6 col-sm-12">
-                                <h1>Titulacion</h1>
+                                <h1>Titulación</h1>
                             </div>
                             <div class="col-xs-6 col-sm-12">
-                                {{coach.qualifications}}
+                                <p>{{coach.qualifications}}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -212,7 +218,7 @@
                                 <h1>Especialidades</h1>
                             </div>
                             <div class="col-xs-6 col-sm-12">
-                                {{coach.goals | goals}}
+                                <p>{{coach.goals | goals}}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -220,7 +226,7 @@
                                 <h1>Zonas de Trabajo</h1>
                             </div>
                             <div class="col-xs-6 col-sm-12">
-                                {{coach.area}}
+                                <p>{{coach.area}}</p>
                             </div>
                         </div>
                     </div>
