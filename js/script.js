@@ -1,3 +1,18 @@
+if (!Array.prototype.indexOf) {
+    Array.prototype.indexOf = function (obj, fromIndex) {
+        if (fromIndex == null) {
+            fromIndex = 0;
+        } else if (fromIndex < 0) {
+            fromIndex = Math.max(0, this.length + fromIndex);
+        }
+        for (var i = fromIndex, j = this.length; i < j; i++) {
+            if (this[i] === obj)
+                return i;
+        }
+        return -1;
+    };
+}
+
 (function() {
     var app = angular.module('fitners', ['angular-bootstrap-select', 'angular-bootstrap-select.extra']);
 
@@ -11,40 +26,63 @@
         controller.searching = false;
         controller.noresult = false;
         controller.gym = "";
+        controller.area = "";
+        controller.goalVolume = false;
+        controller.goalDefinition = false;
         controller.gyms = window.gyms;
+        controller.areas = ['Eixample', 'Ciutat Vella', 'Gràcia', 'Sant Martí', 'Sarrià-Sant Gervasi', 'Les Corts', 'Sants-Montjuïc', 'Horta-Guinardó', 'Sant Andreu', 'Nou Barris'];
 
         var db = new Firebase('https://fitners.firebaseio.com/coaches/');
 
         var dbGyms = new Firebase('https://fitners.firebaseio.com/gyms/');
 
-        controller.search = function() {
+        controller.searchGym = function() {
             controller.results = [];
             controller.searching = true;
             controller.noresult = false;
 
-            db.orderByChild('gym').equalTo(controller.gym).limitToFirst(10).once('value', function(snapshot) {
-                if(snapshot.val() === null) {
-                    controller.searching = false;
-                    controller.noresult = true;
-                    $scope.$apply();
+            db.orderByChild('gym').equalTo(controller.gym).limitToFirst(10).once('value', showResults);
+
+            return false;
+        }
+
+        controller.searchArea = function() {
+            controller.results = [];
+            controller.searching = true;
+            controller.noresult = false;
+
+            db.orderByChild('area').equalTo(controller.area).limitToFirst(10).once('value', showResults);
+
+            return false;
+        }
+
+        function showResults(snapshot) {
+            if(snapshot.val() === null) {
+                controller.searching = false;
+                controller.noresult = true;
+                $scope.$apply();
+                return;
+            }
+
+            controller.searching = false;
+
+            // TODO: sort by number of stars
+
+            snapshot.forEach(function(data) {
+                var value = data.val();
+                value.id = data.key();
+
+                if(controller.goalVolume && value.goals.indexOf(1) == -1) {
+                    return;
+                }
+                if(controller.goalDefinition && value.goals.indexOf(2) == -1) {
                     return;
                 }
 
-                controller.searching = false;
-
-                // TODO: sort by number of stars
-
-                snapshot.forEach(function(data) {
-                    var value = data.val();
-                    value.id = data.key();
-
-                    controller.results.push(value);
-                });
-
-                $scope.$apply();
+                controller.results.push(value);
             });
 
-            return false;
+            $scope.$apply();
         }
 
         controller.showComments = function(coach) {
@@ -78,4 +116,22 @@
             }
         };
     });
+
+    app.filter('goals',[ function () {
+        return function(items) {
+            var str = '';
+            for (i = 0; i < items.length; i++) {
+                if (i > 0) {
+                    str += ', ';
+                }
+                if (items[i] == 1) {
+                    str += 'Volumen';
+                }
+                if (items[i] == 2) {
+                    str += 'Definición';
+                }
+            }
+            return str;
+        };
+    }]);
 })();
