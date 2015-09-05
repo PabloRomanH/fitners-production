@@ -103,6 +103,9 @@ if (!Array.prototype.indexOf) {
             controller.comment = undefined;
             controller.stars = undefined;
         }
+
+        controller.gym = '-Jy8WJqcvr0D7a-ECxQE';
+        controller.searchGym();
     });
 
     app.directive('ngModal', function() {

@@ -1,4 +1,27 @@
 
+html,body {
+    min-height: 100%;
+    background-color: #f2f2f2;
+}
+
+.header {
+    background: white;
+}
+
+.logo {
+    background: url(../img/logomobile.png) no-repeat;
+    background-size: cover;
+    padding-bottom: 14.8%
+}
+
+@media (min-width: 768px) {
+    .logo {
+        background: url(../img/logo.png) no-repeat;
+        background-size: cover;
+        padding-bottom: 13%
+    }
+}
+
 .motto {
     text-align: center;
     font-size: 0.8em;
@@ -36,10 +59,15 @@
     line-height: normal;
 }
 
+.searchbox {
+    background-color: white;
+    padding-bottom: 1.5em;
+}
+
 .question {
     text-align: center;
     font-size: 1.2em;
-    margin: 0.4em 0em;
+    margin: 0.8em 0em;
     font-weight: 600;
 }
 
@@ -83,6 +111,32 @@ input[type=checkbox] + label {
     vertical-align: middle;
     cursor: pointer;
     background-image: url(../img/lite-x-blue.png);
+}
+
+.searchbutton {
+    background-color: #3295DD;
+    color: white;
+    display: block;
+    width: 100%;
+    padding: 0.3em 0;
+    border: 0;
+}
+
+.searchbutton:hover {
+    background-color: #37A2EF;
+    color: white;
+    text-decoration: none;
+    border: 0;
+}
+
+.foundmessage {
+    margin-bottom: 1em;
+}
+
+.notfoundmessage {
+    text-align: center;
+    color: #aaa;
+    margin: 2em 0;
 }
 
 .results {
@@ -133,11 +187,14 @@ input[type=checkbox] + label {
 }
 
 .price {
+    text-align: center;
+}
+
+.price > div {
     background-color: #3295DD;
     color: white;
     display: block;
     width: 100%;
-    text-align: center;
     padding: 0.15em 0;
 }
 
