@@ -4,6 +4,14 @@ html,body {
     background-color: #f2f2f2;
 }
 
+.container {
+    max-width: 720px;
+}
+
+.container-fluid {
+    max-width: 720px;
+}
+
 .header {
     background: white;
 }
@@ -29,10 +37,26 @@ html,body {
 }
 
 .calltoaction {
-    text-align: center;
-    text-transform: uppercase;
     font-weight: 500;
-    font-size: 0.9em;
+    font-size: 1.4em;
+}
+
+@media (min-width: 768px) {
+    .motto {
+        margin-top: 2em;
+    }
+}
+
+@media (min-width: 768px) {
+    .statistics-phone {
+        display: none;
+    }
+}
+
+@media (max-width: 767px) {
+    .statistics-pc {
+        display: none;
+    }
 }
 
 .statistics {
@@ -148,6 +172,7 @@ input[type=checkbox] + label {
     background-color: white;
     margin-bottom: 1em;
     box-shadow: 0 3px 2px 0 rgba(0,0,0,0.36);
+    padding: 1em;
 }
 
 .resultphoto {
@@ -155,9 +180,9 @@ input[type=checkbox] + label {
 }
 
 .resultphoto img {
-    width: 100%;
-    margin-top: 15%;
+    width: 70%;
     margin-bottom: 5%;
+    margin-top: 5%;
 }
 
 .resultphoto p {
@@ -205,7 +230,7 @@ input[type=checkbox] + label {
 }
 
 .resultcontact * {
-    margin-top: 20%;
+    margin-top: 15%;
 }
 
 .resultcontact a {
