@@ -26,7 +26,7 @@
     </head>
     <body ng-controller="SearchController as searchCtrl">
         <div class="header">
-            <div class="container">
+            <div class="container container-limit">
                 <div class="row">
                     <div class="col-xs-12 col-sm-4 logo">
                         <!-- <img src="img/logomobile.png" class="img-responsive" alt="Fitners logo"> -->
@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="statistics statistics-phone">
-            <div class="container">
+            <div class="container container-limit">
                 <div class="row">
                     <div class="col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-0">
                         Gente que QUIERE cambiar su cuerpo
@@ -57,7 +57,7 @@
             </div>
         </div>
         <div class="statistics statistics-pc">
-            <div class="container">
+            <div class="container container-limit">
                 <div class="row">
                     <div class="col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-0">
                         Gente que QUIERE cambiar su cuerpo
@@ -82,142 +82,144 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="searchbox">
-                    <div class="row">
-                        <div class="col-xs-12 question">
-                            ¿Qué estás buscando?
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-8 col-xs-offset-2 searchcriteria">
-                            <!-- <i class="fa fa-plus-square"></i> -->
-                            <i class="fa fa-minus-square"></i>
-                            Búsqueda por gimnasio
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-8 col-xs-offset-2 searchcriteria">
-                            <input type="text" ng-model="searchCtrl.gym">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-8 col-xs-offset-2 searchcriteria">
-                            <!-- <i class="fa fa-minus-square"></i> -->
-                            <i class="fa fa-plus-square"></i>
-                            Búsqueda por zona
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-8 col-xs-offset-2 searchcriteria">
-                            <i class="fa fa-minus-square"></i>
-                            <!-- <i class="fa fa-plus-square"></i> -->
-                            Especialidad
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-8 col-xs-offset-2 searchcriteria">
-                            <p>
-                                <input type="checkbox" id="checkboxVolume" ng-model="searchCtrl.goalVolume">
-                                <label for="checkboxVolume">Volumen</label>
-                            </p>
-                            <p>
-                                <input type="checkbox" id="checkboxDefinition" ng-model="searchCtrl.goalDefinition">
-                                <label for="checkboxDefinition">Definición</label>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-4">
-                            <!-- <select selectpicker data-live-search="true" ng-model="searchCtrl.gym" select-model="searchCtrl.gyms">
-                              <option value="">Escoge un gimnasio</option>
-                              <option ng-repeat="(key, gym) in searchCtrl.gyms" value="{{key}}">{{gym.name}}</option>
-                            </select> -->
-
-                            <!-- <button ng-click="searchCtrl.searchGym()" class="btn btn-default">Buscar</button> -->
-
-                            <button ng-click="searchCtrl.searchGym()" class="searchbutton">Buscar</button>
-                        </div>
-
-                    </div>
-                    <!-- <div class="row">
-                        <div class="col-xs-12">
-                            <select class="form-control" ng-model="searchCtrl.area" select-model="searchCtrl.gyms">
-                              <option value="">Escoge una zona</option>
-                              <option ng-repeat="area in searchCtrl.areas" value="{{area}}">{{area}}</option>
-                            </select>
-
-                            <button ng-click="searchCtrl.searchArea()" class="btn btn-default">Buscar</button>
-                        </div>
-                    </div> -->
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="results">
-                    <div class="container-fluid">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="container-fluid container-limit searchbox">
                         <div class="row">
-                            <div class="col-xs-12 notfoundmessage" ng-show="searchCtrl.noresult">Ningún resultado.</div>
+                            <div class="col-xs-12 question">
+                                ¿Qué estás buscando?
+                            </div>
                         </div>
-                    </div>
-                    <div class="container foundmessage">
                         <div class="row">
-                            <div class="col-xs-12" ng-show="searchCtrl.searching">Buscando...</div>
-                            <div class="col-xs-12" ng-show="searchCtrl.results.length">{{searchCtrl.results.length}} entrenadores personales encontrados</div>
+                            <div class="col-xs-8 col-xs-offset-2 searchcriteria">
+                                <!-- <i class="fa fa-plus-square"></i> -->
+                                <i class="fa fa-minus-square"></i>
+                                Búsqueda por gimnasio
+                            </div>
                         </div>
-                    </div>
-                    <div class="container trainerresult" ng-repeat="coach in searchCtrl.results">
                         <div class="row">
-                            <div class="col-xs-6 col-sm-3 resultphoto">
-                                <img src="img/pablo.jpeg" class="img-circle" alt="Foto de {{coach.name}} {{coach.surname}}"><br/>
-                                <p>{{coach.name}} {{coach.surname}}</p>
-                                <!-- {{coach.stars}} estrellas<br/> -->
+                            <div class="col-xs-8 col-xs-offset-2 searchcriteria">
+                                <input type="text" ng-model="searchCtrl.gym">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-2 searchcriteria">
+                                <!-- <i class="fa fa-minus-square"></i> -->
+                                <i class="fa fa-plus-square"></i>
+                                Búsqueda por zona
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-2 searchcriteria">
+                                <i class="fa fa-minus-square"></i>
+                                <!-- <i class="fa fa-plus-square"></i> -->
+                                Especialidad
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-2 searchcriteria">
                                 <p>
-                                    <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                                    <input type="checkbox" id="checkboxVolume" ng-model="searchCtrl.goalVolume">
+                                    <label for="checkboxVolume">Volumen</label>
                                 </p>
-                                <a href="#" ng-click="searchCtrl.showComments(coach)">{{coach.ratings.length || 0}} valoraciones</a>
+                                <p>
+                                    <input type="checkbox" id="checkboxDefinition" ng-model="searchCtrl.goalDefinition">
+                                    <label for="checkboxDefinition">Definición</label>
+                                </p>
                             </div>
-                            <div class="col-xs-6 col-sm-3 col-sm-push-6 resultcontact">
-                                <p>Contacta</p>
-                                <a href="mailto:{{coach.email}}">Email</a>
-                                <a href="tel:{{coach.telephone}}">Teléfono</a>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-4">
+                                <!-- <select selectpicker data-live-search="true" ng-model="searchCtrl.gym" select-model="searchCtrl.gyms">
+                                  <option value="">Escoge un gimnasio</option>
+                                  <option ng-repeat="(key, gym) in searchCtrl.gyms" value="{{key}}">{{gym.name}}</option>
+                                </select> -->
+
+                                <!-- <button ng-click="searchCtrl.searchGym()" class="btn btn-default">Buscar</button> -->
+
+                                <button ng-click="searchCtrl.searchGym()" class="searchbutton">Buscar</button>
                             </div>
-                            <div class="col-xs-12 col-sm-6 col-sm-pull-3 resultdetails">
-                                <div class="row">
-                                    <!-- <div class="col-xs-6 col-sm-12">
-                                        <h1>Coste</h1>
-                                    </div> -->
-                                    <div class="col-xs-6 price">
-                                        1 sesión
-                                        <div>{{coach.wage}}€/1h</div>
-                                    </div>
-                                    <div class="col-xs-6 price">
-                                        Pack 10 sesiones
-                                        <div>{{coach.packprice}}€/10horas</div>
-                                    </div>
+
+                        </div>
+                        <!-- <div class="row">
+                            <div class="col-xs-12">
+                                <select class="form-control" ng-model="searchCtrl.area" select-model="searchCtrl.gyms">
+                                  <option value="">Escoge una zona</option>
+                                  <option ng-repeat="area in searchCtrl.areas" value="{{area}}">{{area}}</option>
+                                </select>
+
+                                <button ng-click="searchCtrl.searchArea()" class="btn btn-default">Buscar</button>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="results">
+                        <div class="container-fluid container-limit">
+                            <div class="row">
+                                <div class="col-xs-12 notfoundmessage" ng-show="searchCtrl.noresult">Ningún resultado.</div>
+                            </div>
+                        </div>
+                        <div class="container-fluid container-limit foundmessage">
+                            <div class="row">
+                                <div class="col-xs-12" ng-show="searchCtrl.searching">Buscando...</div>
+                                <div class="col-xs-12" ng-show="searchCtrl.results.length">{{searchCtrl.results.length}} entrenadores personales encontrados</div>
+                            </div>
+                        </div>
+                        <div class="container-fluid container-limit trainerresult" ng-repeat="coach in searchCtrl.results">
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-3 resultphoto">
+                                    <img src="img/pablo.jpeg" class="img-circle" alt="Foto de {{coach.name}} {{coach.surname}}"><br/>
+                                    <p>{{coach.name}} {{coach.surname}}</p>
+                                    <!-- {{coach.stars}} estrellas<br/> -->
+                                    <p>
+                                        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                                    </p>
+                                    <a href="#" ng-click="searchCtrl.showComments(coach)">{{coach.ratings.length || 0}} valoraciones</a>
                                 </div>
-                                <div class="row">
-                                    <div class="col-xs-6 col-sm-12">
-                                        <h1>Titulación</h1>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-12">
-                                        <p>{{coach.qualifications}}</p>
-                                    </div>
+                                <div class="col-xs-6 col-sm-3 col-sm-push-6 resultcontact">
+                                    <p>Contacta</p>
+                                    <a href="mailto:{{coach.email}}">Email</a>
+                                    <a href="tel:{{coach.telephone}}">Teléfono</a>
                                 </div>
-                                <div class="row">
-                                    <div class="col-xs-6 col-sm-12">
-                                        <h1>Especialidades</h1>
+                                <div class="col-xs-12 col-sm-6 col-sm-pull-3 resultdetails">
+                                    <div class="row">
+                                        <!-- <div class="col-xs-6 col-sm-12">
+                                            <h1>Coste</h1>
+                                        </div> -->
+                                        <div class="col-xs-6 price">
+                                            1 sesión
+                                            <div>{{coach.wage}}€/1h</div>
+                                        </div>
+                                        <div class="col-xs-6 price">
+                                            Pack 10 sesiones
+                                            <div>{{coach.packprice}}€/10horas</div>
+                                        </div>
                                     </div>
-                                    <div class="col-xs-6 col-sm-12">
-                                        <p>{{coach.goals | goals}}</p>
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-12">
+                                            <h1>Titulación</h1>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-12">
+                                            <p>{{coach.qualifications}}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-6 col-sm-12">
-                                        <h1>Zonas de Trabajo</h1>
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-12">
+                                            <h1>Especialidades</h1>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-12">
+                                            <p>{{coach.goals | goals}}</p>
+                                        </div>
                                     </div>
-                                    <div class="col-xs-6 col-sm-12">
-                                        <p>{{coach.area}}</p>
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-12">
+                                            <h1>Zonas de Trabajo</h1>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-12">
+                                            <p>{{coach.area}}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
