@@ -31,6 +31,8 @@ if (!Array.prototype.indexOf) {
         controller.goalDefinition = false;
         controller.gyms = window.gyms;
         controller.areas = ['Eixample', 'Ciutat Vella', 'Gràcia', 'Sant Martí', 'Sarrià-Sant Gervasi', 'Les Corts', 'Sants-Montjuïc', 'Horta-Guinardó', 'Sant Andreu', 'Nou Barris'];
+        controller.searchcriteria = "gym";
+        controller.foldGoal = true;
 
         var db = new Firebase('https://fitners.firebaseio.com/coaches/');
 

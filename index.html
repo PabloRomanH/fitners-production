@@ -92,32 +92,46 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-8 col-xs-offset-2 searchcriteria">
-                                <!-- <i class="fa fa-plus-square"></i> -->
+                            <div class="col-xs-8 col-xs-offset-2 searchcriteria fold" ng-click="searchCtrl.searchcriteria = 'area'" ng-show="searchCtrl.searchcriteria == 'gym'">
                                 <i class="fa fa-minus-square"></i>
                                 Búsqueda por gimnasio
                             </div>
+                            <div class="col-xs-8 col-xs-offset-2 searchcriteria fold" ng-click="searchCtrl.searchcriteria = 'gym'" ng-show="searchCtrl.searchcriteria == 'area'">
+                                <i class="fa fa-plus-square"></i>
+                                Búsqueda por gimnasio
+                            </div>
                         </div>
-                        <div class="row">
+                        <div class="row" ng-show="searchCtrl.searchcriteria == 'gym'">
                             <div class="col-xs-8 col-xs-offset-2 searchcriteria">
                                 <input type="text" ng-model="searchCtrl.gym">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-8 col-xs-offset-2 searchcriteria">
-                                <!-- <i class="fa fa-minus-square"></i> -->
+                            <div class="col-xs-8 col-xs-offset-2 searchcriteria fold" ng-click="searchCtrl.searchcriteria = 'gym'" ng-show="searchCtrl.searchcriteria == 'area'">
+                                <i class="fa fa-minus-square"></i>
+                                Búsqueda por zona
+                            </div>
+                            <div class="col-xs-8 col-xs-offset-2 searchcriteria fold" ng-click="searchCtrl.searchcriteria = 'area'" ng-show="searchCtrl.searchcriteria == 'gym'">
                                 <i class="fa fa-plus-square"></i>
                                 Búsqueda por zona
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" ng-show="searchCtrl.searchcriteria == 'area'">
                             <div class="col-xs-8 col-xs-offset-2 searchcriteria">
-                                <i class="fa fa-minus-square"></i>
-                                <!-- <i class="fa fa-plus-square"></i> -->
-                                Especialidad
+                                <input type="text" ng-model="searchCtrl.area">
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-xs-8 col-xs-offset-2 searchcriteria fold" ng-click="searchCtrl.foldGoal = false" ng-show="searchCtrl.foldGoal == true">
+                                <i class="fa fa-plus-square"></i>
+                                Especialidad
+                            </div>
+                            <div class="col-xs-8 col-xs-offset-2 searchcriteria fold" ng-click="searchCtrl.foldGoal = true" ng-show="searchCtrl.foldGoal == false">
+                                <i class="fa fa-minus-square"></i>
+                                Especialidad
+                            </div>
+                        </div>
+                        <div class="row" ng-hide="searchCtrl.foldGoal">
                             <div class="col-xs-8 col-xs-offset-2 searchcriteria">
                                 <p>
                                     <input type="checkbox" id="checkboxVolume" ng-model="searchCtrl.goalVolume">
@@ -217,7 +231,15 @@
                                         </div> -->
                                         <div class="col-xs-6 price">
                                             Disponibilidad
-                                            <div>LMMJVSD</div>
+                                            <div>
+                                                <div class="dia">L</div>
+                                                <div class="dia">M</div>
+                                                <div class="dia">M</div>
+                                                <div class="dia">J</div>
+                                                <div class="dia">V</div>
+                                                <div class="dia">S</div>
+                                                <div class="dia diaoff">D</div>
+                                            </div>
                                         </div>
                                         <div class="col-xs-6 price">
                                             Primera sesión gratuita

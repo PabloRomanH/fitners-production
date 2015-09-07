@@ -120,6 +120,10 @@ html,body {
     margin-bottom: 0.5em;
 }
 
+.fold {
+    cursor: pointer;
+}
+
 .searchbox input, .searchbox p {
     margin-left: 0.6em;
 }
@@ -261,6 +265,15 @@ input[type=checkbox] + label {
     display: block;
     width: 100%;
     padding: 0.15em 0;
+}
+
+.dia {
+    display: inline-block;
+    width: 12%;
+}
+
+.diaoff {
+    background-color: #e62e25;
 }
 
 .resultcontact {
