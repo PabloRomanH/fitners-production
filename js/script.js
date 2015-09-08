@@ -51,8 +51,15 @@ if (!Array.prototype.indexOf) {
         }
 
         controller.searchGym = function() {
-            // for (var i = 0; i < gyms.length; i++) {
-            db.orderByChild('gym').equalTo(controller.gym).limitToFirst(10).once('value', showResults);
+            var gymid = '';
+            for (var i = 0; i < controller.gyms.length; i++) {
+                if (controller.gyms[i].name == controller.gym) {
+                    gymid = controller.gyms[i].id;
+                    break;
+                }
+            }
+
+            db.orderByChild('gym').equalTo(gymid).once('value', showResults);
 
             return false;
         }
