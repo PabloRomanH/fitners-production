@@ -9,15 +9,12 @@
 
         <link rel="stylesheet" href="css/style.css">
 
-
         <!-- <script src='lib/firebase-debug.js'></script> -->
         <script src='lib/firebase.js'></script>
         <script src="lib/jquery.min.js"></script>
-        <script src="lib/angular.min.js"></script>
         <script src="lib/bootstrap.min.js"></script>
-
-        <script src="lib/bootstrap-select.min.js"></script>
-        <script src="lib/angular-bootstrap-select.js"></script>
+        <script src="lib/angular.min.js"></script>
+        <script src="lib/ui-bootstrap-tpls-0.13.4.min.js"></script>
 
         <script src='js/gyms.js'></script>
         <script src='js/script.js'></script>
@@ -28,9 +25,7 @@
         <div class="header">
             <div class="container container-limit">
                 <div class="row">
-                    <div class="col-xs-12 col-sm-4 logo">
-                        <!-- <img src="img/logomobile.png" class="img-responsive" alt="Fitners logo"> -->
-                    </div>
+                    <div class="col-xs-12 col-sm-4 logo"></div>
                     <div class="col-xs-12 col-sm-8 motto">
                         <p>Seleccionamos a los mejores entrenadores personales de tu ciudad</p>
                         <p class="calltoaction">Filtra, compara y elige la mejor opción!</p>
@@ -103,7 +98,8 @@
                         </div>
                         <div class="row" ng-show="searchCtrl.searchcriteria == 'gym'">
                             <div class="col-xs-8 col-xs-offset-2 searchcriteria">
-                                <input type="text" ng-model="searchCtrl.gym">
+                                <!-- <input type="text" ng-model="searchCtrl.gym"> -->
+                                <input type="text" ng-model="searchCtrl.gym" typeahead="gym.name for gym in searchCtrl.gyms | filter:$viewValue | limitTo:8" placeholder="Escribe tu gimnasio" class="form-control">
                             </div>
                         </div>
                         <div class="row">
@@ -118,7 +114,9 @@
                         </div>
                         <div class="row" ng-show="searchCtrl.searchcriteria == 'area'">
                             <div class="col-xs-8 col-xs-offset-2 searchcriteria">
-                                <input type="text" ng-model="searchCtrl.area">
+                                <select class="form-control" name="areaSelect" ng-options="area as area for area in searchCtrl.areas" ng-model="searchCtrl.area">
+                                    <option value="">Escoje una zona</option>
+                                </select>
                             </div>
                         </div>
                         <div class="row">
@@ -145,27 +143,9 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-4">
-                                <!-- <select selectpicker data-live-search="true" ng-model="searchCtrl.gym" select-model="searchCtrl.gyms">
-                                  <option value="">Escoge un gimnasio</option>
-                                  <option ng-repeat="(key, gym) in searchCtrl.gyms" value="{{key}}">{{gym.name}}</option>
-                                </select> -->
-
-                                <!-- <button ng-click="searchCtrl.searchGym()" class="btn btn-default">Buscar</button> -->
-
-                                <button ng-click="searchCtrl.searchGym()" class="searchbutton">Buscar</button>
+                                <button ng-click="searchCtrl.search()" class="searchbutton">Buscar</button>
                             </div>
-
                         </div>
-                        <!-- <div class="row">
-                            <div class="col-xs-12">
-                                <select class="form-control" ng-model="searchCtrl.area" select-model="searchCtrl.gyms">
-                                  <option value="">Escoge una zona</option>
-                                  <option ng-repeat="area in searchCtrl.areas" value="{{area}}">{{area}}</option>
-                                </select>
-
-                                <button ng-click="searchCtrl.searchArea()" class="btn btn-default">Buscar</button>
-                            </div>
-                        </div> -->
                     </div>
                 </div>
                 <div class="col-md-8">

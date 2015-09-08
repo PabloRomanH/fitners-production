@@ -124,7 +124,7 @@ html,body {
     cursor: pointer;
 }
 
-.searchbox input, .searchbox p {
+.searchbox input, .searchbox p, .searchbox select {
     margin-left: 0.6em;
 }
 

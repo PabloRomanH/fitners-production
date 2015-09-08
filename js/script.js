@@ -14,7 +14,7 @@ if (!Array.prototype.indexOf) {
 }
 
 (function() {
-    var app = angular.module('fitners', ['angular-bootstrap-select', 'angular-bootstrap-select.extra']);
+    var app = angular.module('fitners', ['ui.bootstrap']);
 
     app.config(function ($locationProvider) {
         $locationProvider.html5Mode(true);
@@ -25,34 +25,39 @@ if (!Array.prototype.indexOf) {
         controller.results = [];
         controller.searching = false;
         controller.noresult = false;
-        controller.gym = "";
-        controller.area = "";
+        controller.gym = '';
+        controller.area = '';
         controller.goalVolume = false;
         controller.goalDefinition = false;
         controller.gyms = window.gyms;
         controller.areas = ['Eixample', 'Ciutat Vella', 'Gràcia', 'Sant Martí', 'Sarrià-Sant Gervasi', 'Les Corts', 'Sants-Montjuïc', 'Horta-Guinardó', 'Sant Andreu', 'Nou Barris'];
-        controller.searchcriteria = "gym";
+        controller.searchcriteria = 'gym';
         controller.foldGoal = true;
 
         var db = new Firebase('https://fitners.firebaseio.com/coaches/');
 
-        var dbGyms = new Firebase('https://fitners.firebaseio.com/gyms/');
-
-        controller.searchGym = function() {
+        controller.search = function() {
             controller.results = [];
             controller.searching = true;
             controller.noresult = false;
 
+            if (controller.searchcriteria == 'gym') {
+                controller.searchGym();
+            } else if (controller.searchcriteria == 'area') {
+                controller.searchArea();
+            } else {
+                throw 'wrong search criteria';
+            }
+        }
+
+        controller.searchGym = function() {
+            // for (var i = 0; i < gyms.length; i++) {
             db.orderByChild('gym').equalTo(controller.gym).limitToFirst(10).once('value', showResults);
 
             return false;
         }
 
         controller.searchArea = function() {
-            controller.results = [];
-            controller.searching = true;
-            controller.noresult = false;
-
             db.orderByChild('area').equalTo(controller.area).limitToFirst(10).once('value', showResults);
 
             return false;
@@ -106,8 +111,8 @@ if (!Array.prototype.indexOf) {
             controller.stars = undefined;
         }
 
-        controller.gym = '-Jy8WJqcvr0D7a-ECxQE';
-        controller.searchGym();
+        // controller.gym = '-Jy8WJqcvr0D7a-ECxQE';
+        // controller.searchGym();
     });
 
     app.directive('ngModal', function() {
