@@ -14,7 +14,7 @@ if (!Array.prototype.indexOf) {
 }
 
 (function() {
-    var app = angular.module('fitners', ['ui.bootstrap']);
+    var app = angular.module('fitners', ['ui.bootstrap','ui.slider']);
 
     app.config(function ($locationProvider) {
         $locationProvider.html5Mode(true);
@@ -24,22 +24,29 @@ if (!Array.prototype.indexOf) {
         var controller = this;
         controller.results = [];
         controller.searching = false;
-        controller.noresult = false;
         controller.gym = '';
         controller.area = '';
         controller.goalVolume = false;
         controller.goalDefinition = false;
+        controller.goalWeight = false;
+        controller.goalNutrition = false;
+        controller.qualA = false;
+        controller.qualB = false;
+        controller.qualC = false;
+        controller.qualD = false;
         controller.gyms = window.gyms;
         controller.areas = ['Eixample', 'Ciutat Vella', 'Gràcia', 'Sant Martí', 'Sarrià-Sant Gervasi', 'Les Corts', 'Sants-Montjuïc', 'Horta-Guinardó', 'Sant Andreu', 'Nou Barris'];
         controller.searchcriteria = 'gym';
-        controller.foldGoal = true;
+        controller.showGoal = false;
+        controller.showPrice = false;
+        controller.showQualifications = false;
+        controller.pricerange = [20,60];
 
         var db = new Firebase('https://fitners.firebaseio.com/coaches/');
 
         controller.search = function() {
             controller.results = [];
             controller.searching = true;
-            controller.noresult = false;
 
             if (controller.searchcriteria == 'gym') {
                 controller.searchGym();
@@ -65,7 +72,7 @@ if (!Array.prototype.indexOf) {
         }
 
         controller.searchArea = function() {
-            db.orderByChild('area').equalTo(controller.area).limitToFirst(10).once('value', showResults);
+            db.orderByChild('area').equalTo(controller.area).once('value', showResults);
 
             return false;
         }
@@ -73,7 +80,6 @@ if (!Array.prototype.indexOf) {
         function showResults(snapshot) {
             if(snapshot.val() === null) {
                 controller.searching = false;
-                controller.noresult = true;
                 $scope.$apply();
                 return;
             }
@@ -86,11 +92,25 @@ if (!Array.prototype.indexOf) {
                 var value = data.val();
                 value.id = data.key();
 
-                if(controller.goalVolume && value.goals.indexOf(1) == -1) {
-                    return;
+                if (controller.showGoal) {
+                    if (controller.goalVolume && value.goals.indexOf(1) == -1) {
+                        return;
+                    }
+                    if (controller.goalDefinition && value.goals.indexOf(2) == -1) {
+                        return;
+                    }
+                    if (controller.goalWeight && value.goals.indexOf(3) == -1) {
+                        return;
+                    }
+                    if (controller.goalDiet && value.goals.indexOf(4) == -1) {
+                        return;
+                    }
                 }
-                if(controller.goalDefinition && value.goals.indexOf(2) == -1) {
-                    return;
+
+                if (controller.showPrice) {
+                    if (value.wage < controller.pricerange[0] || value.wage > controller.pricerange[1]) {
+                        return;
+                    }
                 }
 
                 controller.results.push(value);
@@ -101,6 +121,11 @@ if (!Array.prototype.indexOf) {
 
         controller.showComments = function(coach) {
             controller.showModal = 'comments';
+            controller.selectedCoach = coach;
+        }
+
+        controller.showPhone = function(coach) {
+            controller.showModal = 'phone';
             controller.selectedCoach = coach;
         }
 
@@ -117,9 +142,6 @@ if (!Array.prototype.indexOf) {
             controller.comment = undefined;
             controller.stars = undefined;
         }
-
-        // controller.gym = '-Jy8WJqcvr0D7a-ECxQE';
-        // controller.searchGym();
     });
 
     app.directive('ngModal', function() {
@@ -147,7 +169,21 @@ if (!Array.prototype.indexOf) {
                 if (items[i] == 2) {
                     str += 'Definición';
                 }
+                if (items[i] == 3) {
+                    str += 'Perder peso';
+                }
+                if (items[i] == 4) {
+                    str += 'Nutrición';
+                }
             }
+            return str;
+        };
+    }]);
+
+    app.filter('pricerange',[ function () {
+        return function(items) {
+            var str = '';
+            str = '' + items[0] + '-' + items[1] + '€';
             return str;
         };
     }]);

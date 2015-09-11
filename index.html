@@ -6,15 +6,18 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/bootstrap-select.min.css">
+        <link rel="stylesheet" href="css/jquery-ui.min.css">
 
         <link rel="stylesheet" href="css/style.css">
 
         <!-- <script src='lib/firebase-debug.js'></script> -->
         <script src='lib/firebase.js'></script>
         <script src="lib/jquery.min.js"></script>
+        <script src="lib/jquery-ui.min.js"></script>
         <script src="lib/bootstrap.min.js"></script>
         <script src="lib/angular.min.js"></script>
         <script src="lib/ui-bootstrap-tpls-0.13.4.min.js"></script>
+        <script src="lib/slider.js"></script>
 
         <script src='js/gyms.js'></script>
         <script src='js/script.js'></script>
@@ -120,16 +123,16 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-8 col-xs-offset-2 searchcriteria fold" ng-click="searchCtrl.foldGoal = false" ng-show="searchCtrl.foldGoal == true">
+                            <div class="col-xs-8 col-xs-offset-2 searchcriteria fold" ng-click="searchCtrl.showGoal = true" ng-show="searchCtrl.showGoal == false">
                                 <i class="fa fa-plus-square"></i>
                                 Especialidad
                             </div>
-                            <div class="col-xs-8 col-xs-offset-2 searchcriteria fold" ng-click="searchCtrl.foldGoal = true" ng-show="searchCtrl.foldGoal == false">
+                            <div class="col-xs-8 col-xs-offset-2 searchcriteria fold" ng-click="searchCtrl.showGoal = false" ng-show="searchCtrl.showGoal == true">
                                 <i class="fa fa-minus-square"></i>
                                 Especialidad
                             </div>
                         </div>
-                        <div class="row" ng-hide="searchCtrl.foldGoal">
+                        <div class="row" ng-show="searchCtrl.showGoal">
                             <div class="col-xs-8 col-xs-offset-2 searchcriteria">
                                 <p>
                                     <input type="checkbox" id="checkboxVolume" ng-model="searchCtrl.goalVolume">
@@ -139,10 +142,64 @@
                                     <input type="checkbox" id="checkboxDefinition" ng-model="searchCtrl.goalDefinition">
                                     <label for="checkboxDefinition">Definición</label>
                                 </p>
+                                <p>
+                                    <input type="checkbox" id="checkboxWeight" ng-model="searchCtrl.goalWeight">
+                                    <label for="checkboxWeight">Perder peso</label>
+                                </p>
+                                <p>
+                                    <input type="checkbox" id="checkboxDiet" ng-model="searchCtrl.goalDiet">
+                                    <label for="checkboxDiet">Nutrición</label>
+                                </p>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-4">
+                            <div class="col-xs-8 col-xs-offset-2 searchcriteria fold" ng-click="searchCtrl.showPrice = true" ng-show="searchCtrl.showPrice == false">
+                                <i class="fa fa-plus-square"></i>
+                                Precio
+                            </div>
+                            <div class="col-xs-8 col-xs-offset-2 searchcriteria fold" ng-click="searchCtrl.showPrice = false" ng-show="searchCtrl.showPrice == true">
+                                <i class="fa fa-minus-square"></i>
+                                Precio
+                            </div>
+                        </div>
+                        <div class="row" ng-show="searchCtrl.showPrice">
+                            <div class="col-xs-8 col-xs-offset-2 searchcriteria">
+                                <div class='pricerange'>{{searchCtrl.pricerange | pricerange}}</div>
+                                <div ui-slider="{range: true}" min="20" max="60" step="5"           ng-model="searchCtrl.pricerange"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-2 searchcriteria fold" ng-click="searchCtrl.showQualifications = true" ng-show="searchCtrl.showQualifications == false">
+                                <i class="fa fa-plus-square"></i>
+                                Titulación
+                            </div>
+                            <div class="col-xs-8 col-xs-offset-2 searchcriteria fold" ng-click="searchCtrl.showQualifications = false" ng-show="searchCtrl.showQualifications == true">
+                                <i class="fa fa-minus-square"></i>
+                                Titulación
+                            </div>
+                        </div>
+                        <div class="row" ng-show="searchCtrl.showQualifications">
+                            <div class="col-xs-8 col-xs-offset-2 searchcriteria">
+                                <p>
+                                    <input type="checkbox" id="checkboxQualA" ng-model="searchCtrl.qualA">
+                                    <label for="checkboxQualA">Qualification A</label>
+                                </p>
+                                <p>
+                                    <input type="checkbox" id="checkboxQualB" ng-model="searchCtrl.qualB">
+                                    <label for="checkboxQualB">Qualification B</label>
+                                </p>
+                                <p>
+                                    <input type="checkbox" id="checkboxQualC" ng-model="searchCtrl.qualC">
+                                    <label for="checkboxQualC">Qualification C</label>
+                                </p>
+                                <p>
+                                    <input type="checkbox" id="checkboxQualD" ng-model="searchCtrl.qualD">
+                                    <label for="checkboxQualD">Qualification D</label>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 col-xs-offset-3 col-sm-8 col-sm-offset-2">
                                 <button ng-click="searchCtrl.search()" class="searchbutton">Buscar</button>
                             </div>
                         </div>
@@ -152,7 +209,7 @@
                     <div class="results">
                         <div class="container-fluid container-limit">
                             <div class="row">
-                                <div class="col-xs-12 notfoundmessage" ng-show="searchCtrl.noresult">Ningún resultado.</div>
+                                <div class="col-xs-12 notfoundmessage" ng-show="!searchCtrl.searching && !searchCtrl.results.length">Ningún resultado.</div>
                             </div>
                         </div>
                         <div class="container-fluid container-limit foundmessage">
@@ -173,10 +230,22 @@
                                     <a href="#" ng-click="searchCtrl.showComments(coach)">{{coach.ratings.length || 0}} valoraciones</a>
                                 </div>
                                 <div class="col-xs-6 col-sm-3 col-sm-push-6 resultcontact">
-                                    <span>Disponible!</span>
+                                    <span class="available">Disponible!</span>
                                     <p>Contacta:</p>
-                                    <a href="mailto:{{coach.email}}">Ver Email</a>
-                                    <a href="tel:{{coach.telephone}}">Ver Teléfono</a>
+                                    <a class="hidden-xs" href="mailto:{{coach.email}}" ng-class="{'resultcontactdisabled': !coach.contactoptions.email}" ng-mouseover="showemail = true" ng-mouseleave="showemail = false">
+                                        <span ng-hide="showemail">Ver Email</span>
+                                        <span ng-show="showemail">{{coach.email}}</span>
+                                    </a>
+                                    <a class="visible-xs-block" href="mailto:{{coach.email}}" ng-class="{'resultcontactdisabled': !coach.contactoptions.email}">
+                                        <span>Enviar email</span>
+                                    </a>
+                                    <a class="hidden-xs" href="tel:{{coach.telephone}}" ng-class="{'resultcontactdisabled': !coach.contactoptions.phonecall}" ng-mouseover="showphone = true" ng-mouseleave="showphone = false">
+                                        <span ng-hide="showphone">Ver Teléfono</span>
+                                        <span ng-show="showphone">{{coach.telephone}}</span>
+                                    </a>
+                                    <a class="visible-xs-block" href="#" ng-click="searchCtrl.showPhone(coach)" ng-class="{'resultcontactdisabled': !coach.contactoptions.phonecall}">
+                                        <span>Ver Teléfono</span>
+                                    </a>
                                 </div>
                                 <div class="col-xs-12 col-sm-6 col-sm-pull-3">
                                     <div class="resultdetails row">
@@ -212,18 +281,14 @@
                                         <div class="col-xs-6 price">
                                             Disponibilidad
                                             <div>
-                                                <div class="dia">L</div>
-                                                <div class="dia">M</div>
-                                                <div class="dia">M</div>
-                                                <div class="dia">J</div>
-                                                <div class="dia">V</div>
-                                                <div class="dia">S</div>
-                                                <div class="dia diaoff">D</div>
+                                                <div class="day" ng-class="{'dayoff': !coach.availability[0]}">L</div>
+                                                <div class="day" ng-class="{'dayoff': !coach.availability[1]}">M</div>
+                                                <div class="day" ng-class="{'dayoff': !coach.availability[2]}">M</div>
+                                                <div class="day" ng-class="{'dayoff': !coach.availability[3]}">J</div>
+                                                <div class="day" ng-class="{'dayoff': !coach.availability[4]}">V</div>
+                                                <div class="day" ng-class="{'dayoff': !coach.availability[5]}">S</div>
+                                                <div class="day" ng-class="{'dayoff': !coach.availability[6]}">D</div>
                                             </div>
-                                        </div>
-                                        <div class="col-xs-6 price">
-                                            Primera sesión gratuita
-                                            <div>NO</div>
                                         </div>
                                         <div class="col-xs-6 price">
                                             1 sesión
@@ -241,6 +306,25 @@
                 </div>
             </div>
         </div>
+
+        <div ng-modal="searchCtrl.showModal == 'phone'" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Llamar</h4>
+                    </div>
+                    <div class="modal-body phone">
+                        <p>{{searchCtrl.selectedCoach.telephone}}</p>
+
+                        <a href="tel:{{searchCtrl.selectedCoach.telephone}}" type="button" class="btn btn-success">Llamar</a>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" ng-click="searchCtrl.showModal = false">Cerrar</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
 
         <div ng-modal="searchCtrl.showModal == 'comments'" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog">

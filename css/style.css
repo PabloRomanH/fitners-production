@@ -120,12 +120,22 @@ html,body {
     margin-bottom: 0.5em;
 }
 
+.pricerange {
+    text-align: center;
+}
+
 .fold {
     cursor: pointer;
 }
 
 .searchbox input, .searchbox p, .searchbox select {
     margin-left: 0.6em;
+}
+
+.searchbox div[ui-slider] {
+    margin-left: 1em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 }
 
 input[type="text"] {
@@ -162,6 +172,11 @@ input[type=checkbox] + label {
     background-image: url(../img/lite-x-blue.png);
 }
 
+.ui-slider-range
+{
+    background: #3295DD;
+}
+
 .searchbutton {
     background-color: #3295DD;
     color: white;
@@ -170,6 +185,7 @@ input[type=checkbox] + label {
     padding: 0.3em 0;
     border: 0;
     font-size: 1.2em;
+    margin-top: 1em;
 }
 
 .searchbutton:hover {
@@ -267,12 +283,12 @@ input[type=checkbox] + label {
     padding: 0.15em 0;
 }
 
-.dia {
+.day {
     display: inline-block;
-    width: 12%;
+    width: 11%;
 }
 
-.diaoff {
+.dayoff {
     background-color: #e62e25;
 }
 
@@ -287,7 +303,7 @@ input[type=checkbox] + label {
     margin-top: 0.8em;
 }
 
-.resultcontact span {
+.available {
     background-color: #37810a;
     color: white;
     display: block;
@@ -307,4 +323,24 @@ input[type=checkbox] + label {
     background-color: #37A2EF;
     color: white;
     text-decoration: none;
+}
+
+.resultcontact a:focus {
+    text-decoration: none;
+}
+
+a.resultcontactdisabled {
+    background-color: #D9D9D9;
+    pointer-events: none;
+    cursor: default;
+}
+
+a.resultcontactdisabled:hover {
+    background-color: #D9D9D9;
+    pointer-events: none;
+    cursor: default;
+}
+
+.phone {
+    text-align: center;
 }
