@@ -16,27 +16,40 @@ function authHandler(error, authData) {
             var value = data.val();
             var key = data.key();
 
-            var total = 0;
             var count = 0;
 
-            console.log(value.ratings);
+            var score = {
+                total: 0,
+                knowledge: 0,
+                compatibility: 0,
+                pricequality: 0,
+                punctuality: 0,
+                results: 0
+            };
 
             for (rating in value.ratings) {
                 count++;
-                total += value.ratings[rating].stars;
+                score.total += value.ratings[rating].stars * 2;
+                score.knowledge += value.ratings[rating].knowledge;
+                score.compatibility += value.ratings[rating].compatibility;
+                score.pricequality += value.ratings[rating].pricequality;
+                score.punctuality += value.ratings[rating].punctuality;
+                score.results += value.ratings[rating].results;
             }
-
-            var avg = 0;
 
             if (count > 0) {
-                avg = total / count;
+                score.total /= count;
+                score.knowledge /= count;
+                score.compatibility /= count;
+                score.pricequality /= count;
+                score.punctuality /= count;
+                score.results /= count;
             }
 
-            db.child(key + '/stars').set(avg);
-            console.log('average stars', avg);
-
-            // controller.results.push(value);
+            db.child(key + '/score').set(score);
         });
+
+        window.alert("Finished updating DB.");
     });
 }
 

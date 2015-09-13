@@ -238,7 +238,7 @@ input[type=checkbox] + label {
     margin: 0;
 }
 
-.fa-star {
+.fa-star, .fa-star-half-o, .fa-star-o {
     color: #3295DD;
 }
 
@@ -299,16 +299,13 @@ input[type=checkbox] + label {
     margin-bottom: 1em;
 }
 
-.resultcontact * {
-    margin-top: 0.8em;
-}
-
 .available {
     background-color: #37810a;
     color: white;
     display: block;
     width: 100%;
     padding: 0.3em 0;
+    margin-bottom: 5%;
 }
 
 .resultcontact a {
@@ -317,6 +314,7 @@ input[type=checkbox] + label {
     display: block;
     width: 100%;
     padding: 0.3em 0;
+    margin-top: 5%;
 }
 
 .resultcontact a:hover {
@@ -353,4 +351,16 @@ a.resultcontactdisabled:hover {
 
 .phone {
     text-align: center;
+}
+
+.stars {
+    text-align: right;
+}
+
+.stars p {
+    font-size: 1.3em;
+}
+
+.starstext strong {
+    font-size: 1.1em;
 }

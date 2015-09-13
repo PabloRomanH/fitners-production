@@ -41,6 +41,29 @@ if (!Array.prototype.indexOf) {
         controller.showPrice = false;
         controller.showQualifications = false;
         controller.pricerange = [20,60];
+        controller.ratings = ['knowledge', 'compatibility', 'results', 'punctuality', 'pricequality'];
+
+        $scope.numFullStars = function(n) {
+            Math.round(n);
+            n = n / 2;
+            return new Array(Math.floor(n));
+        };
+
+        $scope.isHalfStar = function(n) {
+            return n % 2;
+        };
+
+        $scope.numEmptyStars = function(n) {
+            if(n == 6) {
+                console.log('here');
+            }
+            Math.round(n);
+            var n2 = n / 2;
+            n2 = 5 - Math.floor(n2) - ($scope.isHalfStar(n) ? 1 : 0);
+            return new Array(n2);
+        };
+
+        $scope.keys = Object.keys;
 
         var db = new Firebase('https://fitners.firebaseio.com/coaches/');
 

@@ -223,11 +223,11 @@
                                 <div class="col-xs-6 col-sm-3 resultphoto">
                                     <img src="img/pablo.jpeg" class="img-circle" alt="Foto de {{coach.name}} {{coach.surname}}"><br/>
                                     <p>{{coach.name}} {{coach.surname}}</p>
-                                    <!-- {{coach.stars}} estrellas<br/> -->
                                     <p>
-                                        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                                        <i class="fa fa-star" ng-repeat="a in numFullStars(coach.score.total) track by $index"></i><i
+                                        class="fa fa-star-half-o" ng-if="isHalfStar(coach.score.total)"></i><i                                  class="fa fa-star-o" ng-repeat="a in numEmptyStars(coach.score.total) track by $index"></i>
                                     </p>
-                                    <a href="#" ng-click="searchCtrl.showComments(coach)">{{coach.ratings.length || 0}} valoraciones</a>
+                                    <a href="#" ng-click="searchCtrl.showComments(coach)">{{coach.ratings ? keys(coach.ratings).length : 0}} valoraciones</a>
                                 </div>
                                 <div class="col-xs-6 col-sm-3 col-sm-push-6 resultcontact">
                                     <span class="available">Disponible!</span>
@@ -335,11 +335,50 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Valoraciones</h4>
+                        <h4 class="modal-title">{{ searchCtrl.selectedCoach.ratings ? searchCtrl.keys(searchCtrl.selectedCoach.ratings).length : 0 }} valoraciones</h4>
                     </div>
                     <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-6 stars">
+                                <p>
+                                    <i class="fa fa-star" ng-repeat="a in numFullStars(searchCtrl.selectedCoach.score.total) track by $index"></i><i
+                                    class="fa fa-star-half-o" ng-if="isHalfStar(searchCtrl.selectedCoach.score.total)"></i><i                                  class="fa fa-star-o" ng-repeat="a in numEmptyStars(searchCtrl.selectedCoach.score.total) track by $index"></i>
+                                </p>
+                                <span ng-repeat="type in searchCtrl.ratings">
+                                    <i class="fa fa-star" ng-repeat="a in numFullStars(searchCtrl.selectedCoach.score[type]) track by $index"></i><i
+                                    class="fa fa-star-half-o" ng-if="isHalfStar(searchCtrl.selectedCoach.score[type])"></i><i                                  class="fa fa-star-o" ng-repeat="a in numEmptyStars(searchCtrl.selectedCoach.score[type]) track by $index"></i>
+                                    <br/>
+                                </span>
+
+                            </div>
+                            <div class="col-xs-6 starstext">
+                                <p><strong>Nota Global: {{ searchCtrl.selectedCoach.score.total | number:1 }}</strong></p>
+                                Conocimientos<br/>
+                                Compatibilidad<br/>
+                                Resultados<br/>
+                                Puntualidad<br/>
+                                Calidad/Precio<br/>
+                            </div>
+
+                        </div>
+
+                        <hr/>
+
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <!-- Obtained from https://graph.facebook.com/655054432?fields=picture.width(180).height(180)" -->
+                                <img class="img-responsive" src="https://scontent.xx.fbcdn.net/hprofile-xpf1/v/t1.0-1/c0.48.200.200/p200x200/1932431_10152295222189433_70380374_n.jpg?oh=11e9784f942b72bb54ac82a037cd3e1e&oe=566327A4">
+                            </div>
+                            <div class="col-xs-10">
+                                <strong>{{rating.name}}</strong> Objetivo: {{rating.goal}}
+                            </div>
+                            <div class="col-xs-12">
+                                <p><strong>Nota: {{rating.stars}}</strong></p>
+                                <p>Comentario: {{rating.comment}}</p>
+                            </div>
+
+                        </div>
                         <p ng-repeat="rating in searchCtrl.selectedCoach.ratings">
-                            {{rating.name}} ({{rating.stars}}): {{rating.comment}}
                         </p>
                         <p ng-if="!searchCtrl.selectedCoach.ratings">No hay valoraciones</p>
                     </div>
@@ -356,7 +395,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Valoraciones</h4>
+                        <h4 class="modal-title">Deja una valoración</h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
