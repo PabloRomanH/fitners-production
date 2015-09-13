@@ -341,6 +341,16 @@ a.resultcontactdisabled:hover {
     cursor: default;
 }
 
+.resultcontact .fa {
+    color: #3295DD;
+    font-size: 2em;
+    margin: 15px 5px 0 5px;
+}
+
+.resultcontact .fa.disabled {
+    color: #D9D9D9;
+}
+
 .phone {
     text-align: center;
 }

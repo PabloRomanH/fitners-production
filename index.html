@@ -246,6 +246,10 @@
                                     <a class="visible-xs-block" href="#" ng-click="searchCtrl.showPhone(coach)" ng-class="{'resultcontactdisabled': !coach.contactoptions.phonecall}">
                                         <span>Ver Teléfono</span>
                                     </a>
+
+                                    <i class="fa fa-envelope-o" ng-class="{'disabled': !coach.contactoptions.email}"></i>
+                                    <i class="fa fa-phone" ng-class="{'disabled': !coach.contactoptions.phonecall}"></i>
+                                    <i class="fa fa-whatsapp" ng-class="{'disabled': !coach.contactoptions.whatsapp}"></i>
                                 </div>
                                 <div class="col-xs-12 col-sm-6 col-sm-pull-3">
                                     <div class="resultdetails row">
