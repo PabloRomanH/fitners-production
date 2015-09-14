@@ -364,3 +364,20 @@ a.resultcontactdisabled:hover {
 .starstext strong {
     font-size: 1.1em;
 }
+
+.modal-body hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.ratingheader {
+    margin-bottom: 10px;
+}
+
+.ratingphoto {
+    display: inline-block;
+    width: 50px;
+    margin-left: 15px;
+    float: left;
+    margin-right: 15px;
+}

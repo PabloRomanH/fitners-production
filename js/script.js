@@ -42,6 +42,7 @@ if (!Array.prototype.indexOf) {
         controller.showQualifications = false;
         controller.pricerange = [20,60];
         controller.ratings = ['knowledge', 'compatibility', 'results', 'punctuality', 'pricequality'];
+        controller.goals = ['Otro', 'Volumen', 'Definición', 'Perder peso', 'Nutrición'];
 
         $scope.numFullStars = function(n) {
             Math.round(n);

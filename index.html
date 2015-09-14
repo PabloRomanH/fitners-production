@@ -335,7 +335,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">{{ searchCtrl.selectedCoach.ratings ? searchCtrl.keys(searchCtrl.selectedCoach.ratings).length : 0 }} valoraciones</h4>
+                        <h4 class="modal-title">{{ searchCtrl.selectedCoach.ratings ? keys(searchCtrl.selectedCoach.ratings).length : 0 }} valoraciones</h4>
                     </div>
                     <div class="modal-body">
                         <div class="row">
@@ -364,22 +364,35 @@
 
                         <hr/>
 
-                        <div class="row">
-                            <div class="col-xs-2">
-                                <!-- Obtained from https://graph.facebook.com/655054432?fields=picture.width(180).height(180)" -->
-                                <img class="img-responsive" src="https://scontent.xx.fbcdn.net/hprofile-xpf1/v/t1.0-1/c0.48.200.200/p200x200/1932431_10152295222189433_70380374_n.jpg?oh=11e9784f942b72bb54ac82a037cd3e1e&oe=566327A4">
+                        <div ng-repeat="rating in searchCtrl.selectedCoach.ratings">
+                            <div class="row ratingheader">
+                                <div class="ratingphoto">
+                                    <!-- Obtained from https://graph.facebook.com/655054432?fields=picture.width(180).height(180)" -->
+                                    <img class="img-responsive img-circle" src="https://scontent.xx.fbcdn.net/hprofile-xpf1/v/t1.0-1/c0.48.200.200/p200x200/1932431_10152295222189433_70380374_n.jpg?oh=11e9784f942b72bb54ac82a037cd3e1e&oe=566327A4">
+                                </div>
+                                <div ng-if="rating.goal == 1">
+                                    <strong>{{rating.name}}</strong> Objetivo: Volumen<br/>
+                                    De {{rating.before}}Kg a {{rating.after}}Kg / <strong>{{rating.after - rating.before}}Kg</strong> en <strong>{{rating.months}} meses</strong>.
+                                </div>
+                                <div ng-if="rating.goal == 2">
+                                    <strong>{{rating.name}}</strong> Objetivo: Definición<br/>
+                                    De {{rating.before}}Bp a {{rating.after}}Bp / <strong>{{rating.after - rating.before}} Burpees</strong> en <strong>{{rating.months}} meses</strong>.
+                                </div>
+                                <div ng-if="rating.goal == 3">
+                                    <strong>{{rating.name}}</strong> Objetivo: Perder peso<br/>
+                                    De {{rating.before}}Kg a {{rating.after}}Kg / <strong>{{rating.before - rating.after}}Kg</strong> en <strong>{{rating.months}} meses</strong>.
+                                </div>
                             </div>
-                            <div class="col-xs-10">
-                                <strong>{{rating.name}}</strong> Objetivo: {{rating.goal}}
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <p>
+                                        <strong>Nota: {{rating.stars}}</strong><br/>
+                                        Comentario: {{rating.comment}}
+                                    </p>
+                                </div>
                             </div>
-                            <div class="col-xs-12">
-                                <p><strong>Nota: {{rating.stars}}</strong></p>
-                                <p>Comentario: {{rating.comment}}</p>
-                            </div>
-
+                            <hr/>
                         </div>
-                        <p ng-repeat="rating in searchCtrl.selectedCoach.ratings">
-                        </p>
                         <p ng-if="!searchCtrl.selectedCoach.ratings">No hay valoraciones</p>
                     </div>
                     <div class="modal-footer">
