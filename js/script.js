@@ -43,6 +43,29 @@ if (!Array.prototype.indexOf) {
         controller.pricerange = [20,60];
         controller.ratings = ['knowledge', 'compatibility', 'results', 'punctuality', 'pricequality'];
         controller.goals = ['Otro', 'Volumen', 'Definición', 'Perder peso', 'Nutrición'];
+        controller.commentGoals = [
+            {text: "Volumen", value: 1},
+            {text: "Definición", value: 2},
+            {text: "Adelgazar", value: 3},
+            {text: "Otro", value: 0}
+        ];
+        controller.grades = [
+            {text: "0", value: 0},
+            {text: "1", value: 1},
+            {text: "2", value: 2},
+            {text: "3", value: 3},
+            {text: "4", value: 4},
+            {text: "5", value: 5},
+            {text: "6", value: 6},
+            {text: "7", value: 7},
+            {text: "8", value: 8},
+            {text: "9", value: 9},
+            {text: "10", value: 10}
+        ];
+
+        ////////////////////////////////////////
+        controller.showModal = 'write';
+        ////////////////////////////////////////
 
         $scope.numFullStars = function(n) {
             Math.round(n);
@@ -160,7 +183,16 @@ if (!Array.prototype.indexOf) {
             db.child(controller.selectedCoach.id +'/ratings').push().set({
                  comment: controller.comment,
                  name: 'anonymous',
-                 stars: parseInt(controller.stars)
+                 stars: parseInt(controller.stars),
+                 before: controller.before,
+                 after: controller.after,
+                 months: controller.commentMonths,
+                 goal: controller.commentGoal,
+                 compatibility: controller.commentCompatibility,
+                 knowledge: controller.commentKnowledge,
+                 pricequality: controller.commentPricequality,
+                 punctuality: controller.commentPunctuality,
+                 results: controller.commentResults
             });
 
             controller.comment = undefined;
@@ -177,6 +209,23 @@ if (!Array.prototype.indexOf) {
                     else element.modal('hide');
                 });
             }
+        };
+    });
+
+    app.directive('buttonsRadio', function() {
+        return {
+            restrict: 'E',
+            scope: { model: '=', options:'='},
+            controller: function($scope){
+                $scope.activate = function(option){
+                    $scope.model = option;
+                };
+            },
+            template: "<button type='button' class='btn btn-default' "+
+                        "ng-class='{active: option.value == model}'"+
+                        "ng-repeat='option in options' "+
+                        "ng-click='activate(option.value)'>{{option.text}} "+
+                      "</button>"
         };
     });
 

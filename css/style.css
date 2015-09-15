@@ -390,3 +390,14 @@ a.resultcontactdisabled:hover {
     float: left;
     margin-right: 15px;
 }
+
+.radiobuttonsgroup {
+    text-align: center;
+}
+
+.smallbuttons button {
+    padding-left: 0;
+    padding-right: 0;
+    width: 40px;
+    max-width: 9%;
+}
