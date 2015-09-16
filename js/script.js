@@ -63,9 +63,11 @@ if (!Array.prototype.indexOf) {
             {text: "10", value: 10}
         ];
 
-        ////////////////////////////////////////
-        controller.showModal = 'write';
-        ////////////////////////////////////////
+        var loginData;
+
+        // ////////////////////////////////////////
+        // controller.showModal = 'write';
+        // ////////////////////////////////////////
 
         $scope.numFullStars = function(n) {
             Math.round(n);
@@ -78,9 +80,6 @@ if (!Array.prototype.indexOf) {
         };
 
         $scope.numEmptyStars = function(n) {
-            if(n == 6) {
-                console.log('here');
-            }
             Math.round(n);
             var n2 = n / 2;
             n2 = 5 - Math.floor(n2) - ($scope.isHalfStar(n) ? 1 : 0);
@@ -171,6 +170,21 @@ if (!Array.prototype.indexOf) {
             controller.selectedCoach = coach;
         }
 
+        controller.showWrite = function() {
+            var ref = new Firebase("https://fitners.firebaseio.com");
+            ref.authWithOAuthPopup("facebook", function(error, authData) {
+                if (error) {
+                    console.log("Login Failed!", error);
+                } else {
+                    console.log("Authenticated successfully with payload:", authData);
+                    controller.showModal = 'write';
+                    $scope.$apply();
+
+                    loginData = authData;
+                }
+            });
+        }
+
         controller.showPhone = function(coach) {
             controller.showModal = 'phone';
             controller.selectedCoach = coach;
@@ -180,20 +194,28 @@ if (!Array.prototype.indexOf) {
             controller.showModal = false;
             console.log('Submitting new comment', controller.comment, controller.stars);
 
-            db.child(controller.selectedCoach.id +'/ratings').push().set({
+            var newcomment = {
                  comment: controller.comment,
-                 name: 'anonymous',
+                 name: loginData.facebook.displayName,
+                 userId: loginData.facebook.id,
+                 photo: loginData.facebook.profileImageURL,
                  stars: parseInt(controller.stars),
-                 before: controller.before,
-                 after: controller.after,
                  months: controller.commentMonths,
                  goal: controller.commentGoal,
                  compatibility: controller.commentCompatibility,
                  knowledge: controller.commentKnowledge,
                  pricequality: controller.commentPricequality,
                  punctuality: controller.commentPunctuality,
-                 results: controller.commentResults
-            });
+                 results: controller.commentResults,
+                 timestamp: new Date().getTime()
+            };
+
+            if (controller.commentGoal != 0) {
+                newcomment.before = controller.before;
+                newcomment.after = controller.after;
+            }
+
+            db.child(controller.selectedCoach.id +'/ratings').push().set(newcomment);
 
             controller.comment = undefined;
             controller.stars = undefined;

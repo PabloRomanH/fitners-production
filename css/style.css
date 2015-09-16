@@ -384,11 +384,25 @@ a.resultcontactdisabled:hover {
 }
 
 .ratingphoto {
-    display: inline-block;
     width: 50px;
+    height: 50px;
     margin-left: 15px;
     float: left;
     margin-right: 15px;
+    overflow: hidden;
+    border-radius: 50%;
+    position: relative;
+}
+
+.ratingphoto img {
+    min-width: 100%;
+    margin: auto;
+    position: absolute;
+    top: -100%;
+    right: -100%;
+    bottom: -100%;
+    left: -100%;
+    max-width: 100%;
 }
 
 .radiobuttonsgroup {

@@ -367,8 +367,7 @@
                             <hr/>
                             <div class="row ratingheader">
                                 <div class="ratingphoto">
-                                    <!-- Obtained from https://graph.facebook.com/655054432?fields=picture.width(180).height(180)" -->
-                                    <img class="img-responsive img-circle" src="https://scontent.xx.fbcdn.net/hprofile-xpf1/v/t1.0-1/c0.48.200.200/p200x200/1932431_10152295222189433_70380374_n.jpg?oh=11e9784f942b72bb54ac82a037cd3e1e&oe=566327A4">
+                                    <img ng-src="{{rating.photo}}">
                                 </div>
                                 <div ng-if="rating.goal == 1">
                                     <strong>{{rating.name}}</strong> Objetivo: Volumen<br/>
@@ -395,7 +394,7 @@
                         <p ng-if="!searchCtrl.selectedCoach.ratings">No hay valoraciones</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" ng-click="searchCtrl.showModal = 'write'">+ Dejar valoración</button>
+                        <button type="button" class="btn btn-success" ng-click="searchCtrl.showWrite()">+ Dejar valoración</button>
                         <button type="button" class="btn btn-default" ng-click="searchCtrl.showModal = false">Cerrar</button>
                     </div>
                 </div><!-- /.modal-content -->
