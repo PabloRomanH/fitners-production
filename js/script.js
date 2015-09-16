@@ -49,6 +49,7 @@ if (!Array.prototype.indexOf) {
             {text: "Adelgazar", value: 3},
             {text: "Otro", value: 0}
         ];
+        controller.commentGoal = 0;
         controller.grades = [
             {text: "0", value: 0},
             {text: "1", value: 1},
@@ -64,10 +65,6 @@ if (!Array.prototype.indexOf) {
         ];
 
         var loginData;
-
-        // ////////////////////////////////////////
-        // controller.showModal = 'write';
-        // ////////////////////////////////////////
 
         $scope.numFullStars = function(n) {
             Math.round(n);
@@ -103,6 +100,14 @@ if (!Array.prototype.indexOf) {
             }
         }
 
+        controller.searchAll = function() {
+            controller.results = [];
+            controller.searching = true;
+            db.once('value', showResults);
+
+            return false;
+        }
+
         controller.searchGym = function() {
             var gymid = '';
             for (var i = 0; i < controller.gyms.length; i++) {
@@ -132,7 +137,7 @@ if (!Array.prototype.indexOf) {
 
             controller.searching = false;
 
-            // TODO: sort by number of stars
+            // TODO: sort by something
 
             snapshot.forEach(function(data) {
                 var value = data.val();
@@ -171,8 +176,8 @@ if (!Array.prototype.indexOf) {
         }
 
         controller.showWrite = function() {
-            var ref = new Firebase("https://fitners.firebaseio.com");
-            ref.authWithOAuthPopup("facebook", function(error, authData) {
+            db = new Firebase("https://fitners.firebaseio.com/coaches");
+            db.authWithOAuthPopup("facebook", function(error, authData) {
                 if (error) {
                     console.log("Login Failed!", error);
                 } else {
@@ -197,7 +202,7 @@ if (!Array.prototype.indexOf) {
             var newcomment = {
                  comment: controller.comment,
                  name: loginData.facebook.displayName,
-                 userId: loginData.facebook.id,
+                 userId: loginData.uid,
                  photo: loginData.facebook.profileImageURL,
                  stars: parseInt(controller.stars),
                  months: controller.commentMonths,
@@ -220,6 +225,8 @@ if (!Array.prototype.indexOf) {
             controller.comment = undefined;
             controller.stars = undefined;
         }
+
+        controller.searchAll();
     });
 
     app.directive('ngModal', function() {
@@ -234,20 +241,37 @@ if (!Array.prototype.indexOf) {
         };
     });
 
-    app.directive('buttonsRadio', function() {
+    app.directive('radioButtonGroup', function() {
         return {
             restrict: 'E',
-            scope: { model: '=', options:'='},
-            controller: function($scope){
-                $scope.activate = function(option){
-                    $scope.model = option;
+            scope: { model: '=', options: '=', id: '=', name: '=', suffix: '=' },
+            controller: function($scope) {
+                $scope.activate = function (option, $event) {
+                    $scope.model = option[$scope.id];
+                    // stop the click event to avoid that Bootstrap toggles the "active" class
+                    if ($event.stopPropagation) {
+                        $event.stopPropagation();
+                    }
+                    if ($event.preventDefault) {
+                        $event.preventDefault();
+                    }
+                    $event.cancelBubble = true;
+                    $event.returnValue = false;
                 };
+
+                $scope.isActive = function(option) {
+                    return option[$scope.id] == $scope.model;
+                };
+
+                $scope.getName = function (option) {
+                    return option[$scope.name];
+                }
             },
-            template: "<button type='button' class='btn btn-default' "+
-                        "ng-class='{active: option.value == model}'"+
-                        "ng-repeat='option in options' "+
-                        "ng-click='activate(option.value)'>{{option.text}} "+
-                      "</button>"
+            template: "<button type='button' class='btn btn-{{suffix}}' " +
+                "ng-class='{active: isActive(option)}'" +
+                "ng-repeat='option in options' " +
+                "ng-click='activate(option, $event)'>{{getName(option)}} " +
+                "</button>"
         };
     });
 
