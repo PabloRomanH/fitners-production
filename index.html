@@ -36,7 +36,7 @@
                 </div>
             </div>
         </div>
-        <div class="statistics statistics-phone">
+        <div class="statistics statistics-writeCtrl">
             <div class="container container-limit">
                 <div class="row">
                     <div class="col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-0">
@@ -228,7 +228,7 @@
                                         <i class="fa fa-star" ng-repeat="a in numFullStars(coach.score.total) track by $index"></i><i
                                         class="fa fa-star-half-o" ng-if="isHalfStar(coach.score.total)"></i><i                                  class="fa fa-star-o" ng-repeat="a in numEmptyStars(coach.score.total) track by $index"></i>
                                     </p>
-                                    <a href="#" ng-click="searchCtrl.showComments(coach)">{{coach.ratings ? keys(coach.ratings).length : 0}} valoraciones</a>
+                                    <a href="#" ng-click="searchCtrl.showComments(coach)" data-toggle="modal" data-target="#comments">{{coach.ratings ? keys(coach.ratings).length : 0}} valoraciones</a>
                                 </div>
                                 <div class="col-xs-6 col-sm-3 col-sm-push-6 resultcontact">
                                     <span class="available">Disponible!</span>
@@ -311,191 +311,5 @@
                 </div>
             </div>
         </div>
-
-        <div ng-modal="searchCtrl.showModal == 'phone'" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Llamar</h4>
-                    </div>
-                    <div class="modal-body phone">
-                        <p>{{searchCtrl.selectedCoach.telephone}}</p>
-
-                        <a href="tel:{{searchCtrl.selectedCoach.telephone}}" type="button" class="btn btn-success">Llamar</a>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" ng-click="searchCtrl.showModal = false">Cerrar</button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-
-        <div ng-modal="searchCtrl.showModal == 'comments'" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">{{ searchCtrl.selectedCoach.ratings ? keys(searchCtrl.selectedCoach.ratings).length : 0 }} valoraciones</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-xs-6 stars">
-                                <p>
-                                    <i class="fa fa-star" ng-repeat="a in numFullStars(searchCtrl.selectedCoach.score.total) track by $index"></i><i
-                                    class="fa fa-star-half-o" ng-if="isHalfStar(searchCtrl.selectedCoach.score.total)"></i><i                                  class="fa fa-star-o" ng-repeat="a in numEmptyStars(searchCtrl.selectedCoach.score.total) track by $index"></i>
-                                </p>
-                                <span ng-repeat="type in searchCtrl.ratings">
-                                    <i class="fa fa-star" ng-repeat="a in numFullStars(searchCtrl.selectedCoach.score[type]) track by $index"></i><i
-                                    class="fa fa-star-half-o" ng-if="isHalfStar(searchCtrl.selectedCoach.score[type])"></i><i                                  class="fa fa-star-o" ng-repeat="a in numEmptyStars(searchCtrl.selectedCoach.score[type]) track by $index"></i>
-                                    <br/>
-                                </span>
-
-                            </div>
-                            <div class="col-xs-6 starstext">
-                                <p><strong>Nota Global: {{ searchCtrl.selectedCoach.score.total | number:1 }}</strong></p>
-                                Conocimientos<br/>
-                                Compatibilidad<br/>
-                                Resultados<br/>
-                                Puntualidad<br/>
-                                Calidad/Precio<br/>
-                            </div>
-
-                        </div>
-
-                        <div ng-repeat="rating in searchCtrl.selectedCoach.ratings">
-                            <hr/>
-                            <div class="row ratingheader">
-                                <div class="ratingphoto">
-                                    <img ng-src="{{rating.photo}}">
-                                </div>
-                                <div ng-if="rating.goal == 1">
-                                    <strong>{{rating.name}}</strong> Objetivo: Volumen<br/>
-                                    De {{rating.before}}Kg a {{rating.after}}Kg / <strong>{{rating.after - rating.before}}Kg</strong> en <strong>{{rating.months}} meses</strong>.
-                                </div>
-                                <div ng-if="rating.goal == 2">
-                                    <strong>{{rating.name}}</strong> Objetivo: Definición<br/>
-                                    De {{rating.before}}Bp a {{rating.after}}Bp / <strong>{{rating.after - rating.before}} Burpees</strong> en <strong>{{rating.months}} meses</strong>.
-                                </div>
-                                <div ng-if="rating.goal == 3">
-                                    <strong>{{rating.name}}</strong> Objetivo: Perder peso<br/>
-                                    De {{rating.before}}Kg a {{rating.after}}Kg / <strong>{{rating.before - rating.after}}Kg</strong> en <strong>{{rating.months}} meses</strong>.
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <p>
-                                        <strong>Nota: {{rating.stars}}</strong><br/>
-                                        Comentario: {{rating.comment}}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <p ng-if="!searchCtrl.selectedCoach.ratings">No hay valoraciones</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" ng-click="searchCtrl.showWrite()">+ Dejar valoración</button>
-                        <button type="button" class="btn btn-default" ng-click="searchCtrl.showModal = false">Cerrar</button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-
-        <div ng-modal="searchCtrl.showModal == 'write'" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Deja una valoración</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="value">Objetivo de tu entrenamiento:</label>
-                            <div class="radiobuttonsgroup">
-                                <radio-button-group class="btn-group" data-toggle="buttons-radio" model="searchCtrl.commentGoal" options="searchCtrl.commentGoals" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
-                            </div>
-                        </div>
-                        <div ng-if="searchCtrl.commentGoal == 1">
-                            <div class="form-group">
-                                <label for="before">Peso al inicio en Kg:</label>
-                                <input type="number" class="form-control" id="before" ng-model="searchCtrl.before">
-                            </div>
-                            <div class="form-group">
-                                <label for="after">Peso al final en Kg:</label>
-                                <input type="number" class="form-control" id="after" ng-model="searchCtrl.after">
-                            </div>
-                        </div>
-                        <div ng-if="searchCtrl.commentGoal == 2">
-                            <div class="form-group">
-                                <label for="before">Definición al inicio en Burpees:</label>
-                                <input type="number" class="form-control" id="before" ng-model="searchCtrl.before">
-                            </div>
-                            <div class="form-group">
-                                <label for="after">Definición al final en Burpees:</label>
-                                <input type="number" class="form-control" id="after" ng-model="searchCtrl.after">
-                            </div>
-                        </div>
-                        <div ng-if="searchCtrl.commentGoal == 3">
-                            <div class="form-group">
-                                <label for="before">Peso al inicio en Kg:</label>
-                                <input type="number" class="form-control" id="before" ng-model="searchCtrl.before">
-                            </div>
-                            <div class="form-group">
-                                <label for="after">Peso al final en Kg:</label>
-                                <input type="number" class="form-control" id="after" ng-model="searchCtrl.after">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="months">Meses que entrenaste:</label>
-                            <input type="number" min="1" class="form-control" id="months" ng-model="searchCtrl.commentMonths">
-                        </div>
-                        <div class="form-group">
-                            <label for="comment">Describe tu experiencia con el entrenador:</label>
-                            <textarea class="form-control" rows="3" id="comment" ng-model="searchCtrl.comment"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Puntúa sus conocimientos:</label><br/>
-                            <div class="radiobuttonsgroup smallbuttons">
-                                <radio-button-group class="btn-group" data-toggle="buttons-radio" model="searchCtrl.commentKnowledge" options="searchCtrl.grades" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="compatibility">Puntúa tu compatibilidad con el entrenador:</label><br/>
-                            <div class="radiobuttonsgroup smallbuttons">
-                                <radio-button-group class="btn-group" data-toggle="buttons-radio" model="searchCtrl.commentCompatibility" options="searchCtrl.grades" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="results">Puntúa los resultados obtenidos:</label><br/>
-                            <div class="radiobuttonsgroup smallbuttons">
-                                <radio-button-group class="btn-group" data-toggle="buttons-radio" model="searchCtrl.commentResults" options="searchCtrl.grades" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="punctuality">Puntúa la puntualidad del entrenador:</label><br/>
-                            <div class="radiobuttonsgroup smallbuttons">
-                                <radio-button-group class="btn-group" data-toggle="buttons-radio" model="searchCtrl.commentPunctuality" options="searchCtrl.grades" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="pricequality">Puntúa la calidad/precio:</label><br/>
-                            <div class="radiobuttonsgroup smallbuttons">
-                                <radio-button-group class="btn-group" data-toggle="buttons-radio" model="searchCtrl.commentPricequality" options="searchCtrl.grades" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="stars">Puntuación general:</label><br/>
-                            <div class="radiobuttonsgroup smallbuttons">
-                                <radio-button-group class="btn-group" data-toggle="buttons-radio" model="searchCtrl.stars" options="searchCtrl.grades" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" ng-click="searchCtrl.submitComment()">Guardar</button>
-                        <button type="button" class="btn btn-danger" ng-click="searchCtrl.showModal = false">Cancelar</button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
     </body>
 </html>

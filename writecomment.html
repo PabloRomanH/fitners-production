@@ -1,0 +1,90 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="writeCtrl.close()"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Deja una valoración</h4>
+</div>
+<div class="modal-body">
+    <div class="form-group">
+        <label for="value">Objetivo de tu entrenamiento:</label>
+        <div class="radiobuttonsgroup">
+            <radio-button-group class="btn-group" data-toggle="buttons-radio" model="writeCtrl.commentGoal" options="writeCtrl.commentGoals" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
+        </div>
+    </div>
+    <div ng-if="writeCtrl.commentGoal == 1">
+        <div class="form-group">
+            <label for="before">Peso al inicio en Kg:</label>
+            <input type="number" class="form-control" id="before" ng-model="writeCtrl.before">
+        </div>
+        <div class="form-group">
+            <label for="after">Peso al final en Kg:</label>
+            <input type="number" class="form-control" id="after" ng-model="writeCtrl.after">
+        </div>
+    </div>
+    <div ng-if="writeCtrl.commentGoal == 2">
+        <div class="form-group">
+            <label for="before">Definición al inicio en Burpees:</label>
+            <input type="number" class="form-control" id="before" ng-model="writeCtrl.before">
+        </div>
+        <div class="form-group">
+            <label for="after">Definición al final en Burpees:</label>
+            <input type="number" class="form-control" id="after" ng-model="writeCtrl.after">
+        </div>
+    </div>
+    <div ng-if="writeCtrl.commentGoal == 3">
+        <div class="form-group">
+            <label for="before">Peso al inicio en Kg:</label>
+            <input type="number" class="form-control" id="before" ng-model="writeCtrl.before">
+        </div>
+        <div class="form-group">
+            <label for="after">Peso al final en Kg:</label>
+            <input type="number" class="form-control" id="after" ng-model="writeCtrl.after">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="months">Meses que entrenaste:</label>
+        <input type="number" min="1" class="form-control" id="months" ng-model="writeCtrl.commentMonths">
+    </div>
+    <div class="form-group">
+        <label for="comment">Describe tu experiencia con el entrenador:</label>
+        <textarea class="form-control" rows="3" id="comment" ng-model="writeCtrl.comment"></textarea>
+    </div>
+    <div class="form-group">
+        <label>Puntúa sus conocimientos:</label><br/>
+        <div class="radiobuttonsgroup smallbuttons">
+            <radio-button-group class="btn-group" data-toggle="buttons-radio" model="writeCtrl.commentKnowledge" options="writeCtrl.grades" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="compatibility">Puntúa tu compatibilidad con el entrenador:</label><br/>
+        <div class="radiobuttonsgroup smallbuttons">
+            <radio-button-group class="btn-group" data-toggle="buttons-radio" model="writeCtrl.commentCompatibility" options="writeCtrl.grades" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="results">Puntúa los resultados obtenidos:</label><br/>
+        <div class="radiobuttonsgroup smallbuttons">
+            <radio-button-group class="btn-group" data-toggle="buttons-radio" model="writeCtrl.commentResults" options="writeCtrl.grades" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="punctuality">Puntúa la puntualidad del entrenador:</label><br/>
+        <div class="radiobuttonsgroup smallbuttons">
+            <radio-button-group class="btn-group" data-toggle="buttons-radio" model="writeCtrl.commentPunctuality" options="writeCtrl.grades" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="pricequality">Puntúa la calidad/precio:</label><br/>
+        <div class="radiobuttonsgroup smallbuttons">
+            <radio-button-group class="btn-group" data-toggle="buttons-radio" model="writeCtrl.commentPricequality" options="writeCtrl.grades" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="stars">Puntuación general:</label><br/>
+        <div class="radiobuttonsgroup smallbuttons">
+            <radio-button-group class="btn-group" data-toggle="buttons-radio" model="writeCtrl.stars" options="writeCtrl.grades" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-success" type="button" ng-click="writeCtrl.submitComment()">+ Dejar valoración</button>
+    <button class="btn btn-default" type="button" ng-click="writeCtrl.close()">Cerrar</button>
+</div>

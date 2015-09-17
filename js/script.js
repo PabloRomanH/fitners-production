@@ -20,7 +20,7 @@ if (!Array.prototype.indexOf) {
         $locationProvider.html5Mode(true);
     });
 
-    app.controller('SearchController', function($scope){
+    app.controller('SearchController', function($scope, $modal){
         var controller = this;
         controller.results = [];
         controller.searching = false;
@@ -30,10 +30,6 @@ if (!Array.prototype.indexOf) {
         controller.goalDefinition = false;
         controller.goalWeight = false;
         controller.goalNutrition = false;
-        controller.qualA = false;
-        controller.qualB = false;
-        controller.qualC = false;
-        controller.qualD = false;
         controller.gyms = window.gyms;
         controller.areas = ['Eixample', 'Ciutat Vella', 'Gràcia', 'Sant Martí', 'Sarrià-Sant Gervasi', 'Les Corts', 'Sants-Montjuïc', 'Horta-Guinardó', 'Sant Andreu', 'Nou Barris'];
         controller.searchcriteria = 'gym';
@@ -41,28 +37,6 @@ if (!Array.prototype.indexOf) {
         controller.showPrice = false;
         controller.showQualifications = false;
         controller.pricerange = [20,60];
-        controller.ratings = ['knowledge', 'compatibility', 'results', 'punctuality', 'pricequality'];
-        controller.goals = ['Otro', 'Volumen', 'Definición', 'Perder peso', 'Nutrición'];
-        controller.commentGoals = [
-            {text: "Volumen", value: 1},
-            {text: "Definición", value: 2},
-            {text: "Adelgazar", value: 3},
-            {text: "Otro", value: 0}
-        ];
-        controller.commentGoal = 0;
-        controller.grades = [
-            {text: "0", value: 0},
-            {text: "1", value: 1},
-            {text: "2", value: 2},
-            {text: "3", value: 3},
-            {text: "4", value: 4},
-            {text: "5", value: 5},
-            {text: "6", value: 6},
-            {text: "7", value: 7},
-            {text: "8", value: 8},
-            {text: "9", value: 9},
-            {text: "10", value: 10}
-        ];
 
         var loginData;
 
@@ -171,9 +145,41 @@ if (!Array.prototype.indexOf) {
         }
 
         controller.showComments = function(coach) {
-            controller.showModal = 'comments';
-            controller.selectedCoach = coach;
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: 'comments.html',
+                controller: 'CommentsModalController',
+                controllerAs: 'commentsCtrl',
+                resolve: {
+                    coach: function () {
+                        return coach;
+                    }
+                }
+            });
         }
+
+        controller.showPhone = function(coach) {
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: 'phone.html',
+                controller: 'PhoneModalController',
+                controllerAs: 'phoneCtrl',
+                resolve: {
+                    telephone: function () {
+                        return coach.telephone;
+                    }
+                }
+            });
+        }
+
+        controller.searchAll();
+    });
+
+    app.controller('CommentsModalController', function($scope, $modalInstance, $modal, coach) {
+        var controller = this;
+
+        controller.coach = coach;
+        controller.ratings = ['knowledge', 'compatibility', 'results', 'punctuality', 'pricequality'];
 
         controller.showWrite = function() {
             db = new Firebase("https://fitners.firebaseio.com/coaches");
@@ -182,23 +188,81 @@ if (!Array.prototype.indexOf) {
                     console.log("Login Failed!", error);
                 } else {
                     console.log("Authenticated successfully with payload:", authData);
-                    controller.showModal = 'write';
-                    $scope.$apply();
 
-                    loginData = authData;
+                    $modalInstance.close();
+
+                    var modalInstance = $modal.open({
+                        animation: true,
+                        templateUrl: 'writecomment.html',
+                        controller: 'WriteModalController',
+                        controllerAs: 'writeCtrl',
+                        resolve: {
+                            coach: function () {
+                                return coach;
+                            },
+                            loginData: function () {
+                                return authData;
+                            }
+                        }
+                    });
                 }
             });
-        }
+        };
 
-        controller.showPhone = function(coach) {
-            controller.showModal = 'phone';
-            controller.selectedCoach = coach;
-        }
+        controller.close = function () {
+            $modalInstance.close();
+        };
+
+        $scope.numFullStars = function(n) {
+            Math.round(n);
+            n = n / 2;
+            return new Array(Math.floor(n));
+        };
+
+        $scope.isHalfStar = function(n) {
+            return n % 2;
+        };
+
+        $scope.numEmptyStars = function(n) {
+            Math.round(n);
+            var n2 = n / 2;
+            n2 = 5 - Math.floor(n2) - ($scope.isHalfStar(n) ? 1 : 0);
+            return new Array(n2);
+        };
+    });
+
+    app.controller('WriteModalController', function($modalInstance, coach, loginData) {
+        var controller = this;
+
+        controller.coach = coach;
+
+        controller.goals = ['Otro', 'Volumen', 'Definición', 'Perder peso', 'Nutrición'];
+        controller.commentGoals = [
+            {text: "Volumen", value: 1},
+            {text: "Definición", value: 2},
+            {text: "Adelgazar", value: 3},
+            {text: "Otro", value: 0}
+        ];
+        controller.commentGoal = 0;
+        controller.grades = [
+            {text: "0", value: 0},
+            {text: "1", value: 1},
+            {text: "2", value: 2},
+            {text: "3", value: 3},
+            {text: "4", value: 4},
+            {text: "5", value: 5},
+            {text: "6", value: 6},
+            {text: "7", value: 7},
+            {text: "8", value: 8},
+            {text: "9", value: 9},
+            {text: "10", value: 10}
+        ];
+
+        controller.close = function () {
+            $modalInstance.close();
+        };
 
         controller.submitComment = function() {
-            controller.showModal = false;
-            console.log('Submitting new comment', controller.comment, controller.stars);
-
             var newcomment = {
                  comment: controller.comment,
                  name: loginData.facebook.displayName,
@@ -220,24 +284,19 @@ if (!Array.prototype.indexOf) {
                 newcomment.after = controller.after;
             }
 
-            db.child(controller.selectedCoach.id +'/ratings').push().set(newcomment);
+            db.child(coach.id +'/ratings').push().set(newcomment);
 
-            controller.comment = undefined;
-            controller.stars = undefined;
+            $modalInstance.close();
         }
-
-        controller.searchAll();
     });
 
-    app.directive('ngModal', function() {
-        return {
-            restrict: 'A',
-            link: function(scope, element, attrs) {
-                scope.$watch(attrs.ngModal, function(value) {
-                    if (value) element.modal('show');
-                    else element.modal('hide');
-                });
-            }
+    app.controller('PhoneModalController', function($modalInstance, telephone) {
+        var controller = this;
+
+        controller.telephone = telephone;
+
+        controller.close = function () {
+            $modalInstance.close();
         };
     });
 
