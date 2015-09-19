@@ -6,10 +6,11 @@
     <div class="form-group">
         <label for="value">Objetivo de tu entrenamiento:</label>
         <div class="radiobuttonsgroup">
-            <radio-button-group class="btn-group" data-toggle="buttons-radio" model="writeCtrl.commentGoal" options="writeCtrl.commentGoals" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
+            <radio-button-group class="btn-group" data-toggle="buttons-radio" model="writeCtrl.goal" options="writeCtrl.goals" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
         </div>
     </div>
-    <div ng-if="writeCtrl.commentGoal == 1">
+    <div class="alert alert-danger" role="alert" ng-show="writeCtrl.showGoalAlert">Escoge un objetivo.</div>
+    <div ng-if="writeCtrl.goal == 1">
         <div class="form-group">
             <label for="before">Peso al inicio en Kg:</label>
             <input type="number" class="form-control" id="before" ng-model="writeCtrl.before">
@@ -18,8 +19,9 @@
             <label for="after">Peso al final en Kg:</label>
             <input type="number" class="form-control" id="after" ng-model="writeCtrl.after">
         </div>
+        <div class="alert alert-danger" role="alert" ng-show="writeCtrl.showWeightAlert">Introduce peso inicial y final.</div>
     </div>
-    <div ng-if="writeCtrl.commentGoal == 2">
+    <div ng-if="writeCtrl.goal == 2">
         <div class="form-group">
             <label for="before">Definición al inicio en Burpees:</label>
             <input type="number" class="form-control" id="before" ng-model="writeCtrl.before">
@@ -28,8 +30,9 @@
             <label for="after">Definición al final en Burpees:</label>
             <input type="number" class="form-control" id="after" ng-model="writeCtrl.after">
         </div>
+        <div class="alert alert-danger" role="alert" ng-show="writeCtrl.showDefinitionAlert">Introduce definición inicial y final.</div>
     </div>
-    <div ng-if="writeCtrl.commentGoal == 3">
+    <div ng-if="writeCtrl.goal == 3">
         <div class="form-group">
             <label for="before">Peso al inicio en Kg:</label>
             <input type="number" class="form-control" id="before" ng-model="writeCtrl.before">
@@ -38,43 +41,46 @@
             <label for="after">Peso al final en Kg:</label>
             <input type="number" class="form-control" id="after" ng-model="writeCtrl.after">
         </div>
+        <div class="alert alert-danger" role="alert" ng-show="writeCtrl.showVolumeAlert">Introduce peso inicial y final.</div>
     </div>
     <div class="form-group">
         <label for="months">Meses que entrenaste:</label>
-        <input type="number" min="1" class="form-control" id="months" ng-model="writeCtrl.commentMonths">
+        <input type="number" min="1" class="form-control" id="months" ng-model="writeCtrl.months">
     </div>
+    <div class="alert alert-danger" role="alert" ng-show="writeCtrl.showMonthsAlert">Introduce los meses que entrenaste.</div>
     <div class="form-group">
         <label for="comment">Describe tu experiencia con el entrenador:</label>
         <textarea class="form-control" rows="3" id="comment" ng-model="writeCtrl.comment"></textarea>
     </div>
+    <div class="alert alert-danger" role="alert" ng-show="writeCtrl.showCommentAlert">Escribe por lo menos 100 carácteres.</div>
     <div class="form-group">
         <label>Puntúa sus conocimientos:</label><br/>
         <div class="radiobuttonsgroup smallbuttons">
-            <radio-button-group class="btn-group" data-toggle="buttons-radio" model="writeCtrl.commentKnowledge" options="writeCtrl.grades" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
+            <radio-button-group class="btn-group" data-toggle="buttons-radio" model="writeCtrl.knowledge" options="writeCtrl.grades" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
         </div>
     </div>
     <div class="form-group">
         <label for="compatibility">Puntúa tu compatibilidad con el entrenador:</label><br/>
         <div class="radiobuttonsgroup smallbuttons">
-            <radio-button-group class="btn-group" data-toggle="buttons-radio" model="writeCtrl.commentCompatibility" options="writeCtrl.grades" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
+            <radio-button-group class="btn-group" data-toggle="buttons-radio" model="writeCtrl.compatibility" options="writeCtrl.grades" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
         </div>
     </div>
     <div class="form-group">
         <label for="results">Puntúa los resultados obtenidos:</label><br/>
         <div class="radiobuttonsgroup smallbuttons">
-            <radio-button-group class="btn-group" data-toggle="buttons-radio" model="writeCtrl.commentResults" options="writeCtrl.grades" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
+            <radio-button-group class="btn-group" data-toggle="buttons-radio" model="writeCtrl.results" options="writeCtrl.grades" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
         </div>
     </div>
     <div class="form-group">
         <label for="punctuality">Puntúa la puntualidad del entrenador:</label><br/>
         <div class="radiobuttonsgroup smallbuttons">
-            <radio-button-group class="btn-group" data-toggle="buttons-radio" model="writeCtrl.commentPunctuality" options="writeCtrl.grades" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
+            <radio-button-group class="btn-group" data-toggle="buttons-radio" model="writeCtrl.punctuality" options="writeCtrl.grades" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
         </div>
     </div>
     <div class="form-group">
         <label for="pricequality">Puntúa la calidad/precio:</label><br/>
         <div class="radiobuttonsgroup smallbuttons">
-            <radio-button-group class="btn-group" data-toggle="buttons-radio" model="writeCtrl.commentPricequality" options="writeCtrl.grades" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
+            <radio-button-group class="btn-group" data-toggle="buttons-radio" model="writeCtrl.pricequality" options="writeCtrl.grades" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
         </div>
     </div>
     <div class="form-group">
@@ -83,6 +89,7 @@
             <radio-button-group class="btn-group" data-toggle="buttons-radio" model="writeCtrl.stars" options="writeCtrl.grades" id="'value'" name="'text'" suffix="'default'"></radio-button-group>
         </div>
     </div>
+    <div class="alert alert-danger" role="alert" ng-show="writeCtrl.showScoreAlert">Puntúa todas las categorías.</div>
 </div>
 <div class="modal-footer">
     <button class="btn btn-success" type="button" ng-click="writeCtrl.submitComment()">+ Dejar valoración</button>

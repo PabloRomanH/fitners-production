@@ -1,12 +1,25 @@
 
-html,body {
+html {
+    min-height: 100%;
+}
+
+body {
     min-height: 100%;
     background-color: #f2f2f2;
+    background-image: url("../img/background.jpeg");
+    background-position: center 0;
+    background-attachment: fixed;
 }
 
 @media (min-width: 768px) {
     .container-limit {
         max-width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container-limit {
+        max-width: 940px;
     }
 }
 
@@ -83,6 +96,12 @@ html,body {
     line-height: normal;
 }
 
+@media (min-width: 992px) {
+    .searchcolumn {
+        padding-right: 0;
+    }
+}
+
 .searchbox {
     background-color: white;
     padding-bottom: 1.5em;
@@ -108,6 +127,7 @@ html,body {
     font-size: 1.2em;
     margin: 0.8em 0em;
     font-weight: 600;
+    padding: 0;
 }
 
 .searchbox i {

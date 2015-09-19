@@ -65,18 +65,16 @@ if (!Array.prototype.indexOf) {
             controller.results = [];
             controller.searching = true;
 
-            if (controller.searchcriteria == 'gym') {
+            if (controller.searchcriteria == 'gym' && controller.gym.length > 0) {
                 controller.searchGym();
-            } else if (controller.searchcriteria == 'area') {
+            } else if (controller.searchcriteria == 'area' && controller.area.length > 0) {
                 controller.searchArea();
             } else {
-                throw 'wrong search criteria';
+                controller.searchAll();
             }
         }
 
         controller.searchAll = function() {
-            controller.results = [];
-            controller.searching = true;
             db.once('value', showResults);
 
             return false;
@@ -172,7 +170,7 @@ if (!Array.prototype.indexOf) {
             });
         }
 
-        controller.searchAll();
+        controller.search();
     });
 
     app.controller('CommentsModalController', function($scope, $modalInstance, $modal, coach) {
@@ -231,19 +229,17 @@ if (!Array.prototype.indexOf) {
         };
     });
 
-    app.controller('WriteModalController', function($modalInstance, coach, loginData) {
+    app.controller('WriteModalController', function($modalInstance, $modal, coach, loginData) {
         var controller = this;
 
         controller.coach = coach;
 
-        controller.goals = ['Otro', 'Volumen', 'Definición', 'Perder peso', 'Nutrición'];
-        controller.commentGoals = [
+        controller.goals = [
             {text: "Volumen", value: 1},
             {text: "Definición", value: 2},
             {text: "Adelgazar", value: 3},
             {text: "Otro", value: 0}
         ];
-        controller.commentGoal = 0;
         controller.grades = [
             {text: "0", value: 0},
             {text: "1", value: 1},
@@ -258,28 +254,94 @@ if (!Array.prototype.indexOf) {
             {text: "10", value: 10}
         ];
 
+        controller.goal = undefined;
+        controller.months = undefined;
+        controller.comment = '';
+
+        function resetAlerts() {
+            controller.showGoalAlert = false;
+            controller.showWeightAlert = false;
+            controller.showDefinitionAlert = false;
+            controller.showVolumeAlert = false;
+            controller.showMonthsAlert = false;
+            controller.showCommentAlert = false;
+            controller.showScoreAlert = false;
+        }
+
+        resetAlerts();
+
         controller.close = function () {
             $modalInstance.close();
         };
 
         controller.submitComment = function() {
+            resetAlerts();
+
+            var abort = false;
+
+            if (controller.goal == undefined) {
+                controller.showGoalAlert = true;
+                abort = true;
+            }
+
+            if (controller.goal != 0 && (!controller.before || !controller.after)) {
+                if (controller.goal == 1) {
+                    controller.showWeightAlert = true;
+                    abort = true;
+                }
+
+                if (controller.goal == 2) {
+                    controller.showDefinitionAlert = true;
+                    abort = true;
+                }
+
+                if (controller.goal == 3) {
+                    controller.showVolumeAlert = true;
+                    abort = true;
+                }
+            }
+
+            if(!    controller.months) {
+                controller.showMonthsAlert = true;
+                abort = true;
+            }
+
+            if (controller.comment.length < 100) {
+                controller.showCommentAlert = true;
+                abort = true;
+            }
+
+            if (controller.goal == undefined) {
+                controller.showGoalAlert = true;
+                abort = true;
+            }
+
+            if (controller.knowledge == undefined || controller.compatibility == undefined || controller.results == undefined || controller.punctuality == undefined || controller.pricequality == undefined || controller.stars == undefined) {
+                controller.showScoreAlert = true;
+                abort = true;
+            }
+
+            if (abort) {
+                return;
+            }
+
             var newcomment = {
                  comment: controller.comment,
                  name: loginData.facebook.displayName,
                  userId: loginData.uid,
                  photo: loginData.facebook.profileImageURL,
                  stars: parseInt(controller.stars),
-                 months: controller.commentMonths,
-                 goal: controller.commentGoal,
-                 compatibility: controller.commentCompatibility,
-                 knowledge: controller.commentKnowledge,
-                 pricequality: controller.commentPricequality,
-                 punctuality: controller.commentPunctuality,
-                 results: controller.commentResults,
-                 timestamp: new Date().getTime()
+                 months: controller.months,
+                 goal: controller.goal,
+                 compatibility: controller.compatibility,
+                 knowledge: controller.knowledge,
+                 pricequality: controller.pricequality,
+                 punctuality: controller.punctuality,
+                 results: controller.results,
+                 timestamp: Firebase.ServerValue.TIMESTAMP
             };
 
-            if (controller.commentGoal != 0) {
+            if (controller.goal != 0) {
                 newcomment.before = controller.before;
                 newcomment.after = controller.after;
             }
@@ -287,7 +349,23 @@ if (!Array.prototype.indexOf) {
             db.child(coach.id +'/ratings').push().set(newcomment);
 
             $modalInstance.close();
+
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: 'done.html',
+                controller: 'DoneModalController',
+                controllerAs: 'doneCtrl',
+                size: 'sm'
+            });
         }
+    });
+
+    app.controller('DoneModalController', function($modalInstance) {
+        var controller = this;
+
+        controller.close = function () {
+            $modalInstance.close();
+        };
     });
 
     app.controller('PhoneModalController', function($modalInstance, telephone) {

@@ -33,6 +33,10 @@
             <div class="ratingphoto">
                 <img ng-src="{{rating.photo}}">
             </div>
+            <div ng-if="rating.goal == 0">
+                <strong>{{rating.name}}</strong> Objetivo: Otro<br/>
+                <strong>{{rating.months}} meses</strong>.
+            </div>
             <div ng-if="rating.goal == 1">
                 <strong>{{rating.name}}</strong> Objetivo: Volumen<br/>
                 De {{rating.before}}Kg a {{rating.after}}Kg / <strong>{{rating.after - rating.before}}Kg</strong> en <strong>{{rating.months}} meses</strong>.
