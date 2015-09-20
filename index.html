@@ -1,41 +1,56 @@
 <!DOCTYPE html>
 <html ng-app="fitners">
-    <head>
-		<link rel="icon" type="image/png" href="favicon.png" />
+<head>
+	<link rel="icon" type="image/png" href="favicon.png">
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/bootstrap-select.min.css">
-        <link rel="stylesheet" href="css/jquery-ui.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="css/jquery-ui.min.css">
 
-        <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 
-        <!-- <script src='lib/firebase-debug.js'></script> -->
-        <script src='lib/firebase.js'></script>
-        <script src="lib/jquery.min.js"></script>
-        <script src="lib/jquery-ui.min.js"></script>
-        <script src="lib/bootstrap.min.js"></script>
-        <script src="lib/angular.min.js"></script>
-        <script src="lib/ui-bootstrap-tpls-0.13.4.min.js"></script>
-        <script src="lib/slider.js"></script>
+    <!-- <script src='lib/firebase-debug.js'></script> -->
+    <script src='lib/firebase.js'></script>
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/jquery-ui.min.js"></script>
+    <script src="lib/bootstrap.min.js"></script>
+    <script src="lib/angular.min.js"></script>
+    <script src="lib/ui-bootstrap-tpls-0.13.4.min.js"></script>
+    <script src="lib/slider.js"></script>
 
-        <script src='js/gyms.js'></script>
-        <script src='js/script.js'></script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    </head>
-    <body ng-controller="SearchController as searchCtrl">
+        ga('create', 'UA-67854624-2', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+    <script src='js/gyms.js'></script>
+    <script src='js/script.js'></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+<body ng-controller="SearchController as searchCtrl">
+    <div class="megacontainer">
         <div class="header">
-            <div class="container container-limit">
                 <div class="row">
-                    <div class="col-xs-12 col-sm-4 logo"></div>
-                    <div class="col-xs-12 col-sm-8 motto">
+                    <div class="logo"></div>
+                    <div class="social">
+                        <a href="https://www.facebook.com/FitnersOfficial"><img src="img/fb96.png"></a>
+                        <a href="https://twitter.com/Fitners_com"><img src="img/twitter96.png"></a>
+                        <a href=""><img src="img/youtube96.png"></a>
+                    </div>
+                    <div class="motto">
                         <p>Seleccionamos a los mejores entrenadores personales de tu ciudad</p>
                         <p class="calltoaction">Filtra, compara y elige la mejor opción!</p>
                     </div>
                 </div>
-            </div>
         </div>
+
         <div class="statistics statistics-phone">
             <div class="container container-limit">
                 <div class="row">
@@ -148,6 +163,10 @@
                                     <label for="checkboxWeight">Perder peso</label>
                                 </p>
                                 <p>
+                                    <input type="checkbox" id="checkboxCond" ng-model="searchCtrl.goalCond">
+                                    <label for="checkboxCond">Forma física</label>
+                                </p>
+                                <p>
                                     <input type="checkbox" id="checkboxDiet" ng-model="searchCtrl.goalDiet">
                                     <label for="checkboxDiet">Nutrición</label>
                                 </p>
@@ -234,14 +253,14 @@
                                 <div class="col-xs-6 col-sm-3 col-sm-push-6 resultcontact">
                                     <span class="available">Disponible!</span>
                                     <p>Contacta:</p>
-                                    <a class="hidden-xs" href="mailto:{{coach.email}}" ng-class="{'resultcontactdisabled': !coach.contactoptions.email}" ng-mouseover="showemail = true" ng-mouseleave="showemail = false">
+                                    <a class="hidden-xs" href="mailto:{{coach.email}}" ng-class="{'resultcontactdisabled': !coach.contactoptions.email}" ng-mouseover="showemail = true" ng-mouseleave="showemail = false" ng-click="searchController.emailCoach(coach)">
                                         <span ng-hide="showemail">Ver Email</span>
                                         <span ng-show="showemail">{{coach.email}}</span>
                                     </a>
-                                    <a class="visible-xs-block" href="mailto:{{coach.email}}" ng-class="{'resultcontactdisabled': !coach.contactoptions.email}">
+                                    <a class="visible-xs-block" href="mailto:{{coach.email}}" ng-class="{'resultcontactdisabled': !coach.contactoptions.email}" ng-click="searchController.emailCoach(coach)">
                                         <span>Enviar email</span>
                                     </a>
-                                    <a class="hidden-xs" href="tel:{{coach.telephone}}" ng-class="{'resultcontactdisabled': !coach.contactoptions.phonecall}" ng-mouseover="showphone = true" ng-mouseleave="showphone = false">
+                                    <a class="hidden-xs" href="tel:{{coach.telephone}}" ng-class="{'resultcontactdisabled': !coach.contactoptions.phonecall}" ng-mouseover="showphone = true" ng-mouseleave="showphone = false" ng-click="searchController.callCoach(coach)">
                                         <span ng-hide="showphone">Ver Teléfono</span>
                                         <span ng-show="showphone">{{coach.telephone}}</span>
                                     </a>
@@ -312,5 +331,64 @@
                 </div>
             </div>
         </div>
-    </body>
+
+        <div class="footer">
+            <!-- <a class="pull-left">Fitners Blog</a> -->
+            <a href="mailto:info@fitners.com" target="_blank" class="pull-left">Contacto</a>
+            <a href="" data-toggle="modal" data-target="#cookiesModal" class="pull-right">Política de cookies</a>
+            <a href="" data-toggle="modal" data-target="#privacyModal" class="pull-right">Privacidad</a>
+            <a href="" data-toggle="modal" data-target="#termsModal" class="pull-right">Condiciones de uso</a>
+            <div class="clearfix"></div>
+        </div>
+    </div> <!-- megacontainer -->
+
+    <div class="modal fade" id="termsModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Condiciones de uso</h4>
+                </div>
+                <div class="modal-body">
+                    <iframe src="terms.html"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <div class="modal fade" id="privacyModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Política de privacidad</h4>
+                </div>
+                <div class="modal-body">
+                    <iframe src="privacy.html"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <div class="modal fade" id="cookiesModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Política de cookies</h4>
+                </div>
+                <div class="modal-body">
+                    <iframe src="cookies.html"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</body>
 </html>

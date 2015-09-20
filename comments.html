@@ -39,15 +39,19 @@
             </div>
             <div ng-if="rating.goal == 1">
                 <strong>{{rating.name}}</strong> Objetivo: Volumen<br/>
-                De {{rating.before}}Kg a {{rating.after}}Kg / <strong>{{rating.after - rating.before}}Kg</strong> en <strong>{{rating.months}} meses</strong>.
+                <span ng-if="rating.before != undefined && rating.after != undefined">De {{rating.before}}Kg a {{rating.after}}Kg / <strong>{{rating.after - rating.before}}Kg</strong> en</span> <strong>{{rating.months}} meses</strong>.
             </div>
             <div ng-if="rating.goal == 2">
                 <strong>{{rating.name}}</strong> Objetivo: Definición<br/>
-                De {{rating.before}}Bp a {{rating.after}}Bp / <strong>{{rating.after - rating.before}} Burpees</strong> en <strong>{{rating.months}} meses</strong>.
+                <span ng-if="rating.before != undefined && rating.after != undefined">De {{rating.before}} a {{rating.after}} IMC / <strong>Mejora de {{rating.before - rating.after}}</strong> en </span><strong>{{rating.months}} meses</strong>.
             </div>
             <div ng-if="rating.goal == 3">
                 <strong>{{rating.name}}</strong> Objetivo: Perder peso<br/>
-                De {{rating.before}}Kg a {{rating.after}}Kg / <strong>{{rating.before - rating.after}}Kg</strong> en <strong>{{rating.months}} meses</strong>.
+                <span ng-if="rating.before != undefined && rating.after != undefined">De {{rating.before}}Kg a {{rating.after}}Kg / <strong>{{rating.before - rating.after}}Kg</strong> en </span><strong>{{rating.months}} meses</strong>.
+            </div>
+            <div ng-if="rating.goal == 4">
+                <strong>{{rating.name}}</strong> Objetivo: Mejorar forma física<br/>
+                <span ng-if="rating.before != undefined && rating.after != undefined">De {{rating.before}} burpees a {{rating.after}} burpees / <strong>{{rating.after - rating.before}} burpees</strong> en </span><strong>{{rating.months}} meses</strong>.
             </div>
         </div>
         <div class="row">

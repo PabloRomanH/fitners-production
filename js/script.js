@@ -29,7 +29,8 @@ if (!Array.prototype.indexOf) {
         controller.goalVolume = false;
         controller.goalDefinition = false;
         controller.goalWeight = false;
-        controller.goalNutrition = false;
+        controller.goalDiet = false;
+        controller.goalCond = false;
         controller.gyms = window.gyms;
         controller.areas = ['Eixample', 'Ciutat Vella', 'Gràcia', 'Sant Martí', 'Sarrià-Sant Gervasi', 'Les Corts', 'Sants-Montjuïc', 'Horta-Guinardó', 'Sant Andreu', 'Nou Barris'];
         controller.searchcriteria = 'gym';
@@ -65,9 +66,13 @@ if (!Array.prototype.indexOf) {
             controller.results = [];
             controller.searching = true;
 
+            // ga('send', 'event', 'category', 'action', 'label', value);  // value is a number.
+
             if (controller.searchcriteria == 'gym' && controller.gym.length > 0) {
+                ga('send', 'event', 'search', 'gymsearch');
                 controller.searchGym();
             } else if (controller.searchcriteria == 'area' && controller.area.length > 0) {
+                ga('send', 'event', 'search', 'areasearch');
                 controller.searchArea();
             } else {
                 controller.searchAll();
@@ -125,7 +130,10 @@ if (!Array.prototype.indexOf) {
                     if (controller.goalWeight && value.goals.indexOf(3) == -1) {
                         return;
                     }
-                    if (controller.goalDiet && value.goals.indexOf(4) == -1) {
+                    if (controller.goalCond && value.goals.indexOf(4) == -1) {
+                        return;
+                    }
+                    if (controller.goalDiet && value.goals.indexOf(5) == -1) {
                         return;
                     }
                 }
@@ -143,6 +151,8 @@ if (!Array.prototype.indexOf) {
         }
 
         controller.showComments = function(coach) {
+            ga('send', 'event', 'navigation', 'show comments', coach.name, controller.results.indexOf(coach));
+
             var modalInstance = $modal.open({
                 animation: true,
                 templateUrl: 'comments.html',
@@ -157,6 +167,8 @@ if (!Array.prototype.indexOf) {
         }
 
         controller.showPhone = function(coach) {
+            ga('send', 'event', 'contact', 'show phone', coach.name);
+
             var modalInstance = $modal.open({
                 animation: true,
                 templateUrl: 'phone.html',
@@ -168,6 +180,21 @@ if (!Array.prototype.indexOf) {
                     }
                 }
             });
+        }
+
+        controller.showTerms = function(coach) {
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: 'terms.html'
+            });
+        }
+
+        controller.emailCoach = function(coach) {
+            ga('send', 'event', 'contact', 'email', coach.name);
+        }
+
+        controller.callCoach = function(coach) {
+            ga('send', 'event', 'contact', 'phone', coach.name);
         }
 
         controller.search();
@@ -227,6 +254,8 @@ if (!Array.prototype.indexOf) {
             n2 = 5 - Math.floor(n2) - ($scope.isHalfStar(n) ? 1 : 0);
             return new Array(n2);
         };
+
+        $scope.keys = Object.keys;
     });
 
     app.controller('WriteModalController', function($modalInstance, $modal, coach, loginData) {
@@ -238,6 +267,7 @@ if (!Array.prototype.indexOf) {
             {text: "Volumen", value: 1},
             {text: "Definición", value: 2},
             {text: "Adelgazar", value: 3},
+            {text: "Forma física", value: 4},
             {text: "Otro", value: 0}
         ];
         controller.grades = [
@@ -284,24 +314,19 @@ if (!Array.prototype.indexOf) {
                 abort = true;
             }
 
-            if (controller.goal != 0 && (!controller.before || !controller.after)) {
-                if (controller.goal == 1) {
-                    controller.showWeightAlert = true;
-                    abort = true;
-                }
-
-                if (controller.goal == 2) {
+            if (controller.goal == 2) {
+                if (controller.before && (controller.before < 10 || controller.before > 50)) {
                     controller.showDefinitionAlert = true;
                     abort = true;
                 }
 
-                if (controller.goal == 3) {
-                    controller.showVolumeAlert = true;
+                if (controller.after && (controller.after < 10 || controller.after > 50)) {
+                    controller.showDefinitionAlert = true;
                     abort = true;
                 }
             }
 
-            if(!    controller.months) {
+            if(!controller.months) {
                 controller.showMonthsAlert = true;
                 abort = true;
             }
@@ -429,6 +454,9 @@ if (!Array.prototype.indexOf) {
                     str += 'Perder peso';
                 }
                 if (items[i] == 4) {
+                    str += 'Forma física';
+                }
+                if (items[i] == 5) {
                     str += 'Nutrición';
                 }
             }

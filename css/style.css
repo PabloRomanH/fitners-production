@@ -1,14 +1,15 @@
 
 html {
-    min-height: 100%;
+    height: 100%;
 }
 
 body {
-    min-height: 100%;
+    height: 100%;
     background-color: #f2f2f2;
     background-image: url("../img/background.jpeg");
     background-position: center 0;
     background-attachment: fixed;
+    background-repeat: no-repeat;
 }
 
 @media (min-width: 768px) {
@@ -23,30 +24,81 @@ body {
     }
 }
 
+@media (min-width: 768px) {
+    .header {
+        position: fixed;
+        z-index: 100;
+        width: 100%;
+    }
+}
+
 .header {
     background: white;
 }
 
-.logo {
-    background: url(../img/logomobile.png) no-repeat;
-    background-size: cover;
-    padding-bottom: 14.8%;
-    margin-bottom: 11px;
+.motto {
+    text-align: center;
+    text-transform: uppercase;
+}
+
+@media (max-width: 767px) {
+    .logo {
+        background: url(../img/logomobile.png) no-repeat;
+        background-size: cover;
+        padding-bottom: 14.8%;
+        margin-bottom: 11px;
+    }
 }
 
 @media (min-width: 768px) {
     .logo {
-        background: url(../img/logo.png) no-repeat;
-        background-size: cover;
-        padding-bottom: 13%;
-        margin-bottom: 0.9em;
+        background: url(../img/logo-hires.png) no-repeat;
+        background-repeat: no-repeat;
+        background-size: 238px 88px;
+        height: 88px;
+        width: 207px;
+        float: left;
+    }
+
+    .motto {
+        margin-top: 1.2em;
+        width: auto;
+        margin-left: 207px;
+        margin-right: 187px;
+        font-size: 0.9em;
+        height: 53px
+    }
+
+    .social img {
+        margin-right: 5px;
+        width: 48px;
+        height: 48px;
+    }
+
+    .social {
+        width: 187px;
+        float: right;
+        padding-top: 20px;
     }
 }
 
-.motto {
-    text-align: center;
-    font-size: 0.8em;
-    text-transform: uppercase;
+@media (min-width: 992px) {
+    .logo {
+        width: 238px;
+    }
+
+    .motto {
+        margin-left: 238px;
+        margin-right: 238px;
+    }
+
+    .social img {
+        margin-right: 20px;
+    }
+
+    .social {
+        width: 238px;
+    }
 }
 
 .calltoaction {
@@ -54,9 +106,9 @@ body {
     font-size: 1.4em;
 }
 
-@media (min-width: 768px) {
-    .motto {
-        margin-top: 2em;
+@media (min-width: 992px) {
+    .container-limit {
+        max-width: 940px;
     }
 }
 
@@ -77,6 +129,17 @@ body {
     padding-top: 1.5em;
     padding-bottom: 0.5em;
     text-align: center;
+    font-weight: bold;
+}
+
+.statistics-pc {
+    padding-top: 107px;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .statistics {
+        font-size: 0.8em;
+    }
 }
 
 .statisticsbox {
@@ -88,6 +151,7 @@ body {
     line-height: 3em;
     text-align: center;
     margin-bottom: 1em;
+    font-weight: normal;
 }
 
 .statisticsbox span {
@@ -378,6 +442,33 @@ a.resultcontactdisabled:hover {
     color: #D9D9D9;
 }
 
+.megacontainer {
+    min-height: 100%;
+    position: relative;
+    padding-bottom: 60px
+}
+
+.footer {
+    background-color: #d5e3fe;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+
+.footer a {
+    padding: 10px;
+}
+
+.footer a:hover {
+    text-decoration: none;
+}
+
+.footer a:focus {
+    text-decoration: none;
+}
+
+/* Modals */
+
 .phone {
     text-align: center;
 }
@@ -434,4 +525,9 @@ a.resultcontactdisabled:hover {
     padding-right: 0;
     width: 40px;
     max-width: 9%;
+}
+
+.modal-body iframe {
+    height: 600px;
+    width: 100%;
 }

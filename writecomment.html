@@ -19,18 +19,17 @@
             <label for="after">Peso al final en Kg:</label>
             <input type="number" class="form-control" id="after" ng-model="writeCtrl.after">
         </div>
-        <div class="alert alert-danger" role="alert" ng-show="writeCtrl.showWeightAlert">Introduce peso inicial y final.</div>
     </div>
     <div ng-if="writeCtrl.goal == 2">
         <div class="form-group">
-            <label for="before">Definición al inicio en Burpees:</label>
+            <label for="before">Índice de masa corporal al inicio:</label>
             <input type="number" class="form-control" id="before" ng-model="writeCtrl.before">
         </div>
         <div class="form-group">
-            <label for="after">Definición al final en Burpees:</label>
+            <label for="after">Índice de masa corporal al final:</label>
             <input type="number" class="form-control" id="after" ng-model="writeCtrl.after">
         </div>
-        <div class="alert alert-danger" role="alert" ng-show="writeCtrl.showDefinitionAlert">Introduce definición inicial y final.</div>
+        <div class="alert alert-danger" role="alert" ng-show="writeCtrl.showDefinitionAlert">Introduce un IMC inicial y final entre 10 y 50.</div>
     </div>
     <div ng-if="writeCtrl.goal == 3">
         <div class="form-group">
@@ -41,7 +40,16 @@
             <label for="after">Peso al final en Kg:</label>
             <input type="number" class="form-control" id="after" ng-model="writeCtrl.after">
         </div>
-        <div class="alert alert-danger" role="alert" ng-show="writeCtrl.showVolumeAlert">Introduce peso inicial y final.</div>
+    </div>
+    <div ng-if="writeCtrl.goal == 4">
+        <div class="form-group">
+            <label for="before">Burpees al inicio:</label>
+            <input type="number" class="form-control" id="before" ng-model="writeCtrl.before">
+        </div>
+        <div class="form-group">
+            <label for="after">Burpees al final:</label>
+            <input type="number" class="form-control" id="after" ng-model="writeCtrl.after">
+        </div>
     </div>
     <div class="form-group">
         <label for="months">Meses que entrenaste:</label>
