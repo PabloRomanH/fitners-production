@@ -596,4 +596,17 @@ if (!Array.prototype.indexOf) {
             return str;
         };
     }]);
+
+    app.filter('areas',[ function () {
+        return function(items) {
+            var str = '';
+            for (i = 0; i < items.length; i++) {
+                if (str.length > 0) {
+                    str += ', ';
+                }
+                str += items[i];
+            }
+            return str;
+        };
+    }]);
 })();

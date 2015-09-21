@@ -236,7 +236,7 @@
                             <div class="resultnumber">{{$index + 1}}</div>
                             <div class="row">
                                 <div class="col-xs-6 col-sm-3 resultphoto">
-                                    <img src="img/pablo.jpeg" class="img-circle" alt="Foto de {{coach.name}} {{coach.surname}}"><br/>
+                                    <img ng-src="{{coach.photo}}" class="img-circle" alt="Foto de {{coach.name}} {{coach.surname}}"><br/>
                                     <p>{{coach.name}} {{coach.surname}}</p>
                                     <p>
                                         <i class="fa fa-star" ng-repeat="a in numFullStars(coach.score.total) track by $index"></i><i
@@ -289,7 +289,7 @@
                                                 <h1>Zonas de Trabajo</h1>
                                             </div>
                                             <div class="col-xs-12 col-sm-12">
-                                                <p>{{coach.area}}</p>
+                                                <p>{{coach.area | areas}}</p>
                                             </div>
                                         </div>
                                     </div>
