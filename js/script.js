@@ -60,6 +60,29 @@ if (!Array.prototype.indexOf) {
 
         $scope.keys = Object.keys;
 
+        function removeAccents(str) {
+            str = str.replace(/Á/g, 'A');
+            str = str.replace(/É/g, 'E');
+            str = str.replace(/Í/g, 'I');
+            str = str.replace(/Ó/g, 'O');
+            str = str.replace(/Ú/g, 'U');
+            str = str.replace(/À/g, 'A');
+            str = str.replace(/È/g, 'E');
+            str = str.replace(/Ò/g, 'O');
+            str = str.replace(/Ü/g, 'U');
+            str = str.replace(/Ï/g, 'I');
+            return str;
+        }
+
+        controller.comparator = function(actual, expected) {
+            if (typeof actual != 'string') {
+                return false;
+            }
+
+            var result = removeAccents(actual.toUpperCase()).search(removeAccents(expected.toUpperCase())) != -1;
+            return result;
+        }
+
         var db = new Firebase('https://fitners.firebaseio.com/coaches/');
 
         controller.search = function() {
@@ -105,6 +128,22 @@ if (!Array.prototype.indexOf) {
             return false;
         }
 
+        function rankScore(numComments, score) {
+            var raiseSpeed = 5; // number of ratings for factor to raise to 60%
+            return (1 - Math.exp(-numComments / raiseSpeed)) * score;
+        }
+
+        function sortCoaches(a, b) {
+            // return negative if a < b
+            // return positive if a > b
+            // return 0 if a == b
+
+            var rankA = rankScore(a.ratings ? Object.keys(a.ratings).length : 0, a.score);
+            var rankB = rankScore(b.ratings ? Object.keys(b.ratings).length : 0, b.score);
+
+            return rankB - rankA;
+        }
+
         function showResults(snapshot) {
             if(snapshot.val() === null) {
                 controller.searching = false;
@@ -146,6 +185,8 @@ if (!Array.prototype.indexOf) {
 
                 controller.results.push(value);
             });
+
+            controller.results.sort(sortCoaches);
 
             $scope.$apply();
         }

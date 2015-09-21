@@ -10,6 +10,16 @@
 
     <link rel="stylesheet" href="css/style.css">
 
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-67854624-2', 'none');
+	  ga('send', 'pageview');
+	</script>
+
     <!-- <script src='lib/firebase-debug.js'></script> -->
     <script src='lib/firebase.js'></script>
     <script src="lib/jquery.min.js"></script>
@@ -19,15 +29,6 @@
     <script src="lib/ui-bootstrap-tpls-0.13.4.min.js"></script>
     <script src="lib/slider.js"></script>
 
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-        ga('create', 'UA-67854624-2', {'cookieDomain': 'none'});
-        ga('send', 'pageview');
-    </script>
 
     <script src='js/gyms.js'></script>
     <script src='js/script.js'></script>
@@ -37,18 +38,16 @@
 <body ng-controller="SearchController as searchCtrl">
     <div class="megacontainer">
         <div class="header">
-                <div class="row">
-                    <div class="logo"></div>
-                    <div class="social">
-                        <a href="https://www.facebook.com/FitnersOfficial"><img src="img/fb96.png"></a>
-                        <a href="https://twitter.com/Fitners_com"><img src="img/twitter96.png"></a>
-                        <a href=""><img src="img/youtube96.png"></a>
-                    </div>
-                    <div class="motto">
-                        <p>Seleccionamos a los mejores entrenadores personales de tu ciudad</p>
-                        <p class="calltoaction">Filtra, compara y elige la mejor opción!</p>
-                    </div>
-                </div>
+            <div class="logo"></div>
+            <div class="social">
+                <a href="https://www.facebook.com/FitnersOfficial"><img src="img/fb96.png"></a>
+                <a href="https://twitter.com/Fitners_com"><img src="img/twitter96.png"></a>
+                <a href="https://www.youtube.com/channel/UCitFPbQaIlJxwPStSLRDEVg"><img src="img/youtube96.png"></a>
+            </div>
+            <div class="motto">
+                <p>Seleccionamos a los mejores entrenadores personales de tu ciudad</p>
+                <p class="calltoaction">Filtra, compara y elige la mejor opción!</p>
+            </div>
         </div>
 
         <div class="statistics statistics-phone">
@@ -117,8 +116,7 @@
                         </div>
                         <div class="row" ng-show="searchCtrl.searchcriteria == 'gym'">
                             <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria">
-                                <!-- <input type="text" ng-model="searchCtrl.gym"> -->
-                                <input type="text" ng-model="searchCtrl.gym" typeahead="gym.name for gym in searchCtrl.gyms | filter:$viewValue | limitTo:8" placeholder="Escribe tu gimnasio" class="form-control">
+                                <input type="text" ng-model="searchCtrl.gym" typeahead="gym.name for gym in searchCtrl.gyms | filter: $viewValue : searchCtrl.comparator | limitTo:8" placeholder="Escribe tu gimnasio" class="form-control">
                             </div>
                         </div>
                         <div class="row">

@@ -6,10 +6,15 @@ html {
 body {
     height: 100%;
     background-color: #f2f2f2;
-    background-image: url("../img/background.jpeg");
-    background-position: center 0;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
+}
+
+@media (min-width: 768px) {
+    body {
+        background-image: url("../img/background.jpeg");
+        background-position: center 0;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+    }
 }
 
 @media (min-width: 768px) {
@@ -41,19 +46,33 @@ body {
     text-transform: uppercase;
 }
 
+.logo {
+    background: url(../img/logo-hires.png) no-repeat;
+}
+
 @media (max-width: 767px) {
     .logo {
-        background: url(../img/logomobile.png) no-repeat;
         background-size: cover;
-        padding-bottom: 14.8%;
-        margin-bottom: 11px;
+        float: left;
+        width: 50%;
+        height: 20vw;
+    }
+
+    .social {
+        float: right;
+        width: 50%;
+        height: 20vw;
+    }
+
+    .social img {
+        margin: 4%;
+        margin-top: 9%;
+        width: 20%;
     }
 }
 
 @media (min-width: 768px) {
     .logo {
-        background: url(../img/logo-hires.png) no-repeat;
-        background-repeat: no-repeat;
         background-size: 238px 88px;
         height: 88px;
         width: 207px;
@@ -445,7 +464,7 @@ a.resultcontactdisabled:hover {
 .megacontainer {
     min-height: 100%;
     position: relative;
-    padding-bottom: 60px
+    padding-bottom: 85px;
 }
 
 .footer {
