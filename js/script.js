@@ -36,8 +36,11 @@ if (!Array.prototype.indexOf) {
         controller.searchcriteria = 'gym';
         controller.showGoal = false;
         controller.showPrice = false;
-        controller.showQualifications = false;
         controller.pricerange = [20,60];
+        controller.showTraining = false;
+        controller.training0 = false;
+        controller.training1 = false;
+        controller.training2 = false;
 
         var loginData;
 
@@ -144,6 +147,44 @@ if (!Array.prototype.indexOf) {
             return rankB - rankA;
         }
 
+        function codeGoals() {
+            var str = '';
+
+            if(controller.goalVolume) {
+                str += 'Volume ';
+            }
+            if(controller.goalDefinition) {
+                str += 'Definition ';
+            }
+            if(controller.goalWeight) {
+                str += 'Weight ';
+            }
+            if(controller.goalCond) {
+                str += 'Condition ';
+            }
+            if(controller.goalDiet) {
+                str += 'Diet';
+            }
+
+            return str;
+        }
+
+        function codeTraining() {
+            var str = '';
+
+            if (controller.training0) {
+                str += 'licenciado ';
+            }
+            if (controller.training1) {
+                str += 'TAFAD ';
+            }
+            if (controller.training2) {
+                str += '500horas';
+            }
+
+            return str;
+        }
+
         function showResults(snapshot) {
             if(snapshot.val() === null) {
                 controller.searching = false;
@@ -153,7 +194,17 @@ if (!Array.prototype.indexOf) {
 
             controller.searching = false;
 
-            // TODO: sort by something
+            if (controller.showGoal) {
+                ga('send', 'event', 'filter', 'by goal', codeGoals());
+            }
+
+            if (controller.showPrice) {
+                ga('send', 'event', 'filter', 'by price', '' + controller.pricerange[0] + '-' + controller.pricerange[1]);
+            }
+
+            if (controller.showTraining) {
+                ga('send', 'event', 'filter', 'by training', codeTraining());
+            }
 
             snapshot.forEach(function(data) {
                 var value = data.val();
@@ -179,6 +230,23 @@ if (!Array.prototype.indexOf) {
 
                 if (controller.showPrice) {
                     if (value.wage < controller.pricerange[0] || value.wage > controller.pricerange[1]) {
+                        return;
+                    }
+                }
+
+                if (controller.showTraining && (controller.training0 || controller.training1 || controller.training2)) {
+                    var trainingMatch = false;
+                    if(controller.training0 && value.training == 0) {
+                        trainingMatch = true;
+                    }
+                    if(controller.training1 && value.training == 1) {
+                        trainingMatch = true;
+                    }
+                    if(controller.training2 && value.training == 2) {
+                        trainingMatch = true;
+                    }
+
+                    if(!trainingMatch) {
                         return;
                     }
                 }
@@ -248,6 +316,8 @@ if (!Array.prototype.indexOf) {
         controller.ratings = ['knowledge', 'compatibility', 'results', 'punctuality', 'pricequality'];
 
         controller.showWrite = function() {
+            ga('send', 'event', 'navigation', 'addcomment', coach.name);
+
             db = new Firebase("https://fitners.firebaseio.com/coaches");
             db.authWithOAuthPopup("facebook", function(error, authData) {
                 if (error) {
@@ -391,6 +461,8 @@ if (!Array.prototype.indexOf) {
                 return;
             }
 
+            ga('send', 'event', 'navigation', 'submit comment', coach.name);
+
             var newcomment = {
                  comment: controller.comment,
                  name: loginData.facebook.displayName,
@@ -502,6 +574,18 @@ if (!Array.prototype.indexOf) {
                 }
             }
             return str;
+        };
+    }]);
+
+    app.filter('training',[ function () {
+        return function(code) {
+            var trainings = [
+                "Licenciado en Ciencias de la Actividad Física y el Deporte",
+                "TAFAD (Técnico superior en Animación y Actividades Físicas y Deportivas)",
+                "> 500 horas de formación específica"
+            ];
+
+            return trainings[code];
         };
     }]);
 

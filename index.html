@@ -187,32 +187,28 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria fold" ng-click="searchCtrl.showQualifications = true" ng-show="searchCtrl.showQualifications == false">
+                            <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria fold" ng-click="searchCtrl.showTraining = true" ng-show="searchCtrl.showTraining == false">
                                 <i class="fa fa-plus-square"></i>
                                 Titulación
                             </div>
-                            <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria fold" ng-click="searchCtrl.showQualifications = false" ng-show="searchCtrl.showQualifications == true">
+                            <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria fold" ng-click="searchCtrl.showTraining = false" ng-show="searchCtrl.showTraining == true">
                                 <i class="fa fa-minus-square"></i>
                                 Titulación
                             </div>
                         </div>
-                        <div class="row" ng-show="searchCtrl.showQualifications">
+                        <div class="row" ng-show="searchCtrl.showTraining">
                             <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria">
                                 <p>
-                                    <input type="checkbox" id="checkboxQualA" ng-model="searchCtrl.qualA">
-                                    <label for="checkboxQualA">Qualification A</label>
+                                    <input type="checkbox" id="checkboxQualA" ng-model="searchCtrl.training0">
+                                    <label for="checkboxQualA">Licenciado en Ciencias de la Actividad Física y el Deporte</label>
                                 </p>
                                 <p>
-                                    <input type="checkbox" id="checkboxQualB" ng-model="searchCtrl.qualB">
-                                    <label for="checkboxQualB">Qualification B</label>
+                                    <input type="checkbox" id="checkboxQualB" ng-model="searchCtrl.training1">
+                                    <label for="checkboxQualB">TAFAD (Técnico superior en Animación y Actividades Físicas y Deportivas)</label>
                                 </p>
                                 <p>
-                                    <input type="checkbox" id="checkboxQualC" ng-model="searchCtrl.qualC">
-                                    <label for="checkboxQualC">Qualification C</label>
-                                </p>
-                                <p>
-                                    <input type="checkbox" id="checkboxQualD" ng-model="searchCtrl.qualD">
-                                    <label for="checkboxQualD">Qualification D</label>
+                                    <input type="checkbox" id="checkboxQualC" ng-model="searchCtrl.training2">
+                                    <label for="checkboxQualC">> 500 horas de formación específica</label>
                                 </p>
                             </div>
                         </div>
@@ -277,7 +273,7 @@
                                                 <h1>Titulación</h1>
                                             </div>
                                             <div class="col-xs-12 col-sm-12">
-                                                <p>{{coach.qualifications}}</p>
+                                                <p>{{coach.training | training}}</p>
                                             </div>
                                         </div>
                                         <div class="row">
