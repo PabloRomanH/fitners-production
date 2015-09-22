@@ -94,15 +94,15 @@ if (!Array.prototype.indexOf) {
 
             // ga('send', 'event', 'category', 'action', 'label', value);  // value is a number.
 
-            if (controller.searchcriteria == 'gym' && controller.gym.length > 0) {
-                ga('send', 'event', 'search', 'gymsearch');
-                controller.searchGym();
-            } else if (controller.searchcriteria == 'area' && controller.area.length > 0) {
-                ga('send', 'event', 'search', 'areasearch');
-                controller.searchArea();
-            } else {
+            // if (controller.searchcriteria == 'gym' && controller.gym.length > 0) {
+            //     ga('send', 'event', 'search', 'gymsearch');
+            //     controller.searchGym();
+            // } else if (controller.searchcriteria == 'area' && controller.area.length > 0) {
+            //     ga('send', 'event', 'search', 'areasearch');
+            //     controller.searchArea();
+            // } else {
                 controller.searchAll();
-            }
+            // }
         }
 
         controller.searchAll = function() {
@@ -111,25 +111,25 @@ if (!Array.prototype.indexOf) {
             return false;
         }
 
-        controller.searchGym = function() {
-            var gymid = '';
-            for (var i = 0; i < controller.gyms.length; i++) {
-                if (controller.gyms[i].name == controller.gym) {
-                    gymid = controller.gyms[i].id;
-                    break;
-                }
-            }
-
-            db.orderByChild('gym').equalTo(gymid).once('value', showResults);
-
-            return false;
-        }
-
-        controller.searchArea = function() {
-            db.orderByChild('area').equalTo(controller.area).once('value', showResults);
-
-            return false;
-        }
+        // controller.searchGym = function() {
+        //     var gymid = '';
+        //     for (var i = 0; i < controller.gyms.length; i++) {
+        //         if (controller.gyms[i].name == controller.gym) {
+        //             gymid = controller.gyms[i].id;
+        //             break;
+        //         }
+        //     }
+        //
+        //     db.orderByChild('gym').equalTo(gymid).once('value', showResults);
+        //
+        //     return false;
+        // }
+        //
+        // controller.searchArea = function() {
+        //     db.orderByChild('area').equalTo(controller.area).once('value', showResults);
+        //
+        //     return false;
+        // }
 
         function rankScore(numComments, score) {
             var raiseSpeed = 5; // number of ratings for factor to raise to 60%
@@ -194,6 +194,14 @@ if (!Array.prototype.indexOf) {
 
             controller.searching = false;
 
+            if (controller.searchcriteria == 'gym' && controller.gym.length > 0) {
+                ga('send', 'event', 'search', 'gymsearch');
+            } else if (controller.searchcriteria == 'area' && controller.area.length > 0) {
+                ga('send', 'event', 'search', 'areasearch');
+            } else {
+                ga('send', 'event', 'search', 'allsearch');
+            }
+
             if (controller.showGoal) {
                 ga('send', 'event', 'filter', 'by goal', codeGoals());
             }
@@ -209,6 +217,23 @@ if (!Array.prototype.indexOf) {
             snapshot.forEach(function(data) {
                 var value = data.val();
                 value.id = data.key();
+
+                if (controller.searchcriteria == 'gym' && controller.gym.length > 0) {
+                    var gymid;
+                    for (var i = 0; i < controller.gyms.length; i++) {
+                        if (controller.gyms[i].name == controller.gym) {
+                            gymid = controller.gyms[i].id;
+                            break
+                        }
+                    }
+                    if (!value.gym || value.gym != gymid && value.gym.indexOf(gymid) == -1) {
+                        return;
+                    }
+                } else if (controller.searchcriteria == 'area' && controller.area.length > 0) {
+                    if (value.area != controller.area && value.area.indexOf(controller.area) == -1) {
+                        return;
+                    }
+                }
 
                 if (controller.showGoal) {
                     if (controller.goalVolume && value.goals.indexOf(1) == -1) {
