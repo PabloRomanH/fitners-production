@@ -14,7 +14,7 @@ if (!Array.prototype.indexOf) {
 }
 
 (function() {
-    var app = angular.module('fitners', ['ui.bootstrap','ui.slider']);
+    var app = angular.module('fitners', ['ui.bootstrap','ui.slider','sticky']);
 
     app.config(function ($locationProvider) {
         $locationProvider.html5Mode(true);
@@ -146,7 +146,7 @@ if (!Array.prototype.indexOf) {
         var searchResults;
 
         controller.searching = true;
-        
+
         db.on('value', function (snapshot) {
             searchResults = snapshot;
             controller.filter();
