@@ -86,51 +86,6 @@ if (!Array.prototype.indexOf) {
             return result;
         }
 
-        var db = new Firebase('https://fitners.firebaseio.com/coaches/');
-
-        controller.search = function() {
-            controller.results = [];
-            controller.searching = true;
-
-            // ga('send', 'event', 'category', 'action', 'label', value);  // value is a number.
-
-            // if (controller.searchcriteria == 'gym' && controller.gym.length > 0) {
-            //     ga('send', 'event', 'search', 'gymsearch');
-            //     controller.searchGym();
-            // } else if (controller.searchcriteria == 'area' && controller.area.length > 0) {
-            //     ga('send', 'event', 'search', 'areasearch');
-            //     controller.searchArea();
-            // } else {
-                controller.searchAll();
-            // }
-        }
-
-        controller.searchAll = function() {
-            db.once('value', showResults);
-
-            return false;
-        }
-
-        // controller.searchGym = function() {
-        //     var gymid = '';
-        //     for (var i = 0; i < controller.gyms.length; i++) {
-        //         if (controller.gyms[i].name == controller.gym) {
-        //             gymid = controller.gyms[i].id;
-        //             break;
-        //         }
-        //     }
-        //
-        //     db.orderByChild('gym').equalTo(gymid).once('value', showResults);
-        //
-        //     return false;
-        // }
-        //
-        // controller.searchArea = function() {
-        //     db.orderByChild('area').equalTo(controller.area).once('value', showResults);
-        //
-        //     return false;
-        // }
-
         function rankScore(numComments, score) {
             var raiseSpeed = 5; // number of ratings for factor to raise to 60%
             return (1 - Math.exp(-numComments / raiseSpeed)) * score;
@@ -185,14 +140,26 @@ if (!Array.prototype.indexOf) {
             return str;
         }
 
-        function showResults(snapshot) {
-            if(snapshot.val() === null) {
+        var db = new Firebase('https://fitners.firebaseio.com/coaches/');
+
+
+        var searchResults;
+
+        controller.searching = true;
+        
+        db.on('value', function (snapshot) {
+            searchResults = snapshot;
+            controller.filter();
+        });
+
+        controller.filter = function () {
+            controller.results = [];
+
+            if(searchResults.val() === null) {
                 controller.searching = false;
                 $scope.$apply();
                 return;
             }
-
-            controller.searching = false;
 
             if (controller.searchcriteria == 'gym' && controller.gym.length > 0) {
                 ga('send', 'event', 'search', 'gymsearch');
@@ -214,7 +181,7 @@ if (!Array.prototype.indexOf) {
                 ga('send', 'event', 'filter', 'by training', codeTraining());
             }
 
-            snapshot.forEach(function(data) {
+            searchResults.forEach(function(data) {
                 var value = data.val();
                 value.id = data.key();
 
@@ -281,6 +248,7 @@ if (!Array.prototype.indexOf) {
 
             controller.results.sort(sortCoaches);
 
+            controller.searching = false;
             $scope.$apply();
         }
 
@@ -330,8 +298,6 @@ if (!Array.prototype.indexOf) {
         controller.callCoach = function(coach) {
             ga('send', 'event', 'contact', 'phone', coach.name);
         }
-
-        controller.search();
     });
 
     app.controller('CommentsModalController', function($scope, $modalInstance, $modal, coach) {
