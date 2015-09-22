@@ -311,11 +311,13 @@
                                         </div>
                                         <div class="col-xs-6 price">
                                             1 sesión
-                                            <div>{{coach.wage}}€/1h</div>
+											<div ng-if="coach.wage">{{coach.wage}}€/1h</div>
+											<div ng-if="!coach.wage">N/A</div>
                                         </div>
                                         <div class="col-xs-6 price">
                                             Pack 10 sesiones
-                                            <div>{{coach.packprice}}€/10horas</div>
+                                            <div ng-if="coach.packprice">{{coach.packprice}}€/10horas</div>
+											<div ng-if="!coach.packprice">N/A</div>
                                         </div>
                                     </div>
                                 </div>
