@@ -86,22 +86,6 @@ if (!Array.prototype.indexOf) {
             return result;
         }
 
-        function rankScore(numComments, score) {
-            var raiseSpeed = 5; // number of ratings for factor to raise to 60%
-            return (1 - Math.exp(-numComments / raiseSpeed)) * score;
-        }
-
-        function sortCoaches(a, b) {
-            // return negative if a < b
-            // return positive if a > b
-            // return 0 if a == b
-
-            var rankA = rankScore(a.ratings ? Object.keys(a.ratings).length : 0, a.score);
-            var rankB = rankScore(b.ratings ? Object.keys(b.ratings).length : 0, b.score);
-
-            return rankB - rankA;
-        }
-
         function codeGoals() {
             var str = '';
 
@@ -147,7 +131,7 @@ if (!Array.prototype.indexOf) {
 
         controller.searching = true;
 
-        db.on('value', function (snapshot) {
+        db.orderByChild("rank").on('value', function (snapshot) {
             searchResults = snapshot;
             controller.filter();
         });
@@ -172,11 +156,9 @@ if (!Array.prototype.indexOf) {
             if (controller.showGoal) {
                 ga('send', 'event', 'filter', 'by goal', codeGoals());
             }
-
             if (controller.showPrice) {
                 ga('send', 'event', 'filter', 'by price', '' + controller.pricerange[0] + '-' + controller.pricerange[1]);
             }
-
             if (controller.showTraining) {
                 ga('send', 'event', 'filter', 'by training', codeTraining());
             }
@@ -245,8 +227,6 @@ if (!Array.prototype.indexOf) {
 
                 controller.results.push(value);
             });
-
-            controller.results.sort(sortCoaches);
 
             controller.searching = false;
             $scope.$apply();
@@ -471,8 +451,12 @@ if (!Array.prototype.indexOf) {
             };
 
             if (controller.goal != 0) {
-                newcomment.before = controller.before;
-                newcomment.after = controller.after;
+                if (controller.before) {
+                    newcomment.before = controller.before;
+                }
+                if (controller.after) {
+                    newcomment.after = controller.after;
+                }
             }
 
             db.child(coach.id +'/ratings').push().set(newcomment);

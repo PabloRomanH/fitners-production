@@ -7,6 +7,11 @@ function authHandler(error, authData) {
       console.log("Authenticated successfully with payload:", authData);
     }
 
+    function rankScore(numComments, score) {
+        var raiseSpeed = 5; // number of ratings for factor to raise to 60%
+        return (1 - Math.exp(-numComments / raiseSpeed)) * score;
+    }
+
     db.once('value', function(snapshot) {
         if(snapshot.val() === null) {
             return;
@@ -47,6 +52,10 @@ function authHandler(error, authData) {
             }
 
             db.child(key + '/score').set(score);
+
+            var rank = rankScore(count, score.total);
+
+            db.child(key + '/rank').set(-rank);
         });
 
         window.alert("Finished updating DB.");
