@@ -34,7 +34,7 @@ function authHandler(error, authData) {
 
             for (rating in value.ratings) {
                 count++;
-                score.total += value.ratings[rating].stars * 2;
+                score.total += value.ratings[rating].stars;
                 score.knowledge += value.ratings[rating].knowledge;
                 score.compatibility += value.ratings[rating].compatibility;
                 score.pricequality += value.ratings[rating].pricequality;

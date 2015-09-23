@@ -247,19 +247,24 @@
                                 <div class="col-xs-6 col-sm-3 col-sm-push-6 resultcontact">
                                     <span class="available">Disponible!</span>
                                     <p>Contacta:</p>
-                                    <a class="hidden-xs" href="mailto:{{coach.email}}" ng-class="{'resultcontactdisabled': !coach.contactoptions.email}" ng-mouseover="showemail = true" ng-mouseleave="showemail = false" ng-click="searchController.emailCoach(coach)">
-                                        <span ng-hide="showemail">Ver Email</span>
-                                        <span ng-show="showemail">{{coach.email}}</span>
-                                    </a>
+
                                     <a class="visible-xs-block" href="mailto:{{coach.email}}" ng-class="{'resultcontactdisabled': !coach.contactoptions.email}" ng-click="searchController.emailCoach(coach)">
                                         <span>Enviar email</span>
                                     </a>
-                                    <a class="hidden-xs" href="tel:{{coach.telephone}}" ng-class="{'resultcontactdisabled': !coach.contactoptions.phonecall}" ng-mouseover="showphone = true" ng-mouseleave="showphone = false" ng-click="searchController.callCoach(coach)">
-                                        <span ng-hide="showphone">Ver Teléfono</span>
-                                        <span ng-show="showphone">{{coach.telephone}}</span>
-                                    </a>
                                     <a class="visible-xs-block" href="#" ng-click="searchCtrl.showPhone(coach)" ng-class="{'resultcontactdisabled': !coach.contactoptions.phonecall}">
                                         <span>Ver Teléfono</span>
+                                    </a>
+
+									<div class="hidden-xs resultcontactdisabled" ng-show="!coach.contactoptions.email">
+										<span>Ver Email</span>
+                                    </div>
+                                    <a class="hidden-xs" href="mailto:{{coach.email}}" ng-show="coach.contactoptions.email" ng-class="{'resultcontactdisabled': !coach.contactoptions.email}" ng-mouseover="showemail = true" ng-mouseleave="showemail = false" ng-click="searchController.emailCoach(coach)">
+										<span ng-show="!showemail">Ver Email</span>
+                                        <span ng-show="showemail">{{coach.email}}</span>
+                                    </a>
+                                    <a class="hidden-xs" href="tel:{{coach.telephone}}" ng-class="{'resultcontactdisabled': !coach.contactoptions.phonecall}" ng-mouseover="showphone = true" ng-mouseleave="showphone = false" ng-click="searchController.callCoach(coach)">
+                                        <span ng-show="!showphone">Ver Teléfono</span>
+                                        <span ng-show="showphone">{{coach.telephone}}</span>
                                     </a>
 
                                     <i class="fa fa-envelope-o" ng-class="{'disabled': !coach.contactoptions.email}"></i>

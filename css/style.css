@@ -419,7 +419,7 @@ input[type=checkbox] + label {
     margin-bottom: 5%;
 }
 
-.resultcontact a {
+.resultcontact a, .resultcontact div {
     background-color: #3295DD;
     color: white;
     display: block;
@@ -438,16 +438,8 @@ input[type=checkbox] + label {
     text-decoration: none;
 }
 
-a.resultcontactdisabled {
+div.resultcontactdisabled {
     background-color: #D9D9D9;
-    pointer-events: none;
-    cursor: default;
-}
-
-a.resultcontactdisabled:hover {
-    background-color: #D9D9D9;
-    pointer-events: none;
-    cursor: default;
 }
 
 .resultcontact .fa {
