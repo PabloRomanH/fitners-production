@@ -274,9 +274,21 @@ input[type=checkbox] + label {
     background-image: url(../img/lite-x-blue.png);
 }
 
-.ui-slider-range
+/*.ui-slider-range
 {
     background: #3295DD;
+}*/
+
+.slider.slider-horizontal {
+    width: 100%;
+}
+
+.rz-bubble {
+    display: none;
+}
+
+rzslider {
+    margin-top: 20px;
 }
 
 .searchbutton {

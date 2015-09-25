@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-select.min.css">
-    <link rel="stylesheet" href="css/jquery-ui.min.css">
+    <link rel="stylesheet" href="css/rzslider.min.css">
 
     <link rel="stylesheet" href="css/style.css">
 
@@ -20,14 +20,11 @@
 	  ga('send', 'pageview');
 	</script>
 
-    <!-- <script src='lib/firebase-debug.js'></script> -->
     <script src='lib/firebase.js'></script>
-    <script src="lib/jquery.min.js"></script>
-    <script src="lib/jquery-ui.min.js"></script>
     <script src="lib/bootstrap.min.js"></script>
     <script src="lib/angular.min.js"></script>
     <script src="lib/ui-bootstrap-tpls-0.13.4.min.js"></script>
-    <script src="lib/slider.js"></script>
+    <script src="lib/rzslider.min.js"></script>
     <script src="lib/sticky.min.js"></script>
 
     <script src='js/gyms.js'></script>
@@ -183,7 +180,17 @@
                         <div class="row" ng-show="searchCtrl.showPrice">
                             <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria">
                                 <div class='pricerange'>{{searchCtrl.pricerange | pricerange}}</div>
-                                <div ui-slider="{range: true}" min="20" max="60" step="5"           ng-model="searchCtrl.pricerange"></div>
+                                <!-- <div ui-slider="{range: true}" min="20" max="60" step="5"           ng-model="searchCtrl.pricerange"></div> -->
+
+								<!-- <input slider type="text" value="" data-slider-min="20" data-slider-max="60" data-slider-step="5" data-slider-value="[20,60]" model="searchCtrl.pricerange" /> -->
+
+								<!-- <slider floor="20" ceiling="60" step="5" ng-model="searchCtrl.pricerange"></slider> -->
+								<rzslider
+								    rz-slider-floor="20"
+								    rz-slider-ceil="60"
+									rz-slider-step="5"
+								    rz-slider-model="searchCtrl.pricerange[0]"
+								    rz-slider-high="searchCtrl.pricerange[1]"></rzslider>
                             </div>
                         </div>
                         <div class="row">
@@ -258,11 +265,14 @@
 									<div class="hidden-xs resultcontactdisabled" ng-show="!coach.contactoptions.email">
 										<span>Ver Email</span>
                                     </div>
-                                    <a class="hidden-xs" href="mailto:{{coach.email}}" ng-show="coach.contactoptions.email" ng-class="{'resultcontactdisabled': !coach.contactoptions.email}" ng-mouseover="showemail = true" ng-mouseleave="showemail = false" ng-click="searchController.emailCoach(coach)">
+                                    <a class="hidden-xs" href="mailto:{{coach.email}}" ng-show="coach.contactoptions.email" ng-mouseover="showemail = true" ng-mouseleave="showemail = false" ng-click="searchController.emailCoach(coach)">
 										<span ng-show="!showemail">Ver Email</span>
                                         <span ng-show="showemail">{{coach.email}}</span>
                                     </a>
-                                    <a class="hidden-xs" href="tel:{{coach.telephone}}" ng-class="{'resultcontactdisabled': !coach.contactoptions.phonecall}" ng-mouseover="showphone = true" ng-mouseleave="showphone = false" ng-click="searchController.callCoach(coach)">
+									<div class="hidden-xs resultcontactdisabled" ng-show="!coach.contactoptions.phonecall">
+										<span>Ver Teléfono</span>
+                                    </div>
+                                    <a class="hidden-xs" href="tel:{{coach.telephone}}" ng-mouseover="showphone = true" ng-mouseleave="showphone = false" ng-click="searchController.callCoach(coach)">
                                         <span ng-show="!showphone">Ver Teléfono</span>
                                         <span ng-show="showphone">{{coach.telephone}}</span>
                                     </a>

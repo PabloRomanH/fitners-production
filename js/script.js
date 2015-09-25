@@ -14,7 +14,7 @@ if (!Array.prototype.indexOf) {
 }
 
 (function() {
-    var app = angular.module('fitners', ['ui.bootstrap','ui.slider','sticky']);
+    var app = angular.module('fitners', ['ui.bootstrap','sticky','rzModule']);
 
     app.config(function ($locationProvider) {
         $locationProvider.html5Mode(true);
@@ -524,6 +524,41 @@ if (!Array.prototype.indexOf) {
                 "</button>"
         };
     });
+
+    // app.directive('slider', function ($parse) {
+    //     return {
+    //         restrict: 'E',
+    //         replace: true,
+    //         template: '',
+    //         link: function ($scope, element, attrs) {
+    //             var model = $parse(attrs.model);
+    //             var slider = $(element[0]).slider();
+    //
+    //             slider.on('slide', function(ev) {
+    //                 model.assign($scope, ev.value);
+    //                 $scope.$apply();
+    //             });
+    //         }
+    //     }
+    // });
+    //
+    // app.directive('slider', function ($parse) {
+    //     return {
+    //         restrict: 'A',
+    //         replace: true,
+    //         link: function (scope, element, attrs) {
+    //             var model = $parse(attrs.ngModel);
+    //             var slider = $(element[0]).slider();
+    //             slider.on('slide', function(ev) {
+    //                 model.assign(scope, ev.value);
+    //                 scope.$apply();
+    //             });
+    //             scope.$watch(attrs.ngModel,function(value) {
+    //                 element.slider('setValue',value);
+    //             });
+    //         }
+    //     }
+    // });
 
     app.filter('goals',[ function () {
         return function(items) {
