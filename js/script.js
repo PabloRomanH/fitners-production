@@ -525,41 +525,6 @@ if (!Array.prototype.indexOf) {
         };
     });
 
-    // app.directive('slider', function ($parse) {
-    //     return {
-    //         restrict: 'E',
-    //         replace: true,
-    //         template: '',
-    //         link: function ($scope, element, attrs) {
-    //             var model = $parse(attrs.model);
-    //             var slider = $(element[0]).slider();
-    //
-    //             slider.on('slide', function(ev) {
-    //                 model.assign($scope, ev.value);
-    //                 $scope.$apply();
-    //             });
-    //         }
-    //     }
-    // });
-    //
-    // app.directive('slider', function ($parse) {
-    //     return {
-    //         restrict: 'A',
-    //         replace: true,
-    //         link: function (scope, element, attrs) {
-    //             var model = $parse(attrs.ngModel);
-    //             var slider = $(element[0]).slider();
-    //             slider.on('slide', function(ev) {
-    //                 model.assign(scope, ev.value);
-    //                 scope.$apply();
-    //             });
-    //             scope.$watch(attrs.ngModel,function(value) {
-    //                 element.slider('setValue',value);
-    //             });
-    //         }
-    //     }
-    // });
-
     app.filter('goals',[ function () {
         return function(items) {
             var str = '';
