@@ -134,6 +134,7 @@ if (!Array.prototype.indexOf) {
         db.orderByChild("rank").on('value', function (snapshot) {
             searchResults = snapshot;
             controller.filter();
+            $scope.$apply();
         });
 
         controller.filter = function () {
@@ -229,7 +230,6 @@ if (!Array.prototype.indexOf) {
             });
 
             controller.searching = false;
-            $scope.$apply();
         }
 
         controller.showComments = function(coach) {
