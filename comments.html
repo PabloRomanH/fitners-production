@@ -69,6 +69,8 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-success" type="button" ng-click="commentsCtrl.showWrite()">+ Dejar valoración</button>
+    <span ng-show="commentsCtrl.loggedin">{{ commentsCtrl.loggedin }} (<a href="" ng-click="commentsCtrl.logout()">desconectar</a>)</span>
+    <button class="btn btn-success" type="button" ng-click="commentsCtrl.showWrite()" ng-show="!commentsCtrl.existing">+ Dejar valoración</button>
+    <button class="btn btn-success" type="button" ng-click="commentsCtrl.showWrite()" ng-show="commentsCtrl.existing"><i class="fa fa-pencil fa-lg"></i> Modificar valoración</button>
     <button class="btn btn-default" type="button" ng-click="commentsCtrl.close()">Cerrar</button>
 </div>

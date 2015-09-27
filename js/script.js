@@ -348,41 +348,73 @@ if (!Array.prototype.indexOf) {
             });
         }
 
+        var db = new Firebase("https://fitners.firebaseio.com");
+        var authData = db.getAuth();
+        var userId;
+
+        if (authData) {
+            controller.loggedin = authData.facebook.displayName;
+            userId = authData.uid;
+        }
+
+        if (userId) {
+            for(var key in coach.ratings) {
+                if (key == userId) {
+                    controller.existing = true;
+                    break;
+                }
+            }
+        }
+
         $scope.keys = Object.keys;
 
         controller.showWrite = function() {
             ga('send', 'event', 'navigation', 'addcomment', coach.name);
 
-            db = new Firebase("https://fitners.firebaseio.com/coaches");
-            db.authWithOAuthPopup("facebook", function(error, authData) {
-                if (error) {
-                    console.log("Login Failed!", error);
-                } else {
-                    console.log("Authenticated successfully with payload:", authData);
+            if (!authData) {
+                db.authWithOAuthPopup("facebook", function(error, authData) {
+                    if (error) {
+                        console.log("Login Failed!", error);
+                    } else {
+                        console.log("Authenticated successfully with payload:", authData);
 
-                    $modalInstance.close();
+                        editModal(authData);
+                    }
+                });
+            } else {
+                editModal(authData);
+            }
+        };
 
-                    var modalInstance = $modal.open({
-                        animation: true,
-                        templateUrl: 'writecomment.html',
-                        controller: 'WriteModalController',
-                        controllerAs: 'writeCtrl',
-                        resolve: {
-                            coach: function () {
-                                return coach;
-                            },
-                            loginData: function () {
-                                return authData;
-                            }
-                        }
-                    });
+        function editModal(authData) {
+            $modalInstance.close();
+
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: 'writecomment.html',
+                controller: 'WriteModalController',
+                controllerAs: 'writeCtrl',
+                resolve: {
+                    coach: function () {
+                        return coach;
+                    },
+                    loginData: function () {
+                        return authData;
+                    }
                 }
             });
-        };
+        }
 
         controller.close = function () {
             $modalInstance.close();
         };
+
+        controller.logout = function () {
+            db.unauth();
+            controller.loggedin = null;
+            controller.existing = false;
+            authData = null;
+        }
 
         $scope.numFullStars = function(n) {
             Math.round(n);
@@ -400,7 +432,6 @@ if (!Array.prototype.indexOf) {
             n2 = 5 - Math.floor(n2) - ($scope.isHalfStar(n) ? 1 : 0);
             return new Array(n2);
         };
-
     });
 
     app.controller('WriteModalController', function($modalInstance, $modal, coach, loginData) {
@@ -433,7 +464,16 @@ if (!Array.prototype.indexOf) {
         controller.months = undefined;
         controller.comment = '';
 
+        for(var key in coach.ratings) {
+            if (key == loginData.uid) {
+                fillExisting(coach.ratings[key]);
+                break;
+            }
+        }
+
         controller.sendingReview = false;
+
+        resetAlerts();
 
         function resetAlerts() {
             controller.showGoalAlert = false;
@@ -446,7 +486,19 @@ if (!Array.prototype.indexOf) {
             controller.showFailedAlert = false;
         }
 
-        resetAlerts();
+        function fillExisting(rating) {
+            controller.comment = rating.comment;
+            controller.stars = '' + rating.stars;
+            controller.months = rating.months;
+            controller.goal = rating.goal;
+            controller.compatibility = rating.compatibility;
+            controller.knowledge = rating.knowledge;
+            controller.pricequality = rating.pricequality;
+            controller.punctuality = rating.punctuality;
+            controller.results = rating.results;
+            controller.before = rating.before;
+            controller.after = rating.after;
+        }
 
         controller.close = function () {
             $modalInstance.close();
@@ -525,6 +577,8 @@ if (!Array.prototype.indexOf) {
             }
 
             controller.sendingReview = true;
+
+            var db = new Firebase("https://fitners.firebaseio.com/coaches");
 
             db.child(coach.id + '/ratings/' + loginData.uid).set(newcomment, function(error) {
                 if (error) {
