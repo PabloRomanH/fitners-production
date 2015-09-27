@@ -27,7 +27,7 @@
 
     </div>
 
-    <div ng-repeat="rating in commentsCtrl.coach.ratings">
+    <div ng-repeat="rating in commentsCtrl.ratingsArray | orderBy: 'timestamp' : true">
         <hr/>
         <div class="row ratingheader">
             <div class="ratingphoto">
@@ -63,7 +63,10 @@
             </div>
         </div>
     </div>
-    <p ng-if="!commentsCtrl.coach.ratings">No hay valoraciones</p>
+    <div ng-if="!commentsCtrl.coach.ratings">
+        <hr/>
+        <p class="noratings">No hay valoraciones</p>
+    </div>
 </div>
 <div class="modal-footer">
     <button class="btn btn-success" type="button" ng-click="commentsCtrl.showWrite()">+ Dejar valoración</button>

@@ -8,8 +8,8 @@ function authHandler(error, authData) {
     }
 
     function rankScore(numComments, score) {
-        var raiseSpeed = 5; // number of ratings for factor to raise to 60%
-        return (1 - Math.exp(-numComments / raiseSpeed)) * score;
+        var riseSpeed = 5; // number of ratings for factor to rise to 60%
+        return (1 - Math.exp(-numComments / riseSpeed)) * score;
     }
 
     db.once('value', function(snapshot) {

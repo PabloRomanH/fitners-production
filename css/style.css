@@ -554,6 +554,13 @@ div.resultcontactdisabled {
     width: 100%;
 }
 
+.noratings {
+    color: #888;
+    margin-bottom: 1em;
+    margin-top: 2em;
+    text-align: center;
+}
+
 .modal-footer span {
     margin-right: 1em;
     color: #888;

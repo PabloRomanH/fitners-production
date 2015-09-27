@@ -131,11 +131,61 @@ if (!Array.prototype.indexOf) {
 
         controller.searching = true;
 
-        db.orderByChild("rank").on('value', function (snapshot) {
+        db.on('value', function (snapshot) {
             searchResults = snapshot;
             controller.filter();
             $scope.$apply();
         });
+
+        function computeScore(coach) {
+            var compatibility = 0;
+            var knowledge = 0;
+            var pricequality = 0;
+            var punctuality = 0;
+            var results = 0;
+            var total = 0;
+
+            var count = 0;
+
+            for(rating in coach.ratings) {
+                count++;
+
+                compatibility += coach.ratings[rating].compatibility;
+                knowledge += coach.ratings[rating].knowledge;
+                pricequality += coach.ratings[rating].pricequality;
+                punctuality += coach.ratings[rating].punctuality;
+                results += coach.ratings[rating].results;
+                total += coach.ratings[rating].stars;
+            }
+
+            if (count == 0) {
+                count = 1;
+            }
+
+            return {
+                compatibility: compatibility / count,
+                knowledge: knowledge / count,
+                pricequality: pricequality / count,
+                punctuality: punctuality / count,
+                results: results / count,
+                total: total / count
+            };
+        }
+
+        function computeRank (coach) {
+            var numComments = 0;
+
+            for(rating in coach.ratings) {
+                numComments++;
+            }
+
+            var riseSpeed = 5; // number of ratings for factor to rise to 60%
+            return (1 - Math.exp(-numComments / riseSpeed)) * coach.score.total;
+        }
+
+        function sortCoaches(a, b) {
+            return b.rank - a.rank;
+        }
 
         controller.filter = function () {
             controller.results = [];
@@ -226,8 +276,14 @@ if (!Array.prototype.indexOf) {
                     }
                 }
 
+                value.score = computeScore(value);
+
+                value.rank = computeRank(value);
+
                 controller.results.push(value);
             });
+
+            controller.results.sort(sortCoaches);
 
             controller.searching = false;
         }
@@ -286,6 +342,14 @@ if (!Array.prototype.indexOf) {
         controller.coach = coach;
         controller.ratings = ['knowledge', 'compatibility', 'results', 'punctuality', 'pricequality'];
 
+        if (coach.ratings) {
+            controller.ratingsArray = Object.keys(coach.ratings).map(function(key) {
+                return coach.ratings[key];
+            });
+        }
+
+        $scope.keys = Object.keys;
+
         controller.showWrite = function() {
             ga('send', 'event', 'navigation', 'addcomment', coach.name);
 
@@ -337,7 +401,6 @@ if (!Array.prototype.indexOf) {
             return new Array(n2);
         };
 
-        $scope.keys = Object.keys;
     });
 
     app.controller('WriteModalController', function($modalInstance, $modal, coach, loginData) {
@@ -440,7 +503,6 @@ if (!Array.prototype.indexOf) {
             var newcomment = {
                  comment: controller.comment,
                  name: loginData.facebook.displayName,
-                 userId: loginData.uid,
                  photo: loginData.facebook.profileImageURL,
                  stars: parseInt(controller.stars),
                  months: controller.months,
@@ -464,7 +526,7 @@ if (!Array.prototype.indexOf) {
 
             controller.sendingReview = true;
 
-            db.child(coach.id +'/ratings').push().set(newcomment, function(error) {
+            db.child(coach.id + '/ratings/' + loginData.uid).set(newcomment, function(error) {
                 if (error) {
                     controller.showFailedAlert = true;
                     controller.sendingReview = false;
