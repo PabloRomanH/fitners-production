@@ -370,6 +370,8 @@ if (!Array.prototype.indexOf) {
         controller.months = undefined;
         controller.comment = '';
 
+        controller.sendingReview = false;
+
         function resetAlerts() {
             controller.showGoalAlert = false;
             controller.showWeightAlert = false;
@@ -378,6 +380,7 @@ if (!Array.prototype.indexOf) {
             controller.showMonthsAlert = false;
             controller.showCommentAlert = false;
             controller.showScoreAlert = false;
+            controller.showFailedAlert = false;
         }
 
         resetAlerts();
@@ -459,16 +462,23 @@ if (!Array.prototype.indexOf) {
                 }
             }
 
-            db.child(coach.id +'/ratings').push().set(newcomment);
+            controller.sendingReview = true;
 
-            $modalInstance.close();
+            db.child(coach.id +'/ratings').push().set(newcomment, function(error) {
+                if (error) {
+                    controller.showFailedAlert = true;
+                    controller.sendingReview = false;
+                } else {
+                    var modalInstance = $modal.open({
+                        animation: true,
+                        templateUrl: 'done.html',
+                        controller: 'DoneModalController',
+                        controllerAs: 'doneCtrl',
+                        size: 'sm'
+                    });
 
-            var modalInstance = $modal.open({
-                animation: true,
-                templateUrl: 'done.html',
-                controller: 'DoneModalController',
-                controllerAs: 'doneCtrl',
-                size: 'sm'
+                    $modalInstance.close();
+                }
             });
         }
     });

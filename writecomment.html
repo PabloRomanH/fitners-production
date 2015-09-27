@@ -98,8 +98,10 @@
         </div>
     </div>
     <div class="alert alert-danger" role="alert" ng-show="writeCtrl.showScoreAlert">Puntúa todas las categorías.</div>
+    <div class="alert alert-danger" role="alert" ng-show="writeCtrl.showFailedAlert">Error enviando valoración. Vuelve a intentarlo más tarde.</div>
 </div>
 <div class="modal-footer">
+    <span ng-show="writeCtrl.sendingReview">Enviando valoración...</span>
     <button class="btn btn-success" type="button" ng-click="writeCtrl.submitComment()">+ Dejar valoración</button>
-    <button class="btn btn-default" type="button" ng-click="writeCtrl.close()">Cerrar</button>
+    <button class="btn btn-danger" type="button" ng-click="writeCtrl.close()">Cancelar</button>
 </div>
