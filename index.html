@@ -25,6 +25,7 @@
     <script src="lib/ui-bootstrap-tpls-0.13.4.min.js"></script>
     <script src="lib/rzslider.min.js"></script>
     <script src="lib/sticky.min.js"></script>
+    <script src="lib/angular-file-upload.min.js"></script>
 
     <script src='js/gyms.js'></script>
     <script src='js/script.js'></script>
@@ -101,129 +102,131 @@
                                 ¿Qué estás buscando?
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria fold" ng-click="searchCtrl.searchcriteria = 'area'" ng-show="searchCtrl.searchcriteria == 'gym'">
-                                <i class="fa fa-minus-square"></i>
-                                Búsqueda por gimnasio
+                        <form ng-submit="searchCtrl.filter()">
+                            <div class="row">
+                                <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria fold" ng-click="searchCtrl.searchcriteria = 'area'" ng-show="searchCtrl.searchcriteria == 'gym'">
+                                    <i class="fa fa-minus-square"></i>
+                                    Búsqueda por gimnasio
+                                </div>
+                                <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria fold" ng-click="searchCtrl.searchcriteria = 'gym'" ng-show="searchCtrl.searchcriteria == 'area'">
+                                    <i class="fa fa-plus-square"></i>
+                                    Búsqueda por gimnasio
+                                </div>
                             </div>
-                            <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria fold" ng-click="searchCtrl.searchcriteria = 'gym'" ng-show="searchCtrl.searchcriteria == 'area'">
-                                <i class="fa fa-plus-square"></i>
-                                Búsqueda por gimnasio
+                            <div class="row" ng-show="searchCtrl.searchcriteria == 'gym'">
+                                <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria">
+                                    <input type="text" ng-model="searchCtrl.gym" typeahead="gym.name for gym in searchCtrl.gyms | filter: $viewValue : searchCtrl.comparator | limitTo:8" placeholder="Escribe tu gimnasio" class="form-control">
+                                </div>
                             </div>
-                        </div>
-                        <div class="row" ng-show="searchCtrl.searchcriteria == 'gym'">
-                            <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria">
-                                <input type="text" ng-model="searchCtrl.gym" typeahead="gym.name for gym in searchCtrl.gyms | filter: $viewValue : searchCtrl.comparator | limitTo:8" placeholder="Escribe tu gimnasio" class="form-control">
+                            <div class="row">
+                                <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria fold" ng-click="searchCtrl.searchcriteria = 'gym'" ng-show="searchCtrl.searchcriteria == 'area'">
+                                    <i class="fa fa-minus-square"></i>
+                                    Búsqueda por zona
+                                </div>
+                                <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria fold" ng-click="searchCtrl.searchcriteria = 'area'" ng-show="searchCtrl.searchcriteria == 'gym'">
+                                    <i class="fa fa-plus-square"></i>
+                                    Búsqueda por zona
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria fold" ng-click="searchCtrl.searchcriteria = 'gym'" ng-show="searchCtrl.searchcriteria == 'area'">
-                                <i class="fa fa-minus-square"></i>
-                                Búsqueda por zona
+                            <div class="row" ng-show="searchCtrl.searchcriteria == 'area'">
+                                <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria">
+                                    <select class="form-control" name="areaSelect" ng-options="area as area for area in searchCtrl.areas" ng-model="searchCtrl.area">
+                                        <option value="">Escoje una zona</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria fold" ng-click="searchCtrl.searchcriteria = 'area'" ng-show="searchCtrl.searchcriteria == 'gym'">
-                                <i class="fa fa-plus-square"></i>
-                                Búsqueda por zona
+                            <div class="row">
+                                <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria fold" ng-click="searchCtrl.showGoal = true" ng-show="searchCtrl.showGoal == false">
+                                    <i class="fa fa-plus-square"></i>
+                                    Especialidad
+                                </div>
+                                <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria fold" ng-click="searchCtrl.showGoal = false" ng-show="searchCtrl.showGoal == true">
+                                    <i class="fa fa-minus-square"></i>
+                                    Especialidad
+                                </div>
                             </div>
-                        </div>
-                        <div class="row" ng-show="searchCtrl.searchcriteria == 'area'">
-                            <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria">
-                                <select class="form-control" name="areaSelect" ng-options="area as area for area in searchCtrl.areas" ng-model="searchCtrl.area">
-                                    <option value="">Escoje una zona</option>
-                                </select>
+                            <div class="row" ng-show="searchCtrl.showGoal">
+                                <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria">
+                                    <p>
+                                        <input type="checkbox" id="checkboxVolume" ng-model="searchCtrl.goalVolume">
+                                        <label for="checkboxVolume">Volumen</label>
+                                    </p>
+                                    <p>
+                                        <input type="checkbox" id="checkboxDefinition" ng-model="searchCtrl.goalDefinition">
+                                        <label for="checkboxDefinition">Definición</label>
+                                    </p>
+                                    <p>
+                                        <input type="checkbox" id="checkboxWeight" ng-model="searchCtrl.goalWeight">
+                                        <label for="checkboxWeight">Perder peso</label>
+                                    </p>
+                                    <p>
+                                        <input type="checkbox" id="checkboxCond" ng-model="searchCtrl.goalCond">
+                                        <label for="checkboxCond">Forma física</label>
+                                    </p>
+                                    <p>
+                                        <input type="checkbox" id="checkboxDiet" ng-model="searchCtrl.goalDiet">
+                                        <label for="checkboxDiet">Nutrición</label>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria fold" ng-click="searchCtrl.showGoal = true" ng-show="searchCtrl.showGoal == false">
-                                <i class="fa fa-plus-square"></i>
-                                Especialidad
+                            <div class="row">
+                                <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria fold" ng-click="searchCtrl.showPrice = true" ng-show="searchCtrl.showPrice == false">
+                                    <i class="fa fa-plus-square"></i>
+                                    Precio
+                                </div>
+                                <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria fold" ng-click="searchCtrl.showPrice = false" ng-show="searchCtrl.showPrice == true">
+                                    <i class="fa fa-minus-square"></i>
+                                    Precio
+                                </div>
                             </div>
-                            <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria fold" ng-click="searchCtrl.showGoal = false" ng-show="searchCtrl.showGoal == true">
-                                <i class="fa fa-minus-square"></i>
-                                Especialidad
-                            </div>
-                        </div>
-                        <div class="row" ng-show="searchCtrl.showGoal">
-                            <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria">
-                                <p>
-                                    <input type="checkbox" id="checkboxVolume" ng-model="searchCtrl.goalVolume">
-                                    <label for="checkboxVolume">Volumen</label>
-                                </p>
-                                <p>
-                                    <input type="checkbox" id="checkboxDefinition" ng-model="searchCtrl.goalDefinition">
-                                    <label for="checkboxDefinition">Definición</label>
-                                </p>
-                                <p>
-                                    <input type="checkbox" id="checkboxWeight" ng-model="searchCtrl.goalWeight">
-                                    <label for="checkboxWeight">Perder peso</label>
-                                </p>
-                                <p>
-                                    <input type="checkbox" id="checkboxCond" ng-model="searchCtrl.goalCond">
-                                    <label for="checkboxCond">Forma física</label>
-                                </p>
-                                <p>
-                                    <input type="checkbox" id="checkboxDiet" ng-model="searchCtrl.goalDiet">
-                                    <label for="checkboxDiet">Nutrición</label>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria fold" ng-click="searchCtrl.showPrice = true" ng-show="searchCtrl.showPrice == false">
-                                <i class="fa fa-plus-square"></i>
-                                Precio
-                            </div>
-                            <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria fold" ng-click="searchCtrl.showPrice = false" ng-show="searchCtrl.showPrice == true">
-                                <i class="fa fa-minus-square"></i>
-                                Precio
-                            </div>
-                        </div>
-                        <div class="row" ng-show="searchCtrl.showPrice">
-                            <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria">
-                                <div class='pricerange'>{{searchCtrl.pricerange | pricerange}}</div>
-                                <!-- <div ui-slider="{range: true}" min="20" max="60" step="5"           ng-model="searchCtrl.pricerange"></div> -->
+                            <div class="row" ng-show="searchCtrl.showPrice">
+                                <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria">
+                                    <div class='pricerange'>{{searchCtrl.pricerange | pricerange}}</div>
+                                    <!-- <div ui-slider="{range: true}" min="20" max="60" step="5"           ng-model="searchCtrl.pricerange"></div> -->
 
-								<!-- <input slider type="text" value="" data-slider-min="20" data-slider-max="60" data-slider-step="5" data-slider-value="[20,60]" model="searchCtrl.pricerange" /> -->
+    								<!-- <input slider type="text" value="" data-slider-min="20" data-slider-max="60" data-slider-step="5" data-slider-value="[20,60]" model="searchCtrl.pricerange" /> -->
 
-								<!-- <slider floor="20" ceiling="60" step="5" ng-model="searchCtrl.pricerange"></slider> -->
-								<rzslider
-								    rz-slider-floor="20"
-								    rz-slider-ceil="60"
-									rz-slider-step="5"
-								    rz-slider-model="searchCtrl.pricerange[0]"
-								    rz-slider-high="searchCtrl.pricerange[1]"></rzslider>
+    								<!-- <slider floor="20" ceiling="60" step="5" ng-model="searchCtrl.pricerange"></slider> -->
+    								<rzslider
+    								    rz-slider-floor="20"
+    								    rz-slider-ceil="60"
+    									rz-slider-step="5"
+    								    rz-slider-model="searchCtrl.pricerange[0]"
+    								    rz-slider-high="searchCtrl.pricerange[1]"></rzslider>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria fold" ng-click="searchCtrl.showTraining = true" ng-show="searchCtrl.showTraining == false">
-                                <i class="fa fa-plus-square"></i>
-                                Titulación
+                            <div class="row">
+                                <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria fold" ng-click="searchCtrl.showTraining = true" ng-show="searchCtrl.showTraining == false">
+                                    <i class="fa fa-plus-square"></i>
+                                    Titulación
+                                </div>
+                                <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria fold" ng-click="searchCtrl.showTraining = false" ng-show="searchCtrl.showTraining == true">
+                                    <i class="fa fa-minus-square"></i>
+                                    Titulación
+                                </div>
                             </div>
-                            <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria fold" ng-click="searchCtrl.showTraining = false" ng-show="searchCtrl.showTraining == true">
-                                <i class="fa fa-minus-square"></i>
-                                Titulación
+                            <div class="row" ng-show="searchCtrl.showTraining">
+                                <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria">
+                                    <p>
+                                        <input type="checkbox" id="checkboxQualA" ng-model="searchCtrl.training0">
+                                        <label for="checkboxQualA">Licenciado en Ciencias de la Actividad Física y el Deporte</label>
+                                    </p>
+                                    <p>
+                                        <input type="checkbox" id="checkboxQualB" ng-model="searchCtrl.training1">
+                                        <label for="checkboxQualB">TAFAD (Técnico superior en Animación y Actividades Físicas y Deportivas)</label>
+                                    </p>
+                                    <p>
+                                        <input type="checkbox" id="checkboxQualC" ng-model="searchCtrl.training2">
+                                        <label for="checkboxQualC">> 500 horas de formación específica</label>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row" ng-show="searchCtrl.showTraining">
-                            <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria">
-                                <p>
-                                    <input type="checkbox" id="checkboxQualA" ng-model="searchCtrl.training0">
-                                    <label for="checkboxQualA">Licenciado en Ciencias de la Actividad Física y el Deporte</label>
-                                </p>
-                                <p>
-                                    <input type="checkbox" id="checkboxQualB" ng-model="searchCtrl.training1">
-                                    <label for="checkboxQualB">TAFAD (Técnico superior en Animación y Actividades Físicas y Deportivas)</label>
-                                </p>
-                                <p>
-                                    <input type="checkbox" id="checkboxQualC" ng-model="searchCtrl.training2">
-                                    <label for="checkboxQualC">> 500 horas de formación específica</label>
-                                </p>
+                            <div class="row">
+                                <div class="col-xs-6 col-xs-offset-3 col-md-8 col-md-offset-2">
+                                    <button ng-click="searchCtrl.filter()" class="searchbutton">Buscar</button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-6 col-xs-offset-3 col-md-8 col-md-offset-2">
-                                <button ng-click="searchCtrl.filter()" class="searchbutton">Buscar</button>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
                 <div class="col-md-9">
@@ -235,7 +238,7 @@
                         </div>
                         <div class="container-fluid container-limit foundmessage">
                             <div class="row">
-                                <div class="col-xs-12" ng-show="searchCtrl.searching">Buscando...</div>
+                                <div class="col-xs-12 notfoundmessage" ng-show="searchCtrl.searching">Buscando...</div>
                                 <div class="col-xs-12" ng-show="searchCtrl.results.length">{{searchCtrl.results.length}} entrenadores personales encontrados</div>
                             </div>
                         </div>

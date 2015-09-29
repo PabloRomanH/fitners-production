@@ -61,6 +61,9 @@
                     Comentario: {{rating.comment}}
                 </p>
             </div>
+            <div class="col-xs-6 beforeafter" ng-repeat="photo in rating.photos">
+                <img ng-src="{{ photo }}"/>
+            </div>
         </div>
     </div>
     <div ng-if="!commentsCtrl.coach.ratings">

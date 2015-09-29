@@ -62,6 +62,21 @@
     </div>
     <div class="alert alert-danger" role="alert" ng-show="writeCtrl.showCommentAlert">Escribe por lo menos 100 carácteres.</div>
     <div class="form-group">
+        <p>
+            <label class="photoButton">
+                <input type="file" nv-file-select="" uploader="writeCtrl.uploader" style="{display:none}" />
+                <span class="btn btn-default">+ Adjuntar foto</span>
+            </label>
+        </p>
+        <div ng-repeat="(filename, file) in writeCtrl.uploadingFiles">
+            <span class="fileUploading" ng-show="file.status == 'uploading'">Subiendo {{ filename }} {{ file.completed }}% (<a href="" ng-click="writeCtrl.cancelFile(filename)">cancelar</a>)</span>
+            <span class="fileUploading" ng-show="file.status == 'processing'">Procesando {{ filename }} (<a href="" ng-click="writeCtrl.cancelFile(filename)">cancelar</a>)</span>
+            <span class="fileCompleted" ng-show="file.status == 'success'"><img ng-src="{{ file.url }}"/> (<a href="" ng-click="writeCtrl.cancelFile(filename)">borrar</a>)</span>
+            <span class="fileError" ng-show="file.status == 'error'">Error subiendo fichero {{ filename }}. {{ file.error }} (<a href="" ng-click="writeCtrl.cancelFile(filename)">borrar</a>)</span>
+        </div>
+    </div>
+    <div class="alert alert-danger" role="alert" ng-show="writeCtrl.showPhotoAlert">Espera a que se acaben de procesar las fotos.</div>
+    <div class="form-group">
         <label>Puntúa sus conocimientos:</label><br/>
         <div class="radiobuttonsgroup smallbuttons">
             <radio-button-group class="btn-group" data-toggle="buttons-radio" model="writeCtrl.knowledge" options="writeCtrl.grades" id="'value'" name="'text'" suffix="'default'"></radio-button-group>

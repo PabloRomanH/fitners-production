@@ -538,6 +538,12 @@ div.resultcontactdisabled {
     max-width: 100%;
 }
 
+.beforeafter img {
+    max-width: 100%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
 .radiobuttonsgroup {
     text-align: center;
 }
@@ -564,4 +570,33 @@ div.resultcontactdisabled {
 .modal-footer span {
     margin-right: 1em;
     color: #888;
+}
+
+label.photoButton {
+    overflow: hidden;
+    cursor: pointer;
+    margin-bottom: 0;
+    display: initial;
+}
+
+label.photoButton input {
+    position: fixed;
+    top: -1000px;
+}
+
+.fileUploading {
+    color: #888;
+}
+
+.fileCompleted {
+    color: #449d44;
+}
+
+.fileCompleted img {
+    max-width: 60px;
+    margin-bottom: 1em;
+}
+
+.fileError {
+    color: #F00;
 }

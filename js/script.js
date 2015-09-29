@@ -14,7 +14,7 @@ if (!Array.prototype.indexOf) {
 }
 
 (function() {
-    var app = angular.module('fitners', ['ui.bootstrap','sticky','rzModule']);
+    var app = angular.module('fitners', ['ui.bootstrap','sticky','rzModule','angularFileUpload']);
 
     app.config(function ($locationProvider) {
         $locationProvider.html5Mode(true);
@@ -134,7 +134,9 @@ if (!Array.prototype.indexOf) {
         db.on('value', function (snapshot) {
             searchResults = snapshot;
             controller.filter();
-            $scope.$apply();
+            if(!$scope.$$phase) {
+                $scope.$apply();
+            }
         });
 
         function computeScore(coach) {
@@ -434,7 +436,7 @@ if (!Array.prototype.indexOf) {
         };
     });
 
-    app.controller('WriteModalController', function($modalInstance, $modal, coach, loginData) {
+    app.controller('WriteModalController', function($modalInstance, $modal, FileUploader, coach, loginData) {
         var controller = this;
 
         controller.coach = coach;
@@ -463,6 +465,7 @@ if (!Array.prototype.indexOf) {
         controller.goal = undefined;
         controller.months = undefined;
         controller.comment = '';
+        controller.uploadingFiles = {};
 
         for(var key in coach.ratings) {
             if (key == loginData.uid) {
@@ -484,6 +487,7 @@ if (!Array.prototype.indexOf) {
             controller.showCommentAlert = false;
             controller.showScoreAlert = false;
             controller.showFailedAlert = false;
+            controller.showPhotoAlert = false;
         }
 
         function fillExisting(rating) {
@@ -498,9 +502,91 @@ if (!Array.prototype.indexOf) {
             controller.results = rating.results;
             controller.before = rating.before;
             controller.after = rating.after;
+
+            for (var i = 0; i < rating.photos.length; i++) {
+                controller.uploadingFiles['' + i] = {
+                    status: 'success',
+                    url: rating.photos[i]
+                };
+            }
         }
 
-        controller.close = function () {
+        controller.uploader = new FileUploader({
+            url: 'http://deviantsart.com',
+            autoUpload: true
+        });
+
+        controller.uploader.filters.push({
+            name: 'imageFilter',
+            fn: function(item, options) {
+                var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+            }
+        });
+
+        controller.uploader.onAfterAddingFile = function(fileItem) {
+            controller.uploadingFiles[fileItem.file.name] = {
+                    status: 'uploading',
+                    completed: 0,
+                    item: fileItem
+                };
+        };
+        controller.uploader.onProgressItem = function(fileItem, progress) {
+            if (progress == 100) {
+                controller.uploadingFiles[fileItem.file.name] = {
+                        status: 'processing',
+                        item: fileItem
+                };
+            } else {
+                controller.uploadingFiles[fileItem.file.name] = {
+                        status: 'uploading',
+                        completed: progress,
+                        item: fileItem
+                    };
+            }
+        };
+        controller.uploader.onSuccessItem = function(fileItem, response, status, headers) {
+            if (response.error) {
+                var error;
+                if (response.error = "file too large") {
+                    error = 'Fichero demasiado grande'
+                }
+                controller.uploader.removeFromQueue(controller.uploadingFiles[fileItem.file.name].item);
+                controller.uploadingFiles[fileItem.file.name] = {
+                        status: 'error',
+                        item: fileItem,
+                        error: error
+                    };
+            } else {
+                controller.uploadingFiles[fileItem.file.name] = {
+                        status: 'success',
+                        url: response.url,
+                        item: fileItem
+                    };
+            }
+        };
+        controller.uploader.onErrorItem = function(fileItem, response, status, headers) {
+            controller.uploader.removeFromQueue(controller.uploadingFiles[fileItem.file.name].item);
+            controller.uploadingFiles[fileItem.file.name] = {
+                    status: 'error',
+                    item: fileItem
+                };
+        };
+
+        controller.cancelFile = function(filename) {
+            if (controller.uploadingFiles[filename].item) {
+                if (controller.uploadingFiles[filename].status == 'uploading') {
+                    controller.uploader.cancelItem(controller.uploadingFiles[filename].item);
+                }
+                if (controller.uploadingFiles[filename].status != 'error') {
+                    controller.uploader.removeFromQueue(controller.uploadingFiles[filename].item);
+                }
+            }
+
+            delete controller.uploadingFiles[filename];
+        };
+
+        controller.close = function() {
             $modalInstance.close();
         };
 
@@ -546,6 +632,18 @@ if (!Array.prototype.indexOf) {
                 abort = true;
             }
 
+            var uploadedPhotos = [];
+
+            for (fileName in controller.uploadingFiles) {
+                if (controller.uploadingFiles[fileName].status == 'success') {
+                    uploadedPhotos.push(controller.uploadingFiles[fileName].url);
+                }
+                else if (controller.uploadingFiles[fileName].status != 'error') {
+                    controller.showPhotoAlert = true;
+                    abort = true;
+                }
+            }
+
             if (abort) {
                 return;
             }
@@ -564,6 +662,7 @@ if (!Array.prototype.indexOf) {
                  pricequality: controller.pricequality,
                  punctuality: controller.punctuality,
                  results: controller.results,
+                 photos: uploadedPhotos,
                  timestamp: Firebase.ServerValue.TIMESTAMP
             };
 
