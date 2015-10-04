@@ -503,11 +503,13 @@ if (!Array.prototype.indexOf) {
             controller.before = rating.before;
             controller.after = rating.after;
 
-            for (var i = 0; i < rating.photos.length; i++) {
-                controller.uploadingFiles['' + i] = {
-                    status: 'success',
-                    url: rating.photos[i]
-                };
+            if (rating.photos) {
+                for (var i = 0; i < rating.photos.length; i++) {
+                    controller.uploadingFiles['' + i] = {
+                        status: 'success',
+                        url: rating.photos[i]
+                    };
+                }
             }
         }
 
@@ -571,7 +573,7 @@ if (!Array.prototype.indexOf) {
                     };
             }
         };
-        
+
         controller.uploader.onErrorItem = function(fileItem, response, status, headers) {
             console.log('error', fileItem, response, status, headers);
             controller.uploader.removeFromQueue(controller.uploadingFiles[fileItem.file.name].item);
