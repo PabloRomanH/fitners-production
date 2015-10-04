@@ -512,7 +512,12 @@ if (!Array.prototype.indexOf) {
         }
 
         controller.uploader = new FileUploader({
-            url: 'http://deviantsart.com',
+            url: 'https://imgur-apiv3.p.mashape.com/3/image',
+            alias: 'image',
+            headers: {
+                'X-Mashape-Key': 'e29I5NOsyxmshLC129HpZMwJIFMkp15pd9EjsncJ8ibWHPlLYN',
+                Authorization: 'Client-ID 6f0f91c246fba32',
+            },
             autoUpload: true
         });
 
@@ -531,6 +536,7 @@ if (!Array.prototype.indexOf) {
                     item: fileItem
                 };
         };
+
         controller.uploader.onProgressItem = function(fileItem, progress) {
             if (progress == 100) {
                 controller.uploadingFiles[fileItem.file.name] = {
@@ -560,12 +566,14 @@ if (!Array.prototype.indexOf) {
             } else {
                 controller.uploadingFiles[fileItem.file.name] = {
                         status: 'success',
-                        url: response.url,
+                        url: response.data.link,
                         item: fileItem
                     };
             }
         };
+        
         controller.uploader.onErrorItem = function(fileItem, response, status, headers) {
+            console.log('error', fileItem, response, status, headers);
             controller.uploader.removeFromQueue(controller.uploadingFiles[fileItem.file.name].item);
             controller.uploadingFiles[fileItem.file.name] = {
                     status: 'error',
