@@ -351,10 +351,20 @@ rzslider {
     margin-bottom: 0.5em;
 }
 
-.resultphoto img {
-    width: 50%;
-    margin-bottom: 5%;
-    margin-top: 5%;
+@media (max-width: 767px) {
+    .resultphoto img {
+        width: 50%;
+        margin-bottom: 5%;
+        margin-top: 5%;
+    }
+}
+
+@media (min-width: 768px) {
+    .resultphoto img {
+        width: 80%;
+        margin-bottom: 15%;
+        margin-top: 15%;
+    }
 }
 
 .resultphoto p {
