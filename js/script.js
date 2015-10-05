@@ -771,7 +771,7 @@ if (!Array.prototype.indexOf) {
                     str += 'Volumen';
                 }
                 if (items[i] == 2) {
-                    str += 'Definición';
+                    str += 'Tonificación';
                 }
                 if (items[i] == 3) {
                     str += 'Perder peso';
