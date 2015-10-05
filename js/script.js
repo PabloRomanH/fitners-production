@@ -322,6 +322,23 @@ if (!Array.prototype.indexOf) {
             });
         }
 
+        controller.showPhoto = function(coach) {
+            ga('send', 'event', 'navigation', 'show photo', coach.name, controller.results.indexOf(coach));
+
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: 'photo.html',
+                controller: 'PhotoModalController',
+                controllerAs: 'photoCtrl',
+                windowClass: 'photomodal',
+                resolve: {
+                    url: function () {
+                        return coach.photo;
+                    }
+                }
+            });
+        }
+
         controller.showTerms = function(coach) {
             var modalInstance = $modal.open({
                 animation: true,
@@ -706,6 +723,15 @@ if (!Array.prototype.indexOf) {
                 }
             });
         }
+    });
+
+    app.controller('PhotoModalController', function($modalInstance, url) {
+        var controller = this;
+        controller.url = url;
+
+        controller.close = function () {
+            $modalInstance.close();
+        };
     });
 
     app.controller('DoneModalController', function($modalInstance) {

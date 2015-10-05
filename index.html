@@ -242,13 +242,14 @@
                             <div class="resultnumber">{{$index + 1}}</div>
                             <div class="row">
                                 <div class="col-xs-6 col-sm-3 resultphoto">
-                                    <img ng-src="{{coach.photo}}" class="img-circle" alt="Foto de {{coach.name}} {{coach.surname}}"><br/>
+									<a href="#" ng-click="searchCtrl.showPhoto(coach)"><img ng-src="{{coach.photo}}" class="img-circle" alt="Foto de {{coach.name}} {{coach.surname}}"></a>
+                                    <br/>
                                     <p>{{coach.name}} {{coach.surname}}</p>
                                     <p>
                                         <i class="fa fa-star" ng-repeat="a in numFullStars(coach.score.total) track by $index"></i><i
                                         class="fa fa-star-half-o" ng-if="isHalfStar(coach.score.total)"></i><i                                  class="fa fa-star-o" ng-repeat="a in numEmptyStars(coach.score.total) track by $index"></i>
                                     </p>
-                                    <a href="#" ng-click="searchCtrl.showComments(coach)" data-toggle="modal" data-target="#comments">{{coach.ratings ? keys(coach.ratings).length : 0}} valoraciones</a>
+                                    <a href="#" ng-click="searchCtrl.showComments(coach)">{{coach.ratings ? keys(coach.ratings).length : 0}} valoraciones</a>
                                 </div>
                                 <div class="col-xs-6 col-sm-3 col-sm-push-6 resultcontact">
                                     <span class="available">Disponible!</span>

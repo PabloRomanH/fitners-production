@@ -522,6 +522,19 @@ div.resultcontactdisabled {
     margin-bottom: 10px;
 }
 
+.photomodal.modal {
+    text-align: center;
+}
+
+.photomodal .modal-dialog {
+    width: initial;
+    display: inline-block;
+}
+
+.photomodal img {
+    max-width: 90vw;
+}
+
 .ratingheader {
     margin-bottom: 10px;
 }
