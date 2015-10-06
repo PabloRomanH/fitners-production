@@ -250,11 +250,33 @@
                                         class="fa fa-star-half-o" ng-if="isHalfStar(coach.score.total)"></i><i                                  class="fa fa-star-o" ng-repeat="a in numEmptyStars(coach.score.total) track by $index"></i>
                                     </p>
                                     <a href="#" ng-click="searchCtrl.showComments(coach)">{{coach.ratings ? keys(coach.ratings).length : 0}} valoraciones</a>
+									<div class="col-xs-12 price hidden-xs">
+										Disponibilidad
+										<div>
+											<div class="day" ng-class="{'dayoff': !coach.availability[0]}">L</div>
+											<div class="day" ng-class="{'dayoff': !coach.availability[1]}">M</div>
+											<div class="day" ng-class="{'dayoff': !coach.availability[2]}">M</div>
+											<div class="day" ng-class="{'dayoff': !coach.availability[3]}">J</div>
+											<div class="day" ng-class="{'dayoff': !coach.availability[4]}">V</div>
+											<div class="day" ng-class="{'dayoff': !coach.availability[5]}">S</div>
+											<div class="day" ng-class="{'dayoff': !coach.availability[6]}">D</div>
+										</div>
+									</div>
                                 </div>
                                 <div class="col-xs-6 col-sm-3 col-sm-push-6 resultcontact">
                                     <span class="available">Disponible!</span>
-                                    <p>Contacta:</p>
 
+									<div class="hidden-xs">
+	                                    1 sesión
+										<div ng-if="coach.wage" class="resultinfo">{{coach.wage}}€/1h</div>
+										<div ng-if="!coach.wage" class="resultinfo">N/A</div>
+
+	                                    Pack 10 sesiones
+	                                    <div ng-if="coach.packprice" class="resultinfo">{{coach.packprice}}€/10horas</div>
+										<div ng-if="!coach.packprice" class="resultinfo">N/A</div>
+									</div>
+
+                                    Contacta:
                                     <a class="visible-xs-block" href="mailto:{{coach.email}}" ng-class="{'resultcontactdisabled': !coach.contactoptions.email}" ng-click="searchController.emailCoach(coach)">
                                         <span>Enviar email</span>
                                     </a>
@@ -262,14 +284,14 @@
                                         <span>Ver Teléfono</span>
                                     </a>
 
-									<div class="hidden-xs resultcontactdisabled" ng-show="!coach.contactoptions.email">
+									<div class="hidden-xs resultcontactdisabled resultinfo" ng-show="!coach.contactoptions.email">
 										<span>Ver Email</span>
                                     </div>
                                     <a class="hidden-xs" href="mailto:{{coach.email}}" ng-show="coach.contactoptions.email" ng-mouseover="showemail = true" ng-mouseleave="showemail = false" ng-click="searchController.emailCoach(coach)">
 										<span ng-show="!showemail">Ver Email</span>
                                         <span ng-show="showemail">{{coach.email}}</span>
                                     </a>
-									<div class="hidden-xs resultcontactdisabled" ng-show="!coach.contactoptions.phonecall">
+									<div class="hidden-xs resultcontactdisabled resultinfo" ng-show="!coach.contactoptions.phonecall">
 										<span>Ver Teléfono</span>
                                     </div>
                                     <a class="hidden-xs" href="tel:{{coach.telephone}}" ng-mouseover="showphone = true" ng-mouseleave="showphone = false" ng-click="searchController.callCoach(coach)">
@@ -301,17 +323,30 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-12">
-                                                <h1>Zonas de Trabajo</h1>
+                                                <h1>Zonas de trabajo</h1>
                                             </div>
                                             <div class="col-xs-12 col-sm-12">
                                                 <p>{{coach.area | areas}}</p>
                                             </div>
                                         </div>
+										<div class="row">
+                                            <div class="col-xs-12 col-sm-12">
+                                                <h1>Gimnasios de trabajo</h1>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12">
+                                                <p>{{coach.gym | gyms}}</p>
+                                            </div>
+                                        </div>
+										<div class="row">
+                                            <div class="col-xs-12 col-sm-12">
+                                                <h1>Experiencia</h1>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12">
+                                                <p>{{coach.experience}} años</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="row prices">
-                                        <!-- <div class="col-xs-6 col-sm-12">
-                                            <h1>Coste</h1>
-                                        </div> -->
+									<div class="row prices visible-xs">
                                         <div class="col-xs-6 price">
                                             Disponibilidad
                                             <div>
@@ -334,6 +369,7 @@
                                             <div ng-if="coach.packprice">{{coach.packprice}}€/10horas</div>
 											<div ng-if="!coach.packprice">N/A</div>
                                         </div>
+										<div class="col-xs-6 cardlogo"></div>
                                     </div>
                                 </div>
                             </div>

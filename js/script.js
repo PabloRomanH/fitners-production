@@ -845,4 +845,26 @@ if (!Array.prototype.indexOf) {
             return str;
         };
     }]);
+
+    function findgym(id) {
+        for(var i = 0; i < window.gyms.length; i++) {
+            if (window.gyms[i].id == id) {
+                return window.gyms[i];
+            }
+        }
+        return null;
+    }
+
+    app.filter('gyms',[ function () {
+        return function(items) {
+            var str = '';
+            for (i = 0; i < items.length; i++) {
+                if (str.length > 0) {
+                    str += ', ';
+                }
+                str += findgym(items[i]).name;
+            }
+            return str;
+        };
+    }]);
 })();
