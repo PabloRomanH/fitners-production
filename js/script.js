@@ -220,6 +220,10 @@ if (!Array.prototype.indexOf) {
                 var value = data.val();
                 value.id = data.key();
 
+                if (!value.published) {
+                    return;
+                }
+                
                 if (controller.searchcriteria == 'gym' && controller.gym.length > 0) {
                     var gymid;
                     for (var i = 0; i < controller.gyms.length; i++) {
