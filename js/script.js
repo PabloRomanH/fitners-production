@@ -223,7 +223,7 @@ if (!Array.prototype.indexOf) {
                 if (!value.published) {
                     return;
                 }
-                
+
                 if (controller.searchcriteria == 'gym' && controller.gym.length > 0) {
                     var gymid;
                     for (var i = 0; i < controller.gyms.length; i++) {
@@ -869,6 +869,13 @@ if (!Array.prototype.indexOf) {
                 str += findgym(items[i]).name;
             }
             return str;
+        };
+    }]);
+
+    app.filter('coachname',[function () {
+        return function(item) {
+            var result = item.replace(' ', '\n');
+            return result;
         };
     }]);
 })();

@@ -348,7 +348,6 @@ rzslider {
 
 .resultphoto {
     text-align: center;
-    margin-bottom: 0.5em;
 }
 
 @media (max-width: 767px) {
@@ -362,13 +361,24 @@ rzslider {
 @media (min-width: 768px) {
     .resultphoto img {
         width: 80%;
-        margin-bottom: 15%;
+        margin-bottom: 5%;
         margin-top: 15%;
     }
 }
 
 .resultphoto p {
     margin: 0;
+}
+
+.coachname {
+    font-size: 1.3em;
+    font-weight: bold;
+    white-space: pre;
+}
+
+.linkratings {
+    margin-bottom: 8px;
+    display: inline-block;
 }
 
 .fa-star, .fa-star-half-o, .fa-star-o {
@@ -411,7 +421,6 @@ rzslider {
 .price {
     font-size: 0.9em;
     color: #777;
-    margin-top: 8px;
 }
 
 .price > div {
