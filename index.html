@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html ng-app="fitners">
 <head>
+	<title>Encuentra tu entrenador personal en Barcelona</title>
+	<meta name="description" content="text">Los mejores entrenadores personales cerca de ti. Compara opiniones, valoraciones, resultados y precios. Busca al mejor y cambia tu cuerpo</meta>
+
 	<link rel="icon" type="image/png" href="favicon.png">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -43,7 +46,7 @@
                 <a href="https://www.youtube.com/channel/UCitFPbQaIlJxwPStSLRDEVg"><img src="img/youtube96.png"></a>
             </div>
             <div class="motto">
-                <p>Seleccionamos a los mejores entrenadores personales de tu ciudad</p>
+                <p>Seleccionamos a los mejores entrenadores personales de Barcelona</p>
                 <p class="calltoaction">Filtra, compara y elige la mejor opción!</p>
             </div>
         </div>
@@ -235,7 +238,7 @@
                         <div class="container-fluid container-limit foundmessage">
                             <div class="row">
                                 <div class="col-xs-12 notfoundmessage" ng-show="searchCtrl.searching">Buscando...</div>
-                                <div class="col-xs-12" ng-show="searchCtrl.results.length">{{searchCtrl.results.length}} entrenadores personales encontrados</div>
+                                <div class="col-xs-12" ng-show="searchCtrl.results.length">{{searchCtrl.results.length}} entrenadores personales encontrados en Barcelona</div>
                             </div>
                         </div>
                         <div class="container-fluid container-limit trainerresult" ng-repeat="coach in searchCtrl.results">
@@ -331,7 +334,7 @@
                                         </div>
 										<div class="row">
                                             <div class="col-xs-12 col-sm-12">
-                                                <h1>Gimnasios de trabajo</h1>
+                                                <h1>Gimnasios y espacios de trabajo</h1>
                                             </div>
                                             <div class="col-xs-12 col-sm-12">
                                                 <p>{{coach.gym | gyms}}</p>
