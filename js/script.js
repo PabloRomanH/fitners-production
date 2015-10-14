@@ -41,6 +41,8 @@ if (!Array.prototype.indexOf) {
         controller.training0 = false;
         controller.training1 = false;
         controller.training2 = false;
+        controller.showYears = false;
+        controller.years = 5;
 
         var loginData;
 
@@ -280,6 +282,10 @@ if (!Array.prototype.indexOf) {
                     if(!trainingMatch) {
                         return;
                     }
+                }
+
+                if (controller.showYears && value.experience < controller.years) {
+                    return;
                 }
 
                 value.score = computeScore(value);

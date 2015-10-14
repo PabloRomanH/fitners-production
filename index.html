@@ -183,11 +183,6 @@
                             <div class="row" ng-show="searchCtrl.showPrice">
                                 <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria">
                                     <div class='pricerange'>{{searchCtrl.pricerange | pricerange}}</div>
-                                    <!-- <div ui-slider="{range: true}" min="20" max="60" step="5"           ng-model="searchCtrl.pricerange"></div> -->
-
-    								<!-- <input slider type="text" value="" data-slider-min="20" data-slider-max="60" data-slider-step="5" data-slider-value="[20,60]" model="searchCtrl.pricerange" /> -->
-
-    								<!-- <slider floor="20" ceiling="60" step="5" ng-model="searchCtrl.pricerange"></slider> -->
     								<rzslider
     								    rz-slider-floor="20"
     								    rz-slider-ceil="60"
@@ -220,6 +215,26 @@
                                         <input type="checkbox" id="checkboxQualC" ng-model="searchCtrl.training2">
                                         <label for="checkboxQualC">> 500 horas de formación específica</label>
                                     </p>
+                                </div>
+                            </div>
+							<div class="row">
+                                <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria fold" ng-click="searchCtrl.showYears = true" ng-show="searchCtrl.showYears == false">
+                                    <i class="fa fa-plus-square"></i>
+                                    Años de experiencia
+                                </div>
+                                <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria fold" ng-click="searchCtrl.showPrice = false" ng-show="searchCtrl.showYears == true">
+                                    <i class="fa fa-minus-square"></i>
+                                    Años de experiencia
+                                </div>
+                            </div>
+                            <div class="row" ng-show="searchCtrl.showYears">
+                                <div class="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0 searchcriteria">
+                                    <div class='pricerange'>más de {{ searchCtrl.years }} años</div>
+    								<rzslider
+    								    rz-slider-floor="5"
+    								    rz-slider-ceil="20"
+    									rz-slider-step="5"
+    								    rz-slider-model="searchCtrl.years"></rzslider>
                                 </div>
                             </div>
                             <div class="row">
