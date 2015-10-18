@@ -20,7 +20,11 @@ if (!Array.prototype.indexOf) {
         $locationProvider.html5Mode(true);
     });
 
-    app.controller('SearchController', function($scope, $modal){
+    app.factory('database', function() {
+        return 'http://fitners-dev.firebaseio.com/';
+    });
+
+    app.controller('SearchController', function($scope, $modal, database){
         var controller = this;
         controller.results = [];
         controller.searching = false;
@@ -126,8 +130,7 @@ if (!Array.prototype.indexOf) {
             return str;
         }
 
-        var db = new Firebase('https://fitners.firebaseio.com/coaches/');
-
+        var db = new Firebase(database + 'coaches/');
 
         var searchResults;
 
@@ -365,7 +368,7 @@ if (!Array.prototype.indexOf) {
         }
     });
 
-    app.controller('CommentsModalController', function($scope, $modalInstance, $modal, coach) {
+    app.controller('CommentsModalController', function($scope, $modalInstance, $modal, coach, database) {
         var controller = this;
 
         controller.coach = coach;
@@ -377,7 +380,7 @@ if (!Array.prototype.indexOf) {
             });
         }
 
-        var db = new Firebase("https://fitners.firebaseio.com");
+        var db = new Firebase(database);
         var authData = db.getAuth();
         var userId;
 
@@ -463,7 +466,7 @@ if (!Array.prototype.indexOf) {
         };
     });
 
-    app.controller('WriteModalController', function($modalInstance, $modal, FileUploader, coach, loginData) {
+    app.controller('WriteModalController', function($modalInstance, $modal, FileUploader, coach, loginData, database) {
         var controller = this;
 
         controller.coach = coach;
@@ -714,7 +717,7 @@ if (!Array.prototype.indexOf) {
 
             controller.sendingReview = true;
 
-            var db = new Firebase("https://fitners.firebaseio.com/coaches");
+            var db = new Firebase(database + 'coaches');
 
             db.child(coach.id + '/ratings/' + loginData.uid).set(newcomment, function(error) {
                 if (error) {
