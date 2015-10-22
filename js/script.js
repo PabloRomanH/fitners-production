@@ -56,6 +56,7 @@ if (!Array.prototype.indexOf) {
         } else if(path == '/madrid') {
             city = 'Madrid';
         } else {
+            city = 'Barcelona';
             $location.path('/barcelona');
         }
 
@@ -147,7 +148,7 @@ if (!Array.prototype.indexOf) {
 
         controller.searching = true;
 
-        db.orderByChild('city').startAt(city).endAt(city).range().on('value', function (snapshot) {
+        db.orderByChild('city').startAt(city).endAt(city).on('value', function (snapshot) {
             searchResults = snapshot;
             controller.filter();
             if(!$scope.$$phase) {
