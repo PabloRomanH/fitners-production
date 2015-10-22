@@ -24,7 +24,7 @@ if (!Array.prototype.indexOf) {
         return 'http://fitners-dev.firebaseio.com/';
     });
 
-    app.controller('SearchController', function($scope, $modal, database){
+    app.controller('SearchController', function($location, $scope, $modal, database){
         var controller = this;
         controller.results = [];
         controller.searching = false;
@@ -47,6 +47,17 @@ if (!Array.prototype.indexOf) {
         controller.training2 = false;
         controller.showYears = false;
         controller.years = 5;
+
+        var path = $location.path();
+        var city;
+
+        if(path == '/barcelona') {
+            city = 'Barcelona';
+        } else if(path == '/madrid') {
+            city = 'Madrid';
+        } else {
+            $location.path('/barcelona');
+        }
 
         var loginData;
 
@@ -136,7 +147,7 @@ if (!Array.prototype.indexOf) {
 
         controller.searching = true;
 
-        db.on('value', function (snapshot) {
+        db.orderByChild('city').startAt(city).endAt(city).range().on('value', function (snapshot) {
             searchResults = snapshot;
             controller.filter();
             if(!$scope.$$phase) {
