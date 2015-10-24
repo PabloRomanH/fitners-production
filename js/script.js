@@ -1,6 +1,6 @@
 if (!Array.prototype.indexOf) {
     Array.prototype.indexOf = function (obj, fromIndex) {
-        if (fromIndex == null) {
+        if (fromIndex === null) {
             fromIndex = 0;
         } else if (fromIndex < 0) {
             fromIndex = Math.max(0, this.length + fromIndex);
@@ -102,7 +102,7 @@ if (!Array.prototype.indexOf) {
 
             var result = removeAccents(actual.toUpperCase()).search(removeAccents(expected.toUpperCase())) != -1;
             return result;
-        }
+        };
 
         function codeGoals() {
             var str = '';
@@ -166,7 +166,7 @@ if (!Array.prototype.indexOf) {
 
             var count = 0;
 
-            for(rating in coach.ratings) {
+            for(var rating in coach.ratings) {
                 count++;
 
                 compatibility += coach.ratings[rating].compatibility;
@@ -177,7 +177,7 @@ if (!Array.prototype.indexOf) {
                 total += coach.ratings[rating].stars;
             }
 
-            if (count == 0) {
+            if (count === 0) {
                 count = 1;
             }
 
@@ -194,7 +194,7 @@ if (!Array.prototype.indexOf) {
         function computeRank (coach) {
             var numComments = 0;
 
-            for(rating in coach.ratings) {
+            for(var rating in coach.ratings) {
                 numComments++;
             }
 
@@ -246,7 +246,7 @@ if (!Array.prototype.indexOf) {
                     for (var i = 0; i < controller.gyms.length; i++) {
                         if (controller.gyms[i].name == controller.gym) {
                             gymid = controller.gyms[i].id;
-                            break
+                            break;
                         }
                     }
                     if (!value.gym || value.gym != gymid && value.gym.indexOf(gymid) == -1) {
@@ -284,7 +284,7 @@ if (!Array.prototype.indexOf) {
 
                 if (controller.showTraining && (controller.training0 || controller.training1 || controller.training2)) {
                     var trainingMatch = false;
-                    if(controller.training0 && value.training == 0) {
+                    if(controller.training0 && value.training === 0) {
                         trainingMatch = true;
                     }
                     if(controller.training1 && value.training == 1) {
@@ -313,7 +313,7 @@ if (!Array.prototype.indexOf) {
             controller.results.sort(sortCoaches);
 
             controller.searching = false;
-        }
+        };
 
         controller.showComments = function(coach) {
             ga('send', 'event', 'navigation', 'show comments', coach.name, controller.results.indexOf(coach));
@@ -329,7 +329,7 @@ if (!Array.prototype.indexOf) {
                     }
                 }
             });
-        }
+        };
 
         controller.showPhone = function(coach) {
             ga('send', 'event', 'contact', 'show phone', coach.name);
@@ -345,7 +345,7 @@ if (!Array.prototype.indexOf) {
                     }
                 }
             });
-        }
+        };
 
         controller.showPhoto = function(coach) {
             ga('send', 'event', 'navigation', 'show photo', coach.name, controller.results.indexOf(coach));
@@ -362,22 +362,22 @@ if (!Array.prototype.indexOf) {
                     }
                 }
             });
-        }
+        };
 
         controller.showTerms = function(coach) {
             var modalInstance = $modal.open({
                 animation: true,
                 templateUrl: 'terms.html'
             });
-        }
+        };
 
         controller.emailCoach = function(coach) {
             ga('send', 'event', 'contact', 'email', coach.name);
-        }
+        };
 
         controller.callCoach = function(coach) {
             ga('send', 'event', 'contact', 'phone', coach.name);
-        }
+        };
     });
 
     app.controller('CommentsModalController', function($scope, $modalInstance, $modal, coach, database) {
@@ -458,7 +458,7 @@ if (!Array.prototype.indexOf) {
             controller.loggedin = null;
             controller.existing = false;
             authData = null;
-        }
+        };
 
         $scope.numFullStars = function(n) {
             Math.round(n);
@@ -598,8 +598,8 @@ if (!Array.prototype.indexOf) {
         controller.uploader.onSuccessItem = function(fileItem, response, status, headers) {
             if (response.error) {
                 var error;
-                if (response.error = "file too large") {
-                    error = 'Fichero demasiado grande'
+                if (response.error == "file too large") {
+                    error = 'Fichero demasiado grande';
                 }
                 controller.uploader.removeFromQueue(controller.uploadingFiles[fileItem.file.name].item);
                 controller.uploadingFiles[fileItem.file.name] = {
@@ -647,7 +647,7 @@ if (!Array.prototype.indexOf) {
 
             var abort = false;
 
-            if (controller.goal == undefined) {
+            if (controller.goal === undefined) {
                 controller.showGoalAlert = true;
                 abort = true;
             }
@@ -674,19 +674,19 @@ if (!Array.prototype.indexOf) {
                 abort = true;
             }
 
-            if (controller.goal == undefined) {
+            if (controller.goal === undefined) {
                 controller.showGoalAlert = true;
                 abort = true;
             }
 
-            if (controller.knowledge == undefined || controller.compatibility == undefined || controller.results == undefined || controller.punctuality == undefined || controller.pricequality == undefined || controller.stars == undefined) {
+            if (controller.knowledge === undefined || controller.compatibility === undefined || controller.results === undefined || controller.punctuality === undefined || controller.pricequality === undefined || controller.stars === undefined) {
                 controller.showScoreAlert = true;
                 abort = true;
             }
 
             var uploadedPhotos = [];
 
-            for (fileName in controller.uploadingFiles) {
+            for (var fileName in controller.uploadingFiles) {
                 if (controller.uploadingFiles[fileName].status == 'success') {
                     uploadedPhotos.push(controller.uploadingFiles[fileName].url);
                 }
@@ -718,7 +718,7 @@ if (!Array.prototype.indexOf) {
                  timestamp: Firebase.ServerValue.TIMESTAMP
             };
 
-            if (controller.goal != 0) {
+            if (controller.goal !== 0) {
                 if (controller.before) {
                     newcomment.before = controller.before;
                 }
@@ -747,7 +747,7 @@ if (!Array.prototype.indexOf) {
                     $modalInstance.close();
                 }
             });
-        }
+        };
     });
 
     app.controller('PhotoModalController', function($modalInstance, url) {
@@ -801,7 +801,7 @@ if (!Array.prototype.indexOf) {
 
                 $scope.getName = function (option) {
                     return option[$scope.name];
-                }
+                };
             },
             template: "<button type='button' class='btn btn-{{suffix}}' " +
                 "ng-class='{active: isActive(option)}'" +
