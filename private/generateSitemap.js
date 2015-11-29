@@ -7,7 +7,7 @@ function authHandler(error, authData) {
       console.log("Authenticated successfully with payload:", authData);
     }
 
-    var lines = '';
+    var lines = 'http://www.fitners.com/\n';
     var cities = {};
 
     var baseurl = 'http://www.fitners.com/';
